@@ -18,7 +18,7 @@ set :scm, :git
 set :myself, `whoami`.chomp # if more users have the same user on the server,
 
 set :format, :pretty
-set :log_level, :info
+set :log_level, :debug
 #set :pty, true
 
 set :linked_files, %w{config/database.yml .env}
