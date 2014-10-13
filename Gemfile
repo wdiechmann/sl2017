@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.1.2'
 gem 'rails', '4.1.5'
+gem 'bootstrap-material-design'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -18,14 +19,21 @@ gem 'puma'
 gem 'pundit'
 gem 'simple_form'
 gem 'upmin-admin'
+gem 'dotenv-rails'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
-  gem 'capistrano', '~> 3.0.1'
+  gem 'capistrano', '~> 3.1.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
   gem 'capistrano-rails-console'
-  gem 'capistrano-rvm', '~> 0.1.1'
+  gem 'capistrano-rbenv', '~> 2.0'
+  # cap tasks to manage puma application server
+  gem 'capistrano-puma', require: false
+  #
+  # see implementation here: https://github.com/capistrano/maintenance
+  gem 'capistrano-maintenance', github: "capistrano/maintenance", require: false 
+  #
   gem 'html2haml'
   gem 'hub', :require=>nil
   gem 'quiet_assets'
