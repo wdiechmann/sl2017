@@ -29,6 +29,12 @@ Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.
 Getting Started
 ---------------
 
+##### Deploying
+When you're ready to deploy
+
+* cap production setup:upload_yml
+* cap production deploy
+
 Documentation and Support
 -------------------------
 
