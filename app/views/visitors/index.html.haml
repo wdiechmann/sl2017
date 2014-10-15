@@ -1,0 +1,62 @@
+:css
+	.employee { cursor: pointer;}
+		
+.container.well
+	.row
+		.col-sm-12
+			%h3 Velkommen
+			%p 
+				klokken er nu
+				%span.time
+				\- klik på dit navn for at andre kan se, at du er kommet
+	.row
+		.col-xs-2
+			%p senest
+			%p#employee_id_time_1.employee 11:15
+			%p#employee_id_time_2.employee 11:15
+			%p#employee_id_time_3.employee 11:15
+			%p#employee_id_time_4.employee 11:15			
+		.col-xs-10
+			%p bruger
+			%p#employee_id_1.employee Ole Henriksen
+			%p#employee_id_2.employee Leif Pallesen
+			%p#employee_id_3.employee Erik Broager
+			%p#employee_id_4.employee Ulla Collin
+
+	:coffeescript
+	
+		#
+		# 3..padLeft() => '03' 
+		# 3..padLeft(100,'-') => '--3' 
+		Number.prototype.padLeft = (base,chr) ->
+			len = (String(base || 10).length - String(this).length)+1
+			if len > 0
+				return new Array(len).join(chr || '0')+this 
+			else
+				return this
+				
+		timeIsNow = () ->
+			d = new Date
+			$('span.time').html d.getHours().padLeft() + ':' + d.getMinutes().padLeft()
+			setTimeout( timeIsNow, 750)
+		
+		timeIsNow()
+		
+		
+		$('.employee').on "click", (e) ->
+			employee_id = e.target.id.replace /.*\_/, ''
+			url = 'employees/' + employee_id + '/entered'
+			time_id = 'p#employee_id_time_' + employee_id
+			d = new Date
+			# dformat = [(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/') +' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':') #=> dformat => '05/17/2012 10:52:21' 
+			ddate = ([(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/'))
+			dtime = ([d.getHours().padLeft(), d.getMinutes().padLeft()].join(':'))
+			$(time_id).html('<span title="'+ddate+'">' + dtime + '</span>')
+			# url = window.location.href + url
+					
+
+				
+				
+					
+	
+
