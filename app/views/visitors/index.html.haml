@@ -12,16 +12,15 @@
 	.row
 		.col-xs-2
 			%p senest
-			%p#employee_id_time_1.employee 11:15
-			%p#employee_id_time_2.employee 11:15
-			%p#employee_id_time_3.employee 11:15
-			%p#employee_id_time_4.employee 11:15			
+			- @employees.each do |employee|
+				%p{ class: 'employee', id: "employee_id_time_#{employee.id}" }
+					= employee.last_seen
+
 		.col-xs-10
 			%p bruger
-			%p#employee_id_1.employee Ole Henriksen
-			%p#employee_id_2.employee Leif Pallesen
-			%p#employee_id_3.employee Erik Broager
-			%p#employee_id_4.employee Ulla Collin
+			- @employees.each do |employee|
+				%p{ class: 'employee', id: "employee_id_#{employee.id}" }
+					= employee.name
 
 	:coffeescript
 	
@@ -45,18 +44,18 @@
 		
 		$('.employee').on "click", (e) ->
 			employee_id = e.target.id.replace /.*\_/, ''
-			url = 'employees/' + employee_id + '/entered'
+			url = 'employees/' + employee_id + '/last_seen?at='
 			time_id = 'p#employee_id_time_' + employee_id
 			d = new Date
 			# dformat = [(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/') +' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':') #=> dformat => '05/17/2012 10:52:21' 
 			ddate = ([(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/'))
 			dtime = ([d.getHours().padLeft(), d.getMinutes().padLeft()].join(':'))
 			$(time_id).html('<span title="'+ddate+'">' + dtime + '</span>')
-			# url = window.location.href + url
-					
-
-				
-				
-					
-	
-
+			url = window.location.href + url + ddate + ' ' + dtime
+			jqhxr = $.get url
+			.done ->
+				alert 'din ankomst er blevet registreret!'
+			.fail ->
+				alert 'ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :('
+			#.always ->
+			#	alert 'lille fisk'

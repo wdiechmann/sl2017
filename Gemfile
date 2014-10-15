@@ -15,7 +15,7 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'haml-rails'
 gem 'mysql2'
-gem 'unicorn'
+gem 'unicorn' # gem "puma"
 gem 'pundit'
 gem 'simple_form'
 gem 'upmin-admin'
@@ -29,7 +29,7 @@ group :development do
   gem 'capistrano-rails-console'
   gem 'capistrano-rbenv', '~> 2.0'
   # cap tasks to manage puma application server
-  gem 'capistrano-puma', require: false
+  # gem 'capistrano-puma', require: false
   #
   # see implementation here: https://github.com/capistrano/maintenance
   gem 'capistrano-maintenance', github: "capistrano/maintenance", require: false 
@@ -38,6 +38,7 @@ group :development do
   gem 'hub', :require=>nil
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem "pry"
 end
 group :development, :test do
   gem 'factory_girl_rails'
