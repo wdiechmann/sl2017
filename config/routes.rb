@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :entrances
+
   resources :employees do
     member do
       get 'last_seen'

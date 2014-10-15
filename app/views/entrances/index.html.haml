@@ -1,0 +1,21 @@
+%h1 Listing entrances
+
+%table
+  %tr
+    %th Employee
+    %th Clocked at
+    %th
+    %th
+    %th
+
+  - @entrances.each do |entrance|
+    %tr
+      %td= entrance.employee
+      %td= entrance.clocked_at
+      %td= link_to 'Show', entrance
+      %td= link_to 'Edit', edit_entrance_path(entrance)
+      %td= link_to 'Destroy', entrance, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Entrance', new_entrance_path

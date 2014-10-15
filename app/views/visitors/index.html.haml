@@ -48,14 +48,14 @@
 			time_id = 'p#employee_id_time_' + employee_id
 			d = new Date
 			# dformat = [(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/') +' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':') #=> dformat => '05/17/2012 10:52:21' 
-			ddate = ([(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/'))
+			ddate = ([d.getDate().padLeft(), (d.getMonth()+1).padLeft(), d.getFullYear()].join('/'))
 			dtime = ([d.getHours().padLeft(), d.getMinutes().padLeft()].join(':'))
 			$(time_id).html('<span title="'+ddate+'">' + dtime + '</span>')
 			url = window.location.href + url + ddate + ' ' + dtime
 			jqhxr = $.get url
 			.done ->
-				alert 'din ankomst er blevet registreret!'
+				alert 'Din ankomst er blevet registreret!'
 			.fail ->
-				alert 'ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :('
+				alert 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :('
 			#.always ->
 			#	alert 'lille fisk'

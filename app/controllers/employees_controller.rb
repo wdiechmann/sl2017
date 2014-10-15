@@ -6,6 +6,9 @@ class EmployeesController < ApplicationController
 
   # GET /employees/1/last_seen
   def last_seen
+    entrance = Entrance.create( employee: @employee, clocked_at: DateTime.parse(params[:at]))
+    head(:ok) and return if entrance
+    head(404)
   end
 
   # GET /employees

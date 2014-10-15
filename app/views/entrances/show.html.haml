@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Employee:
+  = @entrance.employee
+%p
+  %b Clocked at:
+  = @entrance.clocked_at
+
+= link_to 'Edit', edit_entrance_path(@entrance)
+\|
+= link_to 'Back', entrances_path
