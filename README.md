@@ -29,11 +29,57 @@ Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.
 Getting Started
 ---------------
 
+Start by reading through [this 6 part guide on setting up the app and environment for deployment of a Rails app on Debian](http://vladigleba.com/blog/2014/03/05/deploying-rails-apps-part-1-securing-the-server/)
+
+		mkdir clock
+		cd clock
+		rbenv local 2.1.2
+		rails new . -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb
+		spring rails server
+		mate .env config/production.rb config/clock.nginx.conf config/secrets.yml config/unicorn_init.sh config/unicorn.rb 
+		rake secret
+		chmod +x unicorn_init.sh
+
+		ssh <server> -l<user>
+		sudo chgrp oxenserver /etc/nginx/sites-enabled
+		sudo chmod g+w /etc/nginx/sites-enabled
+		sudo chgrp oxenserver /etc/init.d
+		sudo chmod g+w /etc/init.d
+		sudo service nginx restart
+		sudo update-rc.d unicorn_clock defaults
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##### Deploying
 When you're ready to deploy
 
 * cap production setup:upload_yml
 * cap production deploy
+* cap production setup:seed\_db
+
+Further deployments
+
+* cap production deploy
+
+Changing something which involves restarting the webserver and application server
+
+* sudo service nginx restart
+* /etc/init.d/unicorn_clock restart
 
 Documentation and Support
 -------------------------
@@ -52,3 +98,19 @@ Credits
 
 License
 -------
+
+# prepare app with deployment to Debian
+#
+mkdir <project>
+cd <project>
+rbenv local 2.1.2
+rails new . -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb
+mate .
+	<edit config/deploy.rb>
+	<edit config/deploy/production.rb>
+  <add config/<project>.nginx.conf
+		
+<setup GitHub repo>
+<add bookmark to SourceTree>
+
+spring rails server
