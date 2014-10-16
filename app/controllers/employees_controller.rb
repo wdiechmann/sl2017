@@ -7,6 +7,7 @@ class EmployeesController < ApplicationController
   # GET /employees/1/last_seen
   def last_seen
     entrance = Entrance.create( employee: @employee, clocked_at: DateTime.parse(params[:at]))
+    @employee.update_attributes( last_seen: entrance.clocked_at)
     head(:ok) and return if entrance
     head(404)
   end
@@ -15,6 +16,10 @@ class EmployeesController < ApplicationController
   # GET /employees.json
   def index
     @employees = Employee.all
+    respond_to do |format|
+      format.html # {}
+      format.js
+    end
   end
 
   # GET /employees/1

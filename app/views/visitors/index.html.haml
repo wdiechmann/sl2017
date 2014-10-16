@@ -9,21 +9,41 @@
 				klokken er nu
 				%span.time
 				\- klik på dit navn for at andre kan se, at du er kommet
-	.row
-		.col-xs-2
-			%p senest
-			- @employees.each do |employee|
-				%p{ class: 'employee', id: "employee_id_time_#{employee.id}" }
-					= employee.last_seen
-
-		.col-xs-10
-			%p bruger
-			- @employees.each do |employee|
-				%p{ class: 'employee', id: "employee_id_#{employee.id}" }
-					= employee.name
+	.row#employees
 
 :coffeescript
+	
+	reloadEmployees = () ->
+		jqhxr = $.ajax 
+			url: '/employees.js',
+			dataType: 'html'			
+		.done (data,textStatus,jqHXR) ->
+			$('#employees').html data
+			setTimeout reloadEmployees, 20000
+		.fail (jqHXR,textStatus,errorThrown) ->
+			console.log jqHXR
+			$('#employees').html('')
+			# swal
+			# 	title: "Arrghhh!",
+			# 	text: "Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470!",
+			# 	type: "warning",
+			# 	showCancelButton: false,
+			# 	confirmButtonColor: "#DD6B55",
+			# 	confirmButtonText: "Prøv igen!",
+			# 	closeOnConfirm: true,
+			# 	() ->
+			# 		reloadEmployees()
+		# .always (arg1,arg2,arg3) ->
+		# 	console.log arg1
+		# 	console.log arg2
+		# 	console.log arg3
+					 
 
+
+
+	setTimeout( reloadEmployees, 1000)
+
+		
 	$('.container').on "click", (e) ->
 		elem = $(e.target)[0]
 		if $(elem).hasClass('employee')
