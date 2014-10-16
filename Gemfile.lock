@@ -299,7 +299,6 @@ DEPENDENCIES
   html2haml
   hub
   jbuilder (~> 2.0)
-  jquery-rails
   launchy
   mysql2
   pry

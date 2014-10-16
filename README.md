@@ -84,6 +84,15 @@ Changing something which involves restarting the webserver and application serve
 Documentation and Support
 -------------------------
 
+####Bower package management
+Bower is a Javascript package manager and to use it with Rails follow this guide: http://blog.revealinghour.in/rails/2014/05/15/bower-and-rails/
+
+Important commands are:
+
+* bower search <package>
+* bower info <package>
+* bower install <package>#<version> --save
+
 Issues
 -------------
 
