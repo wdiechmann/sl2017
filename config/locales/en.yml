@@ -21,3 +21,45 @@
 
 en:
   hello: "Hello world"
+  devise:
+    forms:
+      name: "Your name"
+      email: "Your email address"
+      password: "Your password"
+      current_password: "Your current password"
+      password_confirmation: "Repeat your password to confirm it"
+      reset: "Reset!"
+      sign_in: "Sign in!"
+      sign_up: "Sign up!"
+      update: "Update!"
+      cancel: "Cancel your account"
+      cancel_button: "Cancel my account"
+      remember_me: "Remember me"
+      
+    confirmations:
+      keep: "-"
+    failure:
+      keep: "-"
+    mailer:
+      keep: "-"
+    omniauth_callbacks:
+      keep: "-"
+    passwords:
+      forgot: "Forgot your password?"
+      forgotten: "Have you forgotten your password - please use this link instead!"
+      keep: "-"
+    registrations:
+      keep: "-"
+      remembering: "If you'd like this form to be filled in the next time you're around - tick the box below when signing in!"
+      not_signed_up: "If you're not signed up yet - please use this link instead!"
+      already_signed_up: "If you're signed up already - please use this link to sign in!"
+      edit_password: "Leave these fields blank if you don't want to change your password."
+      edit_password_current: "You must enter your current password to make changes."
+      unhappy: "Unhappy? We'll be sad to see you go."
+    sessions:
+      keep: "-"
+    unlocks:
+      keep: "-"
+  errors:
+    messages:
+      keep: "-"
