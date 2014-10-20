@@ -96,6 +96,8 @@ Important commands are:
 Issues
 -------------
 
+* when designing forms - remember about [satisficing](http://www.sitepoint.com/satisficing-mean-web-forms)
+
 Similar Projects
 ----------------
 
