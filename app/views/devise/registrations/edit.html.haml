@@ -18,8 +18,7 @@
 
 			.form-group
 				= f.email_field :email, placeholder: t('devise.forms.email'), autofocus: true, class: 'form-control floating-label'
-
-			
+							
 			.fieldset
 				%p
 					= t('devise.registrations.edit_password')
@@ -56,7 +55,7 @@
 	:coffeescript
 	
 		$('#cancel_account').on 'click', (e) ->
-			
+
 			e.preventDefault
 			swal
 				title: "Are you sure?",   
@@ -66,15 +65,17 @@
 				confirmButtonColor: "#DD6B55",   
 				confirmButtonText: "Yes, delete it!",   
 				closeOnConfirm: false,
-				closeOnCancel: false
-			, (b) ->
-				if (b)
-					$.post 
-						url: "#{registration_path(resource_name)}",
-						method: 'delete'
-					.done
-						swal "Deleted!", "Your imaginary file has been deleted.", "success"			
-						window.location.href="/"
-				else
-					swal "Not Deleted!", "Your imaginary file has not been deleted.", "success"			
+				closeOnCancel: false,
+				(b) ->
+					swal 'hej', 'hallo'
+			# 	if (b)
+			# 		$.post
+			# 			url: "#{registration_path(resource_name)}",
+			# 			method: 'delete'
+			# 		.done
+			# 			swal "Deleted!", "Your imaginary file has been deleted.", "success"
+			# 			window.location.href="/"
+			# 	else
+			# 		swal "Not Deleted!", "Your imaginary file has not been deleted.", "success"
+					
 			return false

@@ -1,21 +1,25 @@
 .authform
-	= form_for resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form'} do |f|
+	= simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form'} do |f|
 		%h3
 			= t('devise.registrations.sign_up')
-		= devise_errors!
+		= f.error_notification #devise_errors!
 		%h3 &nbsp;
 		
 		.form-group
 			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
+			= f.error :name
 
 		.form-group
 			= f.email_field :email, placeholder: t('devise.forms.email'), autofocus: true, class: 'form-control floating-label'
+			= f.error :email
 
 		.form-group
 			= f.password_field :password, placeholder: t('devise.forms.password'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
+			= f.error :password
 
 		.form-group
 			= f.password_field :password_confirmation, placeholder: t('devise.forms.password_confirmation'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
+			= f.error :password_confirmation
 
 		= f.submit t('devise.forms.sign_up'), class: 'btn btn-primary'
 
