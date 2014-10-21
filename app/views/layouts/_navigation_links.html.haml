@@ -1,0 +1,15 @@
+- if user_signed_in?
+	%li= link_to t('employees.employees'), employees_path
+	%li= link_to t('devise.navigation.edit_account'), edit_user_registration_path
+	%li= link_to t('devise.navigation.sign_out'), destroy_user_session_path, :method=>'delete'
+
+- else
+	%li= link_to t('devise.navigation.sign_in'), new_user_session_path
+	%li= link_to t('devise.navigation.sign_up'), new_user_registration_path
+
+- if user_signed_in?
+	- if current_user.admin?
+		%li= link_to t(:admin), '/admin'
+
+	- if current_user.vip?
+		%li= link_to t('devise.navigation.users'), users_path

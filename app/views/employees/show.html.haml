@@ -1,9 +1,9 @@
-%p#notice= notice
+.authform
+	%h3= @employee.name
 
-%p
-  %b Name:
-  = @employee.name
-
-= link_to 'Edit', edit_employee_path(@employee)
-\|
-= link_to 'Back', employees_path
+	%p
+		%b Name:
+		= @employee.name
+		
+	= link_to t(:edit), edit_employee_path(@employee), class: 'btn btn-primary'
+	= link_to t(:back), employees_path, class: 'btn btn-default btn-raised'

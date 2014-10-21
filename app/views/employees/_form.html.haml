@@ -1,8 +1,16 @@
-= simple_form_for(@employee) do |f|
-  = f.error_notification
+.authform
 
-  .form-inputs
-    = f.input :name
+	%h3
+		- if @employee.new_record?
+			= t('employees.navigation.adding_an_employee')
+		- else
+			= t('employees.navigation.editing_an_employee')
 
-  .form-actions
-    = f.button :submit
+	= simple_form_for(@employee) do |f|
+		= f.error_notification
+		
+		.form-group
+			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
+		
+		.form-actions
+			= f.button :submit

@@ -1,12 +1,14 @@
 .col-xs-2
-	%p senest
+	%p 
+		= t('employees.table.latest')
 	- @employees.each do |employee|
 		%p{ class: "employee", id: "employee_id_time_#{employee.id}" }
 			%span{ title: "#{show_last_date employee}"}
 				= show_last_time employee
 
 .col-xs-10
-	%p bruger
+	%p
+		= t('employees.table.employee')
 	- @employees.each do |employee|
 		%p{ class: "employee", id: "employee_id_#{employee.id}" }
 			= employee.name

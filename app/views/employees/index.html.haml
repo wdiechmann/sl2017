@@ -1,19 +1,24 @@
-%h1 Listing employees
+.authform
+	%h1= t('employees.titles.listing_employees')
 
-%table
-  %tr
-    %th Name
-    %th
-    %th
-    %th
+	= simple_form_for(Employee.new) do |f|
+		%table
+			%tr
+				%th= t('employees.table.name')
+				%th
+		
+			- @employees.each do |employee|
+				%tr
+					%td= link_to employee.name, edit_employee_path(employee)
+					%td
+						/ = link_to 'delete', employee, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
+						%a.btn.btn-lg{ href: "#{employee_path(employee)}", :"data-method" => :delete, title: "#{ t('employees.navigation.delete_employee') }" }
+							.icon-preview
+								%i.icon-material-backspace.text-danger
+									
+					
+		
+		%br
 
-  - @employees.each do |employee|
-    %tr
-      %td= employee.name
-      %td= link_to 'Show', employee
-      %td= link_to 'Edit', edit_employee_path(employee)
-      %td= link_to 'Destroy', employee, :method => :delete, :data => { :confirm => 'Are you sure?' }
+		= link_to t('employees.navigation.new_employee'), new_employee_path, class: 'btn btn-primary'
 
-%br
-
-= link_to 'New Employee', new_employee_path
