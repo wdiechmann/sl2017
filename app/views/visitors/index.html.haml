@@ -32,54 +32,7 @@
 	.row#employees
 
 :coffeescript
-	
-	reloadEmployees = () ->
-		jqhxr = $.ajax 
-			url: '/employees.js',
-			dataType: 'html'			
-		.done (data,textStatus,jqHXR) ->
-			$('#employees').html data
-			setTimeout reloadEmployees, 20000
-		.fail (jqHXR,textStatus,errorThrown) ->
-			console.log jqHXR
-			$('#employees').html('')
-			# swal
-			# 	title: "Arrghhh!",
-			# 	text: "Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470!",
-			# 	type: "warning",
-			# 	showCancelButton: false,
-			# 	confirmButtonColor: "#DD6B55",
-			# 	confirmButtonText: "Prøv igen!",
-			# 	closeOnConfirm: true,
-			# 	() ->
-			# 		reloadEmployees()
-		# .always (arg1,arg2,arg3) ->
-		# 	console.log arg1
-		# 	console.log arg2
-		# 	console.log arg3
-					 
 
-
-
-	setTimeout( reloadEmployees, 1000)
+	setTimeout( @reloadEmployees, 1000)
 
 		
-	$('.container').on "click", (e) ->
-		elem = $(e.target)[0]
-		if $(elem).hasClass('employee')
-			employee_id = elem.id.replace /.*\_/, ''
-			url = 'employees/' + employee_id + '/last_seen?at='
-			time_id = 'p#employee_id_time_' + employee_id
-			d = new Date
-			# dformat = [(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/') +' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':') #=> dformat => '05/17/2012 10:52:21'
-			ddate = ([d.getDate().padLeft(), (d.getMonth()+1).padLeft(), d.getFullYear()].join('/'))
-			dtime = ([d.getHours().padLeft(), d.getMinutes().padLeft()].join(':'))
-			$(time_id).html('<span title="'+ddate+'">' + dtime + '</span>')
-			url = window.location.href + url + ddate + ' ' + dtime
-			jqhxr = $.get url
-			.done ->
-			  swal 'Hurrahh!', 'Din ankomst er blevet registreret!', 'success'
-			.fail ->
-			  swal '#€%&%/§$', 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :(', 'error'
-			# .always ->
-			# 	alert 'lille fisk'

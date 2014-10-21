@@ -6,7 +6,7 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <%= render user %>
+              <%= render user if current_user.admin? || current_user.role <= user.role %>
             </tr>
           <% end %>
         </tbody>
