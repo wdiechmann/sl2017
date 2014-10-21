@@ -21,6 +21,7 @@
 
 en:
   hello: "Hello world"
+  home: "Home"
   devise:
     forms:
       name: "Your name"
@@ -35,9 +36,11 @@ en:
       cancel: "Cancel your account"
       cancel_button: "Cancel my account"
       remember_me: "Remember me"
+      resend_confirmation: "Resend!"
       
     confirmations:
       keep: "-"
+      resend_confirmation: "Resend Instructions"
     failure:
       keep: "-"
     mailer:
