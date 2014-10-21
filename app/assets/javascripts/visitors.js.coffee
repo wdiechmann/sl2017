@@ -7,6 +7,51 @@ Number.prototype.padLeft = (base,chr) ->
 		return new Array(len).join(chr || '0')+this 
 	else
 		return this
+
+
+initializeSweetAlert = () ->
+	sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><button class="cancel" tabIndex="2">Cancel</button><button class="confirm" tabIndex="1">OK</button></div>'
+	sweetWrap = document.createElement('div')
+	sweetWrap.innerHTML = sweetHTML;
+	document.body.appendChild(sweetWrap);
+
+
+attachEvent = () ->
+	$('.container').on "click", (e) ->
+		elem = $(e.target)[0]
+		if $(elem).hasClass('employee')
+			employee_id = elem.id.replace /.*\_/, ''
+			url = 'employees/' + employee_id + '/last_seen?at='
+			time_id = 'p#employee_id_time_' + employee_id
+			d = new Date
+			# dformat = [(d.getMonth()+1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('/') +' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':') #=> dformat => '05/17/2012 10:52:21'
+			ddate = ([d.getDate().padLeft(), (d.getMonth()+1).padLeft(), d.getFullYear()].join('/'))
+			dtime = ([d.getHours().padLeft(), d.getMinutes().padLeft()].join(':'))
+			$(time_id).html('<span title="'+ddate+'">' + dtime + '</span>')
+			url = window.location.href + url + ddate + ' ' + dtime
+			jqhxr = $.get url
+			.done ->
+				swal 'Hurrahh!', 'Din ankomst er blevet registreret!', 'success'
+			.fail ->
+				swal '#€%&%/§$', 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :(', 'error'
+	
+setEmployees = (data) ->
+	$('#employees').html data
+	
+	
+@reloadEmployees = () ->
+	jqhxr = $.ajax 
+		url: '/employees.js',
+		dataType: 'html'			
+	.done (data,textStatus,jqHXR) ->
+		$.when setEmployees(data)
+		.done () ->
+			if $('.sweet-alert').size() < 1
+				initializeSweetAlert()
+			attachEvent()
+			setTimeout reloadEmployees, 20000
+	.fail (jqHXR,textStatus,errorThrown) ->
+		$('#employees').html('')
 		
 timeIsNow = () ->
 	d = new Date
@@ -14,3 +59,4 @@ timeIsNow = () ->
 	setTimeout( timeIsNow, 750)
 
 timeIsNow()
+
