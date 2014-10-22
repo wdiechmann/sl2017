@@ -11,6 +11,7 @@
 		
 		.form-group
 			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
+			= f.error :name
 		
 		.form-actions
 			= f.button :submit

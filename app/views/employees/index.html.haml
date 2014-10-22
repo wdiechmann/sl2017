@@ -2,19 +2,23 @@
 	%h1= t('employees.titles.listing_employees')
 
 	= simple_form_for(Employee.new) do |f|
-		%table
-			%tr
-				%th= t('employees.table.name')
-				%th
-		
-			- @employees.each do |employee|
+		%table.table.table-striped.table-hover
+			%thead
 				%tr
-					%td= link_to employee.name, edit_employee_path(employee)
-					%td
-						/ = link_to 'delete', employee, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
-						%a.btn.btn-lg{ href: "#{employee_path(employee)}", :"data-method" => :delete, title: "#{ t('employees.navigation.delete_employee') }" }
-							.icon-preview
-								%i.icon-material-backspace.text-danger
+					%th= t('employees.table.name')
+					%th= t('employees.table.latest')
+					%th= t(:delete)
+
+			%tbody
+				- @employees.each do |employee|
+					%tr
+						%td= link_to employee.name, employee_path(employee)
+						%td= "#{show_last_datetime(employee)}"
+						%td
+							/ = link_to 'delete', employee, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
+							%a{ href: "#{employee_path(employee)}", :"data-method" => :delete, title: "#{ t('employees.navigation.delete_employee') }" }
+								.icon-preview
+									%i.icon-material-backspace.text-danger
 									
 					
 		

@@ -1,22 +1,24 @@
 .authform
-	= form_for resource, as: resource_name, url: session_path(resource_name), html: { role: 'form'} do |f|
+	= simple_form_for resource, as: resource_name, url: session_path(resource_name), html: { role: 'form'} do |f|
 		%h3
 			= t('devise.sessions.sign_in')
-		= devise_error_messages!
+		= f.error_notification #= devise_error_messages!
 		%h3 &nbsp;
 		
 		.form-group
 			= f.email_field :email, placeholder: t('devise.forms.email'), autofocus: true, class: 'form-control floating-label'
+			= f.error :email
 
 		.form-group
 			= f.password_field :password, placeholder: t('devise.forms.password'), autofocus: true, class: 'form-control floating-label'
+			= f.error :password
 
 		- if devise_mapping.rememberable?
 			.form-group
 				= t('devise.registrations.remembering')
 				.checkbox
 					%label
-						%input{ type:'checkbox'}
+						%input{ type:'checkbox', class: 'form-control floating-label'}
 						= t('devise.forms.remember_me')
 
 
@@ -25,10 +27,10 @@
 		- if devise_mapping.registerable?
 			.form-group
 				= t('devise.registrations.not_signed_up')
-				= link_to 'Sign up', new_registration_path(resource_name), class: 'label label-info'
+				= link_to t('devise.navigation.sign_up'), new_registration_path(resource_name), class: 'label label-info'
 
 		- if devise_mapping.recoverable?
 			.form-group
 				= t('devise.passwords.forgotten')
-				= link_to "Forgot password?", new_password_path(resource_name), class: 'label label-info'
+				= link_to t('devise.navigation.forgot'), new_password_path(resource_name), class: 'label label-info'
 

@@ -1,12 +1,13 @@
-%p#notice= notice
-
-%p
-  %b Employee:
-  = @entrance.employee
-%p
-  %b Clocked at:
-  = @entrance.clocked_at
-
-= link_to 'Edit', edit_entrance_path(@entrance)
-\|
-= link_to 'Back', entrances_path
+.authform
+	
+	%p
+		%b= "#{t('employees.table.employee')}:"
+		= @entrance.employee.name
+	%p
+		%b Clocked at:
+		= @entrance.clocked_at
+	
+	= link_to t(:edit), edit_entrance_path(@entrance), class: 'btn btn-primary'
+	
+	= link_to t(:back), entrances_path, class: 'btn btn-default btn-raised'
+	

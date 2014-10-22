@@ -25,10 +25,10 @@
 
 		.form-group
 			= t('devise.registrations.already_signed_up')
-			= link_to 'Sign in', new_session_path(resource_name), class: 'label label-info'
+			= link_to t('devise.navigation.sign_in'), new_session_path(resource_name), class: 'label label-info'
 
 		- if devise_mapping.recoverable?
 			.form-group
 				= t('devise.passwords.forgotten')
-				= link_to "Forgot password?", new_password_path(resource_name), class: 'label label-info'
+				= link_to t('devise.navigation.forgot'), new_password_path(resource_name), class: 'label label-info'
 
