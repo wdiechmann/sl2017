@@ -10,4 +10,8 @@ module EmployeesHelper
     employee.last_seen.strftime '%H:%M'
   end
   
+  def show_last_datetime employee
+    return '' if employee.last_seen.blank?
+    employee.last_seen.strftime '%d/%m/%Y %H:%M'
+  end
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       get 'last_seen'
     end
+    resources :entrances
   end
   
   mount Upmin::Engine => '/admin'

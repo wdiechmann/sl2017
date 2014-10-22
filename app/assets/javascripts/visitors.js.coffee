@@ -31,7 +31,11 @@ attachEvent = () ->
 			url = window.location.href + url + ddate + ' ' + dtime
 			jqhxr = $.get url
 			.done ->
-				swal 'Hurrahh!', 'Din ankomst er blevet registreret!', 'success'
+				swal 
+          title: 'Hurrahh!', 
+          text: 'Din ankomst er blevet registreret!', 
+          type: 'success',
+          confirmButtonColor: "#0f9d58"
 			.fail ->
 				swal '#€%&%/§$', 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :(', 'error'
 	
@@ -46,10 +50,13 @@ setEmployees = (data) ->
 	.done (data,textStatus,jqHXR) ->
 		$.when setEmployees(data)
 		.done () ->
-			if $('.sweet-alert').size() < 1
-				initializeSweetAlert()
-			attachEvent()
-			setTimeout reloadEmployees, 20000
+      if $('#employees').size() > 0
+        attachEvent()
+        if $('.sweet-alert').size() < 1
+          initializeSweetAlert()
+        setTimeout reloadEmployees, 20000
+      
+
 	.fail (jqHXR,textStatus,errorThrown) ->
 		$('#employees').html('')
 		
