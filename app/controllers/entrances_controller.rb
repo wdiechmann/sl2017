@@ -1,10 +1,9 @@
 class EntrancesController < ApplicationController
   before_action :set_entrance, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_entrances, only: :index
   # GET /entrances
   # GET /entrances.json
   def index
-    @entrances = Entrance.all
   end
 
   # GET /entrances/1
@@ -65,6 +64,14 @@ class EntrancesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_entrance
       @entrance = Entrance.find(params[:id])
+    end
+    
+    def set_entrances
+      if request.path =~ /employees/
+        @entrances = Employee.find(params[:employee_id]).entrances.order(clocked_at: :desc)
+      else
+        @entrances = Entrance.all
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
