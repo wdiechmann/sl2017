@@ -1,3 +1,13 @@
+namespace :nginx do
+  desc "Restart NGINX service"
+  task :restart do
+    ask(:sudopw, "sudo password")
+    on roles(:app) do
+      execute "echo -e \"#{fetch(:sudopw)}\\n\" | sudo -S service nginx restart"
+    end
+  end
+end
+
 namespace :deploy do
 
   desc "Makes sure local git is in sync with remote."
@@ -48,5 +58,6 @@ namespace :deploy do
   after :deploy, "deploy:restart"
   after :rollback, "deploy:restart"
   after :publishing, "deploy:symlink_config"
+  before "deploy:restart", "nginx:restart"
 
 end
