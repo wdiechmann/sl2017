@@ -1,0 +1,102 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+da:
+  hello: "hej Verden"
+  home: "Basen"
+  admin: "Administration"
+  edit: "Ret"
+  back: "Oversigt"
+  delete: "Slet"
+  activerecord:
+    errors:
+      models:
+        employee:
+          attributes:
+            name:
+              blank:  "Feltet kan ikke være blankt!"
+        user:
+          attributes:
+            name:
+              blank: "Feltet kan ikke være blankt!"
+            password:
+              blank: "Feltet kan ikke være blankt!"
+              too_short: "For kort! Din adgangskode skal minimum være 8 tegn lang!"
+            password_confirmation:
+              confirmation: "Du har ikke indtastet den samme adgangskode to gange!"
+            email:
+              blank: "Du skal udfylde feltet med din email adresse - den kan ikke være blank!"
+              invalid: "Du skal angive en rigtig email adresse - der indeholder disse 3 komponenter ('noget@', 'helt' og '.andet') som i: noget@helt.andet"
+            current_password:
+              blank: "Feltet kan ikke være blankt! Du skal skrive din aktuelle adgangskode!"
+
+  devise:
+    navigation:
+      edit_account: "Ret profil"
+      sign_out: "Log ud"
+      sign_in: "Log ind"
+      sign_up: "Registrér"
+      users: "Brugere"
+      forgot: "Nulstil adgangskoden"
+      
+    forms:
+      name: "Dit navn"
+      email: "Din email adresse"
+      password: "Din adgangskode"
+      current_password: "Din aktuelle adgangskode"
+      password_confirmation: "Gentag adgangskoden"
+      reset: "Nulstil!"
+      sign_in: "Log ind!"
+      sign_up: "Registrér!"
+      update: "Opdatér!"
+      cancel: "Luk din konto"
+      cancel_button: "Luk min konto!"
+      remember_me: "Husk mig"
+      resend_confirmation: "Send en ny!"
+      
+    confirmations:
+      keep: "-"
+      resend_confirmation: "Send instruktioner igen"
+    failure:
+      keep: "-"
+    mailer:
+      keep: "-"
+    omniauth_callbacks:
+      keep: "-"
+    passwords:
+      forgot: "Har du glemt din adgangskode?"
+      forgotten: "Har du glemt din adgangskode? Brug dette link istedet!"
+      keep: "-"
+    registrations:
+      keep: "-"
+      remembering: "Hvis du gerne vil at denne formular er fyldt ud næste gang, du logger ind - kryds af her!"
+      not_signed_up: "Hvis du ikke har registreret dig - Brug dette link istedet!"
+      already_signed_up: "If you're signed up already - Brug dette link istedet!"
+      edit_password: "Lad disse adgangskode felter være tomme, hvis du ikke ønsker at ændre din adgangskode."
+      edit_password_current: "Du skal angive din aktuelle adgangskode for at ændre din profil."
+      unhappy: "Utilfreds? Vi er kede af at du stopper! Men hvis det er din mening, så brug link'et nedenunder."
+    sessions:
+      keep: "-"
+    unlocks:
+      keep: "-"
+  errors:
+    messages:
+      keep: "-"

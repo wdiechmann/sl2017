@@ -1,15 +1,15 @@
-da:
+en:
   simple_form:
-    "yes": 'Ja'
-    "no": 'Nej'
+    "yes": 'Yes'
+    "no": 'No'
     required:
-      text: 'påkrævet'
+      text: 'required'
       mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "Gennemgå venligst fejlene nedenfor (de står med rød tekst under de felter, der ikke er korrekt udfyldt):"
+      default_message: "Please review the problems below:"
     # Labels and hints examples
     # labels:
     #   defaults:

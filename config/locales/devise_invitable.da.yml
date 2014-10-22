@@ -1,0 +1,21 @@
+en:
+  devise:
+    invitations:
+      send_instructions: 'En invitation email er blevet sendt til %{email}.'
+      invitation_token_invalid: 'Det invitations token der blev anvendt er ikke gyldigt!'
+      updated: 'Din adgangskode blev korrekt ændret. Du er nu logget ind.'
+      no_invitations_remaining: "Ingen udestående invitationer"
+      invitation_removed: 'Din invitation er blevet fjernet.'
+      new:
+        header: "Send invitation"
+        submit_button: "Send en invitation"
+      edit:
+        header: "Indstil din adgangskode"
+        submit_button: "Indstil min adgangskode!"
+    mailer:
+      invitation_instructions:
+        subject: 'Instruktion til invitation'
+        hello: 'Hej %{email}'
+        someone_invited_you: 'Nogen har inviteret dig til at bruge %{url}, og du kan benytte dig af invitationen med nedenstående link.'
+        accept: 'Acceptér invitationen'
+        ignore: "Hvis du ikke ønsker at acceptere invitationen, skal du blot ignorere denne email.<br />Din profil bliver ikke oprettet før du benytter dig af invitationen og retter din adgangskode."

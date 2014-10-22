@@ -1,0 +1,64 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+da:
+  devise:
+    confirmations:
+      confirmed: "Din email adresse er blevet bekræftet korrekt!"
+      send_instructions: "Du vil modtage en email med instruktioner om hvordan du bekræfter din email adresse om få minutter."
+      send_paranoid_instructions: "Hvis din email adresse findes i vores database, vil du modtage en email om få minutter, med instruktioner om hvordan du bekræfter din email adresse."
+    failure:
+      already_authenticated: "Du er allerede logget ind!"
+      inactive: "Din konto er ikke aktiveret endnu!"
+      invalid: "Email adressen eller adgangskoden er forkert!"
+      locked: "Din konto er blevet låst!"
+      last_attempt: "Du har kun ET forsøg tilbage, før din konto bliver låst!"
+      not_found_in_database: "Din email adresse blev ikke fundet!"
+      timeout: "Din session er udløbet! Log venligst ind igen for at fortsætte!"
+      unauthenticated: "Du bliver nødt til at registrere dig (eller logge ind hvis du allerede er bruger) for at fortsætte!"
+      unconfirmed: "Du bliver nødt til at bekræfte din email adresse før du kan fortsætte!"
+    mailer:
+      confirmation_instructions:
+        subject: "Instruktioner til bekræftelse af email adresse"
+      reset_password_instructions:
+        subject: "Instruktioner til nulstilling af adgangskode"
+      unlock_instructions:
+        subject: "Instruktioner til at låse din profil op"
+    omniauth_callbacks:
+      failure: "Kunne ikke godkende dig fra %{kind} fordi \"%{reason}\"."
+      success: "Din %{kind} konto kunne bruges til at godkende din profil her!"
+    passwords:
+      no_token: "Du kan ikke tilgå denne side uden at trykke på et 'nulstil adgangskode' link! Hvis du har gjort det, så skal du forsikre dig om at det er hele link'et du trykker på (det hænder at nogen email systemer ombryder teksten så kun en del af et link fungerer)"
+      send_instructions: "Du vil modtage en email med instruktioner om hvordan du nulstiller din adgangskode om få minutter."
+      send_paranoid_instructions: "Hvis din email adresse findes i vores database, vil du modtage en email om få minutter, med instruktioner om hvordan du nulstiller din adgangskode."
+      updated: "Din adgangskode er blevet ændret korrekt. Du er logget ind."
+      updated_not_active: "Din adgangskode er blevet ændret korrekt."
+    registrations:
+      destroyed: "Farvel! Din profil er blevet slettet! Vi har stadig et lille håb om at se dig igen en anden gang!"
+      sign_up: "Registrér dig som bruger"
+      cancel: "Nedlæg din profil"
+      edit: "Redigér din profil"
+      signed_up: "Velkommen! Du har registreret dig korrekt."
+      signed_up_but_inactive: "Du har registreret dig rigtigt hos os. Vi kunne imidlertid ikke logge dig automatisk ind fordi din profil endnu ikke er godkendt!"
+      signed_up_but_locked: "Du har registreret dig rigtigt hos os. Vi kunne imidlertid ikke logge dig automatisk ind fordi din profil er låst!"
+      signed_up_but_unconfirmed: "En email meddelelse med et link til at bekræftelse din email adresse er blevet sendt til din email adresse. Brug venligst det link til at aktivere din profil."
+      update_needs_confirmation: "Du har opdateret din profil korrekt, men vi mangler at få din nye email adresse bekræftet. Se venligst i din email indbakke og brug det link, vi har sendt dig, til at bekræfte din email adresse!"
+      updated: "Din profil er blevet opdateret korrekt"
+    sessions:
+      sign_in: "Log på som bruger"
+      signed_in: "Du loggede ind korrekt."
+      signed_out: "Du er logget korrekt ud."
+      already_signed_out: "Du er allerede logget korrekt ud."
+    unlocks:
+      send_instructions: "Du vil modtage en email om få minutter med instruktioner for hvordan du låser din profil op."
+      send_paranoid_instructions: "Hvis din email adresse findes i vores database, vil du modtage en email om få minutter, med instruktioner om hvordan du låser din profil op."
+      unlocked: "Din profil er blevet korrekt låst op. Nu kan du logge ind igen."
+  errors:
+    messages:
+      already_confirmed: "var allerede bekræftet! Prøv venligst at logge på igen"
+      confirmation_period_expired: "skal bekræftes indenfor %{period}, rekvirér venligst en ny"
+      expired: "er udløbet, rekvirér venligst en ny"
+      not_found: "blev ikke fundet"
+      not_locked: "var ikke låst"
+      not_saved:
+        one: "1 fejl gjorde at det ikke var muligt at gemme denne %{resource}:"
+        other: "%{count} fejl gjorde at det ikke var muligt at gemme denne %{resource}:"
