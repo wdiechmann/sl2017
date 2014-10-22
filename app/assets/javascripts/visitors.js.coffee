@@ -54,7 +54,7 @@ setEmployees = (data) ->
         attachEvent()
         if $('.sweet-alert').size() < 1
           initializeSweetAlert()
-        setTimeout reloadEmployees, 20000
+        setTimeout reloadEmployees, (1000 * 60 * 5)  # hver 5 minutter
       
 
 	.fail (jqHXR,textStatus,errorThrown) ->
