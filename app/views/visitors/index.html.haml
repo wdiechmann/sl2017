@@ -32,7 +32,7 @@
 	.row#employees
 
 :coffeescript
-
-	setTimeout( @reloadEmployees, 1000)
+	$(document).on 'ready page:load', -> 
+		setTimeout( @reloadEmployees, 1000)
 
 		

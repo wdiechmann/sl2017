@@ -45,6 +45,7 @@ da:
             email:
               blank: "Du skal udfylde feltet med din email adresse - den kan ikke være blank!"
               invalid: "Du skal angive en rigtig email adresse - der indeholder disse 3 komponenter ('noget@', 'helt' og '.andet') som i: noget@helt.andet"
+              taken: "Du kan desværre ikke bruge den email adresse - den benyttes allerede af en anden (dig?)"
             current_password:
               blank: "Feltet kan ikke være blankt! Du skal skrive din aktuelle adgangskode!"
 
