@@ -1,0 +1,15 @@
+da:
+  jobber_mailer:
+    welcome: "Velkommen"
+    
+  jobbers:
+    navigation:
+      adding_a_jobber: "Tilføj en jobber"
+      editing_a_jobber: "Ret en jobber"
+      
+    form:
+      name: "Fulde navn"
+      street: "Gade og nummer"
+      zip_city: "Postnr By"
+      phone_number: "Telefon nummer"
+      email: "Email adresse"

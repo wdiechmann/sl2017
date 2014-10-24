@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015163116) do
+ActiveRecord::Schema.define(version: 20141024130435) do
 
   create_table "employees", force: true do |t|
     t.string   "name"
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(version: 20141015163116) do
   end
 
   add_index "entrances", ["employee_id"], name: "index_entrances_on_employee_id", using: :btree
+
+  create_table "jobbers", force: true do |t|
+    t.string   "name"
+    t.string   "street"
+    t.string   "zip_city"
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "confirmed_token"
+    t.datetime "confirmed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

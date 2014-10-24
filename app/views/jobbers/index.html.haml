@@ -1,0 +1,31 @@
+%h1 Listing jobbers
+
+%table
+  %tr
+    %th Name
+    %th Street
+    %th Zip city
+    %th Phone number
+    %th Email
+    %th Confirmed token
+    %th Confirmed at
+    %th
+    %th
+    %th
+
+  - @jobbers.each do |jobber|
+    %tr
+      %td= jobber.name
+      %td= jobber.street
+      %td= jobber.zip_city
+      %td= jobber.phone_number
+      %td= jobber.email
+      %td= jobber.confirmed_token
+      %td= jobber.confirmed_at
+      %td= link_to 'Show', jobber
+      %td= link_to 'Edit', edit_jobber_path(jobber)
+      %td= link_to 'Destroy', jobber, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Jobber', new_jobber_path

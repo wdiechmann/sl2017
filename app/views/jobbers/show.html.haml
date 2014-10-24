@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @jobber.name
+%p
+  %b Street:
+  = @jobber.street
+%p
+  %b Zip city:
+  = @jobber.zip_city
+%p
+  %b Phone number:
+  = @jobber.phone_number
+%p
+  %b Email:
+  = @jobber.email
+%p
+  %b Confirmed token:
+  = @jobber.confirmed_token
+%p
+  %b Confirmed at:
+  = @jobber.confirmed_at
+
+= link_to 'Edit', edit_jobber_path(@jobber)
+\|
+= link_to 'Back', jobbers_path
