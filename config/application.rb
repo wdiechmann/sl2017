@@ -19,6 +19,14 @@ module Clock
         request_specs: false
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
+    
+    # Enable serving of images, stylesheets, and javascripts from an asset server
+    # MY_ASSET_HOST = "localhost:3000"
+    # config.action_controller.asset_host = Proc.new { |source, request|
+    #   unless source.starts_with?('//')
+    #     (request ? request.protocol : 'http://') +  MY_ASSET_HOST
+    #   end
+    # }
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

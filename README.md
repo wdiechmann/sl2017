@@ -95,7 +95,7 @@ Important commands are:
 
 Issues
 -------------
-
+* when building email - check [email fun with Rails](http://www.sitepoint.com/fun-sending-mail-rails/)
 * when designing forms - remember about [satisficing](http://www.sitepoint.com/satisficing-mean-web-forms)
 
 Similar Projects
