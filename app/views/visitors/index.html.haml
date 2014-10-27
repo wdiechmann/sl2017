@@ -33,6 +33,7 @@
 
 :coffeescript
 	$(document).on 'ready page:load', -> 
-		setTimeout( @reloadEmployees, 1000)
+		setTimeout( Employee.reloadEmployees, 1000)
+		Employee.timeIsNow()
 
 		

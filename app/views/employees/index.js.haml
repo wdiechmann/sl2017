@@ -1,14 +1,18 @@
-.col-xs-2
-	%p 
-		= t('employees.table.latest')
-	- @employees.each do |employee|
-		%p{ class: "employee", id: "employee_id_time_#{employee.id}" }
-			%span{ title: "#{show_last_date employee}"}
-				= show_last_time employee
+:css 
+	.line { border-left: 1px solid black; padding-left: 10px }
+	.employee > span { font-size: 18px }
 
-.col-xs-10
-	%p
-		= t('employees.table.employee')
-	- @employees.each do |employee|
-		%p{ class: "employee", id: "employee_id_#{employee.id}" }
-			= employee.name
+%table
+	%thead
+		%th{style: "padding-right: 10px"}= t('employees.table.latest')
+		%th.line= t('employees.table.employee')
+
+	%tbody
+		- @employees.each do |employee|
+			%tr
+				%td
+					%p.employee{ id: "employee_id_time_#{employee.id}"}
+						%span{ title: "#{show_last_date employee}" }
+							= show_last_time employee
+				%td.line
+					= button_tag employee.name, class: 'employee btn btn-large btn-primary btn-raised', id: "employee_id_#{employee.id}"
