@@ -13,9 +13,6 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -26,16 +23,6 @@ Rails.application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
-
-  # config.action_mailer.smtp_settings = {
-  #   address: "smtp.gmail.com",
-  #   port: 587,
-  #   domain: Rails.application.secrets.domain_name,
-  #   authentication: "plain",
-  #   enable_starttls_auto: true,
-  #   user_name: Rails.application.secrets.email_provider_username,
-  #   password: Rails.application.secrets.email_provider_password
-  # }
 
   config.action_mailer.default_options = {from: Rails.application.secrets.admin_email}
   config.action_mailer.delivery_method = :smtp
@@ -53,15 +40,12 @@ Rails.application.configure do
   }
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.raise_delivery_errors = true
-  # # Send email in development mode?
-  # config.action_mailer.perform_deliveries = true
-
-
-
-
+  config.action_mailer.default_url_options = {
+      :host => 'localhost:3000',
+      :only_path => false
+  }
+  config.action_mailer.asset_host = 'http://localhost:3000'
+  
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
