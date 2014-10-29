@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :accounts
+
   resources :punch_clocks do
     resources :employees
   end
