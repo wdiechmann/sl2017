@@ -1,4 +1,7 @@
 class PunchClock < ActiveRecord::Base
-  belongs_to :user
+
+  validates :name, presence: true
+
+  belongs_to :account
   has_many :employees
 end

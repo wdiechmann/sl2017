@@ -4,7 +4,7 @@ class PunchClocksController < ApplicationController
   # GET /punch_clocks
   # GET /punch_clocks.json
   def index
-    @punch_clocks = current_user.punch_clocks
+    @punch_clocks = current_user.account.punch_clocks
   end
 
   # GET /punch_clocks/1
@@ -71,7 +71,7 @@ class PunchClocksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def punch_clock_params
       return PunchClock.find(params[:id]).attributes if params[:punch_clock].nil? and cookies.permanent.signed[:punch_clock]=params[:id]
-      params[:punch_clock][:user_id]=current_user.id
-      params.require(:punch_clock).permit(:user_id, :name)
+      params[:punch_clock][:account_id]=current_user.account.id
+      params.require(:punch_clock).permit(:account_id, :name)
     end
 end
