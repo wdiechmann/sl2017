@@ -1,0 +1,19 @@
+.authform
+
+	%h3
+		- if @punch_clock.new_record?
+			= t('punch_clocks.navigation.adding_a_punch_clock')
+		- else
+			= t('punch_clocks.navigation.editing_a_punch_clock')
+
+
+	= simple_form_for(@punch_clock) do |f|
+		= f.error_notification
+	
+		.form-inputs
+			.form-group
+				= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('punch_clocks.form.name')
+				= f.error :name
+		
+		.form-actions
+			= f.button :submit

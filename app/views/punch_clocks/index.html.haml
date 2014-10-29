@@ -1,0 +1,58 @@
+:css
+	i.delete-button.icon-material-cancel { font-size: 30px;}
+	
+.authform
+	%h1= t('punch_clocks.titles.listing_punch_clocks')
+
+	= simple_form_for(PunchClock.new) do |f|
+		%table.table.table-striped.table-hover
+			%thead
+				%tr
+					%th= t('punch_clocks.table.name')
+					%th= t(:delete)
+
+			%tbody
+				- @punch_clocks.each do |punch_clock|
+					%tr
+						/ %td= # punch_clock.user
+						%td= link_to punch_clock.name, punch_clock
+						/ %td= link_to 'Show', punch_clock
+						/ %td= link_to 'Edit', edit_punch_clock_path(punch_clock)
+						%td
+							%i.delete-button.icon-material-cancel.icon-material-red{ id: "punch_clock_id_#{punch_clock.id}", title: "#{ t('punch_clocks.navigation.delete_punch_clock') }" }
+				
+		%br
+
+		= link_to t('punch_clocks.navigation.new_punch_clock'), new_punch_clock_path, class: 'btn btn-primary'
+
+:coffeescript
+
+	$('.delete-button').on 'click', (e) ->
+		elem = $(e.target)[0]
+		employee_id = elem.id.replace /.*\_/, ''
+		row = $(elem).closest('tr')
+		employee_name = $(row).find('.name').find('a').html()
+		swal
+			title: "Er du sikker?",
+			text: "Hvis du sletter brugeren, kan du ikke få stemplingerne tilbage igen!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Ja! Slet brugeren " + employee_name + "!",
+			cancelButtonText: "Nej Åh nej! Lad være!",
+			closeOnConfirm: false,
+			closeOnCancel: false
+		, (isConfirm) ->
+			if isConfirm
+				swal "Slettet!", "Brugeren blev slettet!", "success"
+				jqhxr = $.ajax
+					url: '/employees/'+employee_id+'.js',
+					type: 'delete',
+				.done (data,textStatus,jqHXR) ->
+					$(row).remove()
+					swal "Slettet!", "Brugeren blev slettet!", "success"
+				.fail () ->
+					swal "Fejl!", "Der opstod en fejl -- det er uvist om brugeren blev slettet!", "danger"
+			else
+				swal "Afbrudt", "Der blev ikke slettet noget!", "success"		
+		
