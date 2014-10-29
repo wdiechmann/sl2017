@@ -1,18 +1,26 @@
 class User < ActiveRecord::Base
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, :if => :new_record?
+  after_create :create_account
 
   has_many :punch_clocks
   has_many :employees
+  belongs_to :account
   
   validates :name, presence: true
+
+  def create_account
+    if account.nil?
+      account= Account.create name: name
+      save
+    end
+  end
 
   def set_default_role
     self.role ||= :user
   end
   
   def good_roles
-
     User.roles.keys.map {|r| ([r.titleize,r] if User.roles[role] >= User.roles[r]) }
   end
 
