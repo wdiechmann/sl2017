@@ -10,13 +10,15 @@
 				%tr
 					%th= t('employees.table.name')
 					%th= t('employees.table.latest')
+					%th= t('employees.table.punch_clock')
 					%th= t(:delete)
 
 			%tbody
-				- @employees.each do |employee|
+				- @employees.includes(:punch_clock).each do |employee|
 					%tr
 						%td.name= link_to employee.name, employee_path(employee)
 						%td= "#{show_last_datetime(employee)}"
+						%td= employee.punch_clock.nil? ? "" : employee.punch_clock.name
 						%td
 							%i.delete-button.icon-material-cancel.icon-material-red{ id: "employee_id_#{employee.id}", title: "#{ t('employees.navigation.delete_employee') }" }
 		

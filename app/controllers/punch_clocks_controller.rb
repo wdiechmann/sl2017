@@ -28,7 +28,7 @@ class PunchClocksController < ApplicationController
 
     respond_to do |format|
       if @punch_clock.save
-        format.html { redirect_to @punch_clock, notice: 'Punch clock was successfully created.' }
+        format.html { redirect_to @punch_clock, notice: t('punch_clocks.created_ok')}
         format.json { render :show, status: :created, location: @punch_clock }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class PunchClocksController < ApplicationController
   def update
     respond_to do |format|
       if @punch_clock.update(punch_clock_params)
-        format.html { redirect_to @punch_clock, notice: 'Punch clock was successfully updated.' }
+        format.html { redirect_to @punch_clock, notice: t('punch_clocks.updated_ok') }
         format.js   { head :no_content }
         format.json { render :show, status: :ok, location: @punch_clock }
       else
@@ -57,7 +57,7 @@ class PunchClocksController < ApplicationController
   def destroy
     @punch_clock.destroy
     respond_to do |format|
-      format.html { redirect_to punch_clocks_url, notice: 'Punch clock was successfully destroyed.' }
+      format.html { redirect_to punch_clocks_url, notice: t('punch_clocks.deleted_ok') }
       format.json { head :no_content }
     end
   end

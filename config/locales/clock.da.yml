@@ -1,0 +1,93 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+da:
+  
+  save: "Gem"
+  show: "Vis"
+  employees:
+
+    titles:
+      listing_employees:  "Oversigt over brugere"
+
+    employee: "Bruger"
+    employees: "Brugere"
+    
+    forms:
+      name: "Navn"
+      punch_clock: "stempelur"
+
+    navigation:
+      new_employee: "Ny bruger"
+      adding_an_employee: "Tilføj en bruger"
+      editing_an_employee: "ret en bruger"
+      delete_employee: "Slet denne bruger"
+      entrances: "stemplinger"
+      
+    table:
+      name: "Bruger navn"
+      latest: "sidst set"
+      punch_clock: "stempelur"
+      employee: "bruger"
+
+  entrances:
+    navigation:
+      listing_navigations: "Oversigt over stemplinger"
+      new: "Ny stempling"
+      delete_entrance: "Er du sikker på at du vil slette?"
+
+  jobber_mailer:
+    welcome: "Velkommen"
+    
+  jobbers:
+    navigation:
+      adding_a_jobber: "Tilføj en jobber"
+      editing_a_jobber: "Ret en jobber"
+      
+    form:
+      name: "Fulde navn"
+      street: "Gade og nummer"
+      zip_city: "Postnr By"
+      phone_number: "Telefon nummer"
+      email: "Email adresse"
+
+    
+  punch_clocks:
+    punch_clocks: "Stempelure"
+    
+    titles:
+      listing_punch_clocks: "Oversigt over stempelure"
+      
+    created_ok: "Stempeluret blev oprettet korrekt"
+    updated_ok: "Stempeluret blev rettet korrekt"
+    deleted_ok: "Stempeluret blev slettet korrekt"
+    
+    navigation:
+      adding_a_punch_clock: "Tilføj et stempelur"
+      editing_a_punch_clock: "Ret et stempelur"
+      new_punch_clock:  "Opret et nyt stempelur"
+      
+    form:
+      name: "Navn på stempelur"
+      street: "Gade og nummer"
+      zip_city: "Postnr By"
+      phone_number: "Telefon nummer"
+      email: "Email adresse"

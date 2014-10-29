@@ -4,6 +4,7 @@ class EntrancesController < ApplicationController
   # GET /entrances
   # GET /entrances.json
   def index
+    @entrances = Entrance.where( employee: current_user.account.employees.map(&:id))
   end
 
   # GET /entrances/1

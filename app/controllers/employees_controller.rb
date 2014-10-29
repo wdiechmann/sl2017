@@ -19,7 +19,8 @@ class EmployeesController < ApplicationController
       if cookies.permanent.signed[:punch_clock].nil? || PunchClock.where(id: cookies.permanent.signed[:punch_clock]).empty?
         @employees = []
       else
-        @employees = PunchClock.find(cookies.permanent.signed[:punch_clock]).employees
+        pc = PunchClock.find(cookies.permanent.signed[:punch_clock])
+        @employees = pc.employees + Employee.where( account: pc.account, punch_clock: nil )
       end
     else
       @employees = params[:punch_clock_id].nil? ? current_user.account.employees : PunchClock.find(params[:punch_clock_id]).employees

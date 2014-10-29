@@ -14,7 +14,7 @@
 			= f.error :name
 		
 		.form-group
-			= f.association :punch_clock, :autofocus => true, class: 'form-control floating-label', placeholder: t('employees.forms.punch_clock')
+			= f.association :punch_clock, collection: PunchClock.where(account: current_user.account), autofocus: true, class: 'form-control floating-label', placeholder: t('employees.forms.punch_clock')
 			= f.error :name
 		
 		.form-actions

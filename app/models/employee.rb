@@ -4,5 +4,6 @@ class Employee < ActiveRecord::Base
   has_many :entrances
   belongs_to :punch_clock
   belongs_to :account
+  
 
 end

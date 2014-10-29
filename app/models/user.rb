@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, :if => :new_record?
-  after_create :create_account
+  before_create :create_account
 
   has_many :punch_clocks
   has_many :employees
@@ -10,9 +10,8 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   def create_account
-    if account.nil?
-      account= Account.create name: name
-      save
+    if self.account.nil?
+      self.account= Account.create name: name
     end
   end
 
