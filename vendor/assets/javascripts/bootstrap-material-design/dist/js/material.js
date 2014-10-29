@@ -9,6 +9,27 @@ $(function (){
                       ".nav-tabs a:not(.withoutripple)," +
                       ".withripple" );
     }
+    
+    var empty = function(fld) {
+      try {
+        data = $(fld).val();
+      } catch(exception){ 
+        return true;
+      }
+      
+      if(typeof(data) == 'number' || typeof(data) == 'boolean') { return false }
+      if(typeof(data) == 'undefined' || data === null) { return true }
+      if(typeof(data.length) != 'undefined') { return data.length == 0 }
+      var count = 0;
+      for(var i in data)
+      {
+        if(data.hasOwnProperty(i))
+        {
+          count ++;
+        }
+      }
+      return count == 0;
+    }
 
     var initInputs = function() {
         // Add fake-checkbox to material checkboxes
@@ -27,7 +48,8 @@ $(function (){
                 $(this).attr("placeholder", null).removeClass("floating-label");
                 $(this).after("<div class=floating-label>" + placeholder + "</div>");
             }
-            if ($(this).is(":empty") || $(this).val() === null || $(this).val() == "undefined" || $(this).val() === "") {
+
+            if ( empty(this) ) {
                 $(this).addClass("empty");
             }
 
