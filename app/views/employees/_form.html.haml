@@ -10,7 +10,11 @@
 		= f.error_notification
 		
 		.form-group
-			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
+			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('employees.forms.name')
+			= f.error :name
+		
+		.form-group
+			= f.association :punch_clock, :autofocus => true, class: 'form-control floating-label', placeholder: t('employees.forms.punch_clock')
 			= f.error :name
 		
 		.form-actions

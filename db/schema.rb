@@ -11,14 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024130435) do
+ActiveRecord::Schema.define(version: 20141028233118) do
 
   create_table "employees", force: true do |t|
     t.string   "name"
     t.datetime "last_seen"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "punch_clock_id"
   end
+
+  add_index "employees", ["punch_clock_id"], name: "index_employees_on_punch_clock_id", using: :btree
+  add_index "employees", ["user_id"], name: "index_employees_on_user_id", using: :btree
 
   create_table "entrances", force: true do |t|
     t.integer  "employee_id"
@@ -40,6 +45,15 @@ ActiveRecord::Schema.define(version: 20141024130435) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "punch_clocks", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "punch_clocks", ["user_id"], name: "index_punch_clocks_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

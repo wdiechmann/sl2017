@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
+  has_many :punch_clocks
+  has_many :employees
+  
   validates :name, presence: true
 
   def set_default_role

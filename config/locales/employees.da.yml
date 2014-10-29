@@ -27,6 +27,10 @@ da:
 
     employee: "Bruger"
     employees: "Brugere"
+    
+    forms:
+      name: "Navn"
+      punch_clock: "stempelur"
 
     navigation:
       new_employee: "Ny bruger"

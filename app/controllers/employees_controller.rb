@@ -15,7 +15,16 @@ class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
   def index
-    @employees = Employee.all
+    if params[:format]=='js'
+      if cookies.permanent.signed[:punch_clock].nil? || PunchClock.where(id: cookies.permanent.signed[:punch_clock]).empty?
+        @employees = []
+      else
+        @employees = PunchClock.find(cookies.permanent.signed[:punch_clock]).employees
+      end
+    else
+      @employees = params[:punch_clock_id].nil? ? current_user.employees : PunchClock.find(params[:punch_clock_id]).employees
+    end
+
     respond_to do |format|
       format.html # {}
       format.js
@@ -85,6 +94,7 @@ class EmployeesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def employee_params
-      params.require(:employee).permit(:name)
+      params[:employee][:user_id]=current_user.id
+      params.require(:employee).permit(:name, :punch_clock_id,:user_id)
     end
 end
