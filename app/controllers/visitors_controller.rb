@@ -8,7 +8,7 @@ class VisitorsController < ApplicationController
         @punch_clocks = PunchClock.where id: cookies.permanent.signed[:punch_clock]
       end
     else
-      @punch_clocks = current_user.punch_clocks
+      @punch_clocks = current_user.account.punch_clocks
     end
   end
   
