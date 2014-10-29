@@ -217,6 +217,14 @@
                       Hej <%= @resource.name %>, <br>
                       <br>
                       Vi har oprettet dig som bruger, men før vi slipper dig løs, vil vi bede dig om at bekræfte din registrering, ved at trykke på knappen herunder. Den sender dig tilbage til siden, hvor du kan logge på.<br>
+											<p>
+												<strong>Vilkårene</strong> for at bruge clock.alco.dk er enkle: du betaler 50,00 kr/mdr for det første stempelur, og de første 10 medarbejdere. Hvert ekstra stempelur koster 10,00 kr/mdr og hver blok af 10 medarbejdere koster 10,00 kr/mdr. Vi sender en regning hvert kvartal, der dækker det kvartal, regningen er udskrevet i.
+												Opretter du eks.vis 3 stempelure og 22 medarbejdere, sender vi en regning det følgende kvartal på (50 + 2 x 10 + 2 x 10) x 3 mdr eller ialt 270,00 + moms.</p>
+												<p>
+													Tiden frem til næste kvartal er din gratis prøveperiode.<br/>
+													<span style="color: #FA113D">Husk at afmelde din brugerkonto før udgangen af dette kvartal, hvis du ikke kan bruge clock.alco.dk alligevel!</span>
+												</p>
+												<p>Når du trykker på knappen 'bekræft' bliver din konto aktiv og samtidig erklærer du dig enig i de nævnte vilkår.</p>
                       <br>
 												<%= link_to 'Bekræft', confirmation_url(@resource, confirmation_token: @token), style: "background-color:#0f9d58;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;" %>
                     </td>
@@ -227,7 +235,7 @@
                   <tr>
                     <td class="left" style="padding-bottom:20px; text-align:left;">
                       Date: <%= l @resource.created_at %><br>
-                      <b>Bruger nummer:</b> SL17-<%= "%05d" % @resource.id %>
+                      <b>Bruger nummer:</b> CLOCK-<%= "%05d" % @resource.id %>
                     </td>
                   </tr>
                 </table>

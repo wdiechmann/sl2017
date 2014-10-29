@@ -1,0 +1,8 @@
+%p
+	Der er blevet godkendt en ny bruger - som blev oprettet den 
+	= @user.created_at.localtime.strftime "%d/%m%Y kl %H:%M"
+	
+%p
+	Brugeren er
+	%strong
+		= @user.name
