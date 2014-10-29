@@ -1,4 +1,6 @@
 class JobberMailer < ActionMailer::Base
+  include Roadie::Rails::Automatic
+  
   # Default Mail Values
   default from: Rails.application.secrets.admin_email
 

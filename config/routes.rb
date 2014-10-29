@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :punch_clocks do
+    resources :employees
+  end
+  
   resources :jobbers
 
   resources :entrances

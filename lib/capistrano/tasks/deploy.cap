@@ -55,9 +55,10 @@ namespace :deploy do
 
   before :deploy, "deploy:check_revision"
   before :migrate, "deploy:check_database"
-  after :deploy, "deploy:restart"
-  after :rollback, "deploy:restart"
   after :publishing, "deploy:symlink_config"
-  before "deploy:restart", "nginx:restart"
+  # before "deploy:stop", "nginx:restart"
+  # after "deploy:stop", "deploy:start"
+  # after :deploy, "deploy:stop"
+  # after :rollback, "deploy:restart"
 
 end

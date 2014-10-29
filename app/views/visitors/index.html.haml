@@ -9,6 +9,15 @@
 				klokken er nu
 				%span.time
 				\- klik på dit navn for at andre kan se, at du er kommet
+	- unless current_user.nil?
+		#punch_clocks.row.well
+			.col-sm-12
+				%p
+					Hvis denne skærm skal fungere som 'stempelur' - vælg det stempelur som skal vises
+					%br
+					- @punch_clocks.each do	|punch_clock|
+						%button.punch_clock.btn{ id: "punch_clock_#{punch_clock.id}", class: "#{cookies.permanent.signed[:punch_clock]==punch_clock.id.to_s ? 'btn-success' : 'btn-info'}"}
+							= punch_clock.name
 	/
 	/ an exeample of how to style radio buttons ! 
 	/ see the accompanying CSS in assets/stylesheets/application.css.scss
@@ -35,5 +44,16 @@
 	$(document).on 'ready page:load', -> 
 		setTimeout( Employee.reloadEmployees, 1000)
 		Employee.timeIsNow()
-
 		
+		$('#punch_clocks').on 'click', (e) ->
+			elem = $(e.target)[0]
+			if $(elem).hasClass('punch_clock')
+				punch_clock_id = elem.id.replace /.*\_/, ''
+				url = 'punch_clocks/' + punch_clock_id + '.js'
+				$.ajax
+					url: url,
+					type: 'PATCH'
+				.done (data,textStatus,jqHXR) ->
+					$('#punch_clocks').remove()
+					window.location.href = '/'
+				

@@ -88,10 +88,10 @@ Rails.application.configure do
 
   # ActionMailer Config
   config.action_mailer.default_url_options = {
-      :host => Rails.application.secrets.domain_name,
+      :host => "http://" + Rails.application.secrets.domain_name,
       :only_path => false
   }
-  config.action_mailer.asset_host = Rails.application.secrets.domain_name 
+  config.action_mailer.asset_host = "http://" + Rails.application.secrets.domain_name 
 
 
   # Disable automatic flushing of the log to improve performance.

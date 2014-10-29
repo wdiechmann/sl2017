@@ -25,6 +25,11 @@ class JobbersController < ApplicationController
   # POST /jobbers.json
   def create
     @jobber = Jobber.new(jobber_params)
+    # raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)
+    # @raw_confirmation_token   = raw
+    # self.confirmation_token   = enc
+    # self.confirmation_sent_at = Time.now.utc
+
 
     respond_to do |format|
       if @jobber.save
