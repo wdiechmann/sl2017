@@ -35,11 +35,12 @@ initializeSweetAlert = () ->
   			url = window.location.href + url + ddate + ' ' + dtime
   			jqhxr = $.get url
   			.done ->
-  				swal 
-            title: 'Hurrahh!', 
-            text: 'Din ankomst er blevet registreret!', 
-            type: 'success',
-            confirmButtonColor: "#0f9d58"
+          $(elem).addClass('btn-success')
+          # swal
+          #             title: 'Hurrahh!',
+          #             text: 'Din ankomst er blevet registreret!',
+          #             type: 'success',
+          #             confirmButtonColor: "#0f9d58"
   			.fail ->
   				swal '#€%&%/§$', 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :(', 'error'
 	
