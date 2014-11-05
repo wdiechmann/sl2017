@@ -1,59 +1,537 @@
-:css
-	.employee { cursor: pointer;}
+!!!
+/
+/ if template should build with Open Graph Protocol (opg.me)
+/
+/[if lt IE 7] <html.no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 7] <html.no-js lt-ie10 lt-ie9 lt-ie8" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 8] <html.no-js lt-ie10 lt-ie9 " lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 9] <html.no-js lt-ie10" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if gt IE 9]><!
+%html.no-js{lang: 'dk'}
+	/ <![endif]>
+	%head
+		- current = 'ingen'
+		= render 'layouts/head'
+		:css
+			.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}
+			h3 strong { color: green; }
+			form .form-control { height: 50px;}
+	
+	%body
+		%nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation"}
+			.container
+				.navbar-header
+					%button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
+						%span.sr-only Vip navigationen
+						%span.icon-bar
+						%span.icon-bar
+						%span.icon-bar
+					/ You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it)
+					%a.navbar-brand{:href => "/"} 
+						SL2017
+				/ Collect the nav links, forms, and other content for toggling
+				.collapse.navbar-collapse.navbar-ex1-collapse
+					%ul.nav.navbar-nav.navbar-right
+						%li{class: "#{'active' if current=='about'}"}
+							%a{:href => "#", :"data-section" => "about"} om lejren
+						%li{class: "#{'active' if current=='jobber'}"}
+							%a{:href => "#", :"data-section" => "jobber" } Jobber
+						%li{class: "#{'active' if current=='blog'}"}
+							%a{:href => "#", :"data-section" => "blog"} Blog
+						%li{class: "#{'active' if current=='contact'}"}
+							%a{:href => "#", :"data-section" => "contact"} Kontakt
 
-.container
-	.row.well
-		.col-sm-12
-			%h3 Velkommen
-			%p 
-				klokken er nu
-				%span.time
-				\- klik på dit navn for at andre kan se, at du er kommet
-	- unless current_user.nil?
-		#punch_clocks.row.well
-			.col-sm-12
-				%p
-					Hvis denne skærm skal fungere som 'stempelur' - vælg det stempelur som skal vises
-					%br
-					- @punch_clocks.each do	|punch_clock|
-						%button.punch_clock.btn{ id: "punch_clock_#{punch_clock.id}", class: "#{cookies.permanent.signed[:punch_clock]==punch_clock.id.to_s ? 'btn-success' : 'btn-info'}"}
-							= punch_clock.name
-	/
-	/ an exeample of how to style radio buttons ! 
-	/ see the accompanying CSS in assets/stylesheets/application.css.scss
-	/
-	/ .row
-	/ 	.col-sm-12
-	/ 		%fieldset
-	/ 			%legend Radio Control Quality
-	/ 			%label{ for: "accessible"}
-	/ 				%input{ type:"radio", value: "accessible", name: "quality", id: "accessible"}
-	/ 					%span accessible
-	/
-	/ 			%label{ for: "pretty"}
-	/ 				%input{ type:"radio", value: "pretty", name: "quality", id: "pretty" }
-	/ 					%span pretty
-	/
-	/ 			%label{ for: "accessible-and-pretty"}
-	/ 				%input{ type:"radio", value: "accessible and pretty", name: "quality", id: "accessible-and-pretty" }
-	/ 					%span accessible and pretty
-
-	.row#employees
-
-:coffeescript
-	$(document).on 'ready page:load', -> 
-		setTimeout( Employee.reloadEmployees, 1000)
-		Employee.timeIsNow()
+		%section.header-10-sub.v-center{ style: "height: 1090px; background-position: 50% 0px;"}
+			.background{ style: "background-position: 50% 0px; width: 112%"}
+			%div
+				.container
+					.hero-unit
+						%h1 Gir' du en hånd med?
+						%p Skal du hjælpe os med at skabe Spejdernes Lejr 2017?
+			%span.scroll-btn
+				%a{href:"#"}
+					%span.mouse
+						%span
 		
-		$('#punch_clocks').on 'click', (e) ->
-			elem = $(e.target)[0]
-			if $(elem).hasClass('punch_clock')
-				punch_clock_id = elem.id.replace /.*\_/, ''
-				url = 'punch_clocks/' + punch_clock_id + '.js'
-				$.ajax
-					url: url,
-					type: 'PATCH'
-				.done (data,textStatus,jqHXR) ->
-					$('#punch_clocks').remove()
-					window.location.href = '/'
+		/ jobber intro
+		%section#jobber.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+			%div
+				.container
+					%h3 
+						Meld dig som 
+						%strong jobber
+						på Spejdernes Lejr 2017
+					.row.v-center
+						.col-sm-3
+							%h6 Målet
+							%p
+								Som jobber er du med til at skabe en helt enestående oplevelse for mere end 40.000 spejdere fra hele landet - og 
+								en pæn sjat fra resten af verden!
+							%h6 Din opgave
+							%p
+								Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op,
+								fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
+							%h6 Krav
+							%p
+								Det væsentligste krav er masser af godt humør, viljen til at ville og evnen til at bære
+								over når det hele ikke spiller max!
+						.col-sm-6
+							%img{src: asset_url("jobbere.jpg")}
+							%form{ role: "form"}
+								.form-group
+									%label Navn
+									%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
+								.form-group
+									%label Adresse
+									%input.form-control{ type: "text", placeholder: "Pladsen 2" }
+								.form-group
+									%label Postnr By
+									%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
+								.form-group
+									%label Mobilnr
+									%input.form-control{ type: "text", placeholder: "+45 12345678" }
+								.form-group
+									%label Email adresse
+									%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
+								.form-group
+									%button.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
+
+							%p
+								%small - så kan du regne med at vi kontakter dig indenfor de næste 2 uger, for at finde netop det job, du er som skabt til
+
+							/ .span4.offset1
+							/ 	.screen-wrapper-custom
+							/ 		.screen-custom
+							/ 			%img.ani-processed{ src: "", style: "top: -2010px"}
+						.col-sm-3
+							.span3.offset1
+								%h6 Hvad bruger vi oplysningerne til?
+								%p
+									Vi prøver at nøjes med at spørge om de oplysninger, vi skal bruge
+								%h5 Dit navn
+								%p fordi det er rart at kunne kalde folk ved navn, 
+								%h5 Din adresse, postnr og by
+								%p fordi vi efter lejren gerne vil sende dig et kompetence bevis,
+									
+								%h5 Dit mobilnr
+								%p fordi vi gerne vil kunne sende dig en SMS ind imellem, når der er noget der brænder slemt på
+								%h5 Din email adresse
+								%p fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren
+
+
+		/ about the camp
+		%section.content-23.v-center.custom-bg#about{ style: "background-position: 50% 0px; width: 112%"}
+			%div
+				.container
+					.hero-unit.hero-unit-bordered
+						%h1 Spejdernes Lejr 2017 - hvad er det?
+			%a.control-btn{ href: "#"}
+				%span.glyphicon.glyphicon-chevron-down
+		
+		/ 
+		%section.content-23.v-center#about_2{ style: "background-position: 50% 0px; width: 112%"}
+			%div
+				.container
+					.row
+						.col-sm-4{style: "height:200px"}
+					.row
+						.col-sm-12
+							%h1 En lejr for alle danske spejdere
+					.row
+						.col-sm-4
+							%p
+								De første spadestik er taget, lejren har fundet sin plads (i Sønderborg på Als). 
+								Vi har nedsat hovedudvalget og vi er begyndt at tegne den store lejr.
+						.col-sm-4
+							%p
+								En lejr for alle danske spejderkorps - Det Danske Spejderkorps, KFUM-spejderne i Danmark, De grønne pigespejdere, De Danske Baptisters Spejderkorps, Dansk Spejderkorps Sydslesvig, Kalaallit Nunaanni Spejderit Kattufiat - Grønlands Spejderkorps, Føroya Skótaráð og FDF Frivilligt Drenge- og Pige-Forbund.
+						.col-sm-4
+				%p
+				%img{ src: asset_url("banner.jpg")}
+				%p
+				.container
+					.row
+						.col-sm-4
+							%p
+						.col-sm-4
+							%p
+								Lejren varer i 9 dage, fra den 22. til den 30. juli 2017.
+						.col-sm-4
+							%p
+								I 14 dage før lejren, og 8 dage efter lejren, har du mulighed for at deltage på pionérlejr. Her kan du blive udfordret på alle de færdigheder, du måske 
+								drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet.
+					.row
+						.col-sm-4{style: "height:400px"}
+
+		
+		/ contact
+		%section#contact.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+			%div
+				.container
+					%h3 
+						Har du en 
+						%strong vigtig
+						besked til os?
+					.row.v-center
+						.col-sm-3
+							%h5 Hvad glemte vi på Spejdernes Lejr 2012?
+							%p
+								Måske går du med en rigtig dårlig fornemmelse i maven fra sidste lejr - for 
+								vi skal være hudløst ærlige og indrømme at det ikke var alt som blev, som vi havde drømt om!
+								Det allermeste blev godt - meget blev rigtig godt; og så var der måske lige det, som du bed mærke i, som kunne have været
+								åhh, så meget bedre!
+							%h5 Ud med det!
+							%p
+								Vi er meget opsatte på at gøre det endnu bedre på SL2017 - og derfor er det vigtigt at du fortæller os
+								om din oplevelse på SL2012.
+						.col-sm-6
+							%form{ role: "form"}
+								.form-group
+									%label Navn
+									%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
+								.form-group
+									%label Adresse
+									%input.form-control{ type: "text", placeholder: "Pladsen 2" }
+								.form-group
+									%label Postnr By
+									%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
+								.form-group
+									%label Email adresse
+									%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
+								.form-group
+									%label Kommentar
+									%textarea.form-control{ type: "text", placeholder: "Skriv din kommentar...", style: "height: 150px" }
+								.form-group
+									%button.form-control.btn.btn-warning{ type: 'submit' } Hør hvad jeg siger!
+
+							%p
+								%small - og vi siger tak med en tegning af lejrens maskot - Thor
+
+							/ .span4.offset1
+							/ 	.screen-wrapper-custom
+							/ 		.screen-custom
+							/ 			%img.ani-processed{ src: "", style: "top: -2010px"}
+						.col-sm-3
+							.span3.offset1
+								%h6 Hvad bruger vi din kommentar til?
+								%p
+									For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
+									hvis der er noget i din kommentar, som vi gerne vil have uddybet.
+								%p 
+									For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre -
+									puttet i en spejdergryde, og så bliver der trukket lod om en gratis lejr!
+
+								%p
+									For det tredje får du et ark med lejrens maskot Thor, tegnet og signeret af tegneren Peter Madsen - og den skal vi
+									kende din adresse for at kunne sende til dig
+
+		/ footer-3
+		%footer.footer-3
+			.container
+				.row.v-center
+					.col-sm-4
+						%a.brand{ href: "#"} Spejdernes Lejr 2017
+				.row
+					.col-sm-8
+						%p
+					.col-sm-4
+						%p.small
+							made by 
+							%a{ href: "http://twitter.com/wdiechmann", target: "_blank"} wdiechmann
+							powered by 
+							%a{ href: "http://alco.dk", target: "_blank"} ALCO Company
+
+
+
+
 				
+		:javascript
+			function fadedEls(el, shift) {
+			    el.css('opacity', 0);
+			    switch (shift) {
+			        case undefined: shift = 0;
+			        break;
+			        case 'h': shift = el.eq(0).outerHeight();
+			        break;
+			        case 'h/2': shift = el.eq(0).outerHeight() / 2;
+			        break;
+			    }
+			    $(window).resize(function() {
+			        if (!el.hasClass('ani-processed')) {
+			            el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
+			        }
+			    }).scroll(function() {
+			        if (!el.hasClass('ani-processed')) {
+			            if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
+			                el.addClass('ani-processed');
+			                el.each(function(idx) {
+			                    $(this).delay(idx * 200).animate({
+			                        opacity : 1
+			                    }, 1000);
+			                });
+			            }
+			        }
+			    });
+			};
+			
+			function collapseMenu(e){
+				$(e).closest('.collapse').removeClass('in');
+			}
+			
+			function scrollToSection(e){
+				$.scrollTo($('#' + $(e).data('section')), {
+					axis : 'y',
+					duration : 500
+				})
+			}
+			
+			(function($) {
+				$(function() {
+					var isMobile = {
+					    Android: function() {
+					        return navigator.userAgent.match(/Android/i);
+					    },
+					    BlackBerry: function() {
+					        return navigator.userAgent.match(/BlackBerry/i);
+					    },
+					    iOS: function() {
+					        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+					    },
+					    Opera: function() {
+					        return navigator.userAgent.match(/Opera Mini/i);
+					    },
+					    Windows: function() {
+					        return navigator.userAgent.match(/IEMobile/i);
+					    },
+					    any: function() {
+					        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+					    }
+					};
+					$('.header-10-sub .scroll-btn a,a.control-btn').on('click', function(e) {
+						e.preventDefault();
+						$.scrollTo($(this).closest('section').next(), {
+						    axis : 'y',
+						    duration : 500
+						});
+						return false;
+					});
+					
+					$('.nav').find('a').on('click', function(e) {
+					    e.preventDefault();
+							elem=this
+							$.when(scrollToSection(elem)).done(collapseMenu(elem));
+					});
+					
+					// Sections height & scrolling
+					$(window).resize(function() {
+					    var sH = $(window).height();
+					    $('section.header-10-sub').css('height', (sH + 'px'));
+					});
+					
+					// Parallax
+					if(!isMobile.any()) {
+					    $('.header-10-sub,.header-10-sub .background').each(function() {
+					        $(this).parallax('50%', -0.3, false);
+					    });
+					
+					    $('.content-23:not(.custom-bg)').each(function() {
+					        $(this).parallax('50%', 0.3, false);
+					    });
+					
+					    $('.content-23.custom-bg2').css({
+					        backgroundAttachment: 'fixed'
+					    });
+					};
+					
+					if(!isMobile.any()) {
+					    // Faded elements
+					    // fadedEls($('.content-7'), 300);
+					    // fadedEls($('.content-8'), 300);
+					};
+					
+					(function(el) {
+					    el.css('left', '-100%');
+					    $(window).resize(function() {
+					        if (!el.hasClass('ani-processed')) {
+					            el.data('scrollPos', el.offset().top - $(window).height() + el.outerHeight());
+					        }
+					    }).scroll(function() {
+					        if (!el.hasClass('ani-processed')) {
+					            if ($(window).scrollTop() >= el.data('scrollPos')) {
+					                el.addClass('ani-processed');
+					                el.animate({
+					                    left : 0
+					                }, 500);
+					            }
+					        }
+					    });
+					})($('.content-13 > .container'));
+					
+					$(window).resize().scroll();
+					
+					// Carousel
+					(function(el){
+						$(window).resize(function() {
+							shift = el.eq(0).outerHeight() /10;
+						if (!el.hasClass('ani-processed')) {
+							el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
+						}
+						}).scroll(function() {
+							if (!el.hasClass('ani-processed')) {
+								if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
+									el.addClass('ani-processed');
+									function carouselAnimation(){
+										el.css('top', '0');
+										var imgHeight = el.height();
+										var lastPoint = imgHeight - 448*2;
+										var intervalID = setInterval(function(){
+											el.animate({
+												top: (el.css('top').slice(0, -2)) - 402
+											}, {
+												duration: 1000,
+												easing: "easeInOutSine"
+											});
+											console.log((-(el.css('top').slice(0, -2))), lastPoint);
+											if (-(el.css('top').slice(0, -2)) >= lastPoint){
+												clearInterval(intervalID);
+												setTimeout(function(){
+													el.animate({
+												  	top: 0
+												  }, {
+														duration: 1000,
+														easing: "easeInOutSine",
+														complete: carouselAnimation
+													});
+												}, 3000)
+											}
+										}, 2000);
+									}
+									carouselAnimation();
+								}
+							}
+						});
+					})($('.screen-custom img'));
+				});
+			})(jQuery);
+
+		/
+		/ <!-- content-8  -->
+		/ %section.content-8.v-center ani-processed"{ style: "opacity: 1;">
+		/     <div>
+		/         <div.container">
+		/             <img src="img/recept@2.png" width="257" height="170" alt="" naptha_cursor="text">
+		/             <h3>If you are missing ingredients</h3>
+		/             <div.row">
+		/                 <div.span6 offset3">
+		/                     <p>If you are missing any ingredients for the recipe, you can order them right from the app. You can also order all of what you need for cooking that specific meal. Same day delivery!</p>
+		/                 </div>
+		/             </div>
+		/         </div>
+		/     </div>
+		/ </section>
+		/
+		/ <!-- content-23  -->
+		/ %section.content-23.v-center custom-bg2"#SectionCooking"{ style: "background-attachment: fixed; background-position: 50% 320px;">
+		/     <div>
+		/         <div.container">
+		/             <div.hero-unit hero-unit-bordered">
+		/                 <h1>Learn how to cook</h1>
+		/             </div>
+		/         </div>
+		/     </div>
+		/     <a.control-btn fui-arrow-down" href="#"> </a>
+		/ </section>
+		/
+		/ <!-- content-8  -->
+		/ %section.content-8.v-center learning-process ani-processed"{ style: "opacity: 1;">
+		/     <div>
+		/         <div.container">
+		/             <img src="img/app@2.png" width="200" height="200" alt="">
+		/             <h3>Fun learning process</h3>
+		/             <div.row">
+		/                 <div.span6 offset3">
+		/                     <p>We have thought of everything, not to scare you away from this fun activity. We will tell you all the details of the cooking process in a simple and fun way!</p>
+		/                 </div>
+		/             </div>
+		/         </div>
+		/     </div>
+		/ </section>
+		/
+		/ <!-- content-23  -->
+		/ %section.content-23.v-center bg-midnight-blue learning-cook"#SectionHere"{ style: "background-position: 50% 320px;">
+		/     <div>
+		/         <div.container">
+		/             <div.hero-unit">
+		/                 <h1>Get ready for a whole new level <br>of learning to cook!</h1>
+		/                 <p.lead">Very soon we will launch and you will <br>be able to see it yourself.</p>
+		/             </div>
+		/         </div>
+		/     </div>
+		/     <a.control-btn fui-arrow-down" href="#"> </a>
+		/ </section>
+		/
+		/ <!-- content-8  -->
+		/ %section.content-8.v-center learning-cook ani-processed"{ style: "opacity: 1;">
+		/     <div>
+		/         <div.container">
+		/             <img src="img/dinamit@2.png" width="200" height="200" alt="">
+		/             <h3>We’re almost here!</h3>
+		/             <div.row">
+		/                 <div.span6 offset3">
+		/                     <p>We are taking care of the last steps for the project launch and soon we will have our first beta release. If you don’t want to miss our release you can sign up for the project newsletter.</p>
+		/                 </div>
+		/             </div>
+		/         </div>
+		/     </div>
+		/ </section>
+		/
+		/ <!-- content-13  -->
+		/ %section.content-13 subscribe-form bg-clouds">
+		/     <div.container ani-processed"{ style: "left: 0px;">
+		/         <div.row">
+		/             <form action="http://hipstafood.us3.list-manage.com/subscribe/post" method="POST">
+		/                 <input type="hidden" name="u" value="0aa3373bcea2f71202f05dbef">
+		/                 <input type="hidden" name="id" value="838ad75f3c">
+		/                 <input type="hidden" name="orig-lang" value="1">
+		/                 <div.span8">
+		/                     <input type="email" placeholder="Enter your e-mail" spellcheck="false" autocapitalize="off" autocorrect="off" name="MERGE0"#MERGE0" value="">
+		/                 </div>
+		/                 <div.span4">
+		/                     <button.btn btn-large btn-success" type="submit">Notify Me</button>
+		/                 </div>
+		/             </form>
+		/         </div>
+		/     </div>
+		/ </section>
+		/
+		/ <!-- footer-3 -->
+		/ <footer.footer-3">
+		/     <div.container">
+		/         <div.row.v-center">
+		/             <div.span2">
+		/                 <div.span2">
+		/                     <a.brand" href="#">Hipsta Food</a>
+		/                 </div>
+		/             </div>
+		/             <div>
+		/                 <div.span7">
+		/                     <div.additional-links">Made by Hipsta Food Crew. Powered by <a href="http://designmodo.com/startup" target="_blank">Startup Framework</a></div>
+		/                 </div>
+		/             </div>
+		/         </div>
+		/     </div>
+		/ </footer>
+		/
+		/ <!-- Placed at the end of the document so the pages load faster -->
+		/ <script type="text/javascript" src="//use.typekit.net/wwv4ffe.js"></script>
+		/ <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		/ <script src="./startup/flat-ui/js/jquery-1.8.3.min.js"></script>
+		/ <script src="./startup/flat-ui/js/bootstrap.min.js"></script>
+		/ <script src="./startup/common-files/js/easing.min.js"></script>
+		/ <!--[if lt IE 8]>
+		/ <script src="./startup/flat-ui-pro/js/icon-font-ie7.js"></script>
+		/ <![endif]-->
+		/ <script src="./startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+		/ <script src="./startup/common-files/js/jquery.parallax.min.js"></script>
+		/ <script src="./startup/common-files/js/startup-kit.js"></script>
+		/ <script src="./js/script.js"></script>

@@ -13,8 +13,25 @@
  *= require_tree .
  *= require bootstrap-material-design
  *= require sweet-alert
+ *= require 'a1-default.css.scss'
+ *= require 'a2-header.css.scss'
+ *= require 'a3-footer.css.scss'
+ *= require 'a7-content.css.scss'
+ *= require 'a8-font-mouse.css.scss'
+ *= require 'a9-media.css.scss'
+ * require 'flat-ui.css'
+ *= require 'icon-font.css'
+ *= require 'framework_and_overrides.css.scss'
  *= require_self
  */
+/* 62px */
+/* 52px */
+/* 40px */
+/* 29px */
+/* 28px */
+/* 24px */
+
+
 
 .checkbox label {font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;}
 .checkbox label span.check {border: 1px solid #aaa; }

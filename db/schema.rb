@@ -11,35 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029115447) do
+ActiveRecord::Schema.define(version: 20141029103450) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
-    t.boolean  "active"
+    t.boolean  "active",     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "employees", force: true do |t|
-    t.string   "name"
-    t.datetime "last_seen"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "punch_clock_id"
-    t.integer  "account_id"
-  end
-
-  add_index "employees", ["account_id"], name: "index_employees_on_account_id", using: :btree
-  add_index "employees", ["punch_clock_id"], name: "index_employees_on_punch_clock_id", using: :btree
-
-  create_table "entrances", force: true do |t|
-    t.integer  "employee_id"
-    t.datetime "clocked_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "entrances", ["employee_id"], name: "index_entrances_on_employee_id", using: :btree
 
   create_table "jobbers", force: true do |t|
     t.string   "name"
@@ -52,15 +31,6 @@ ActiveRecord::Schema.define(version: 20141029115447) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "punch_clocks", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "account_id"
-  end
-
-  add_index "punch_clocks", ["account_id"], name: "index_punch_clocks_on_account_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
