@@ -40,7 +40,7 @@ da:
       signed_up: "Velkommen! Du har registreret dig korrekt."
       signed_up_but_inactive: "Du har registreret dig rigtigt hos os. Vi kunne imidlertid ikke logge dig automatisk ind fordi din profil endnu ikke er godkendt!"
       signed_up_but_locked: "Du har registreret dig rigtigt hos os. Vi kunne imidlertid ikke logge dig automatisk ind fordi din profil er låst!"
-      signed_up_but_unconfirmed: "En email meddelelse med et link til at bekræftelse din email adresse er blevet sendt til din email adresse. Brug venligst det link til at aktivere din profil."
+      signed_up_but_unconfirmed: "En meddelelse med et link til at bekræfte din registrering er blevet sendt til din email adresse. Brug venligst det link til at aktivere din profil."
       update_needs_confirmation: "Du har opdateret din profil korrekt, men vi mangler at få din nye email adresse bekræftet. Se venligst i din email indbakke og brug det link, vi har sendt dig, til at bekræfte din email adresse!"
       updated: "Din profil er blevet opdateret korrekt"
     sessions:

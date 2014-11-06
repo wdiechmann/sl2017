@@ -1,10 +1,17 @@
 class JobbersController < ApplicationController
-  before_action :set_jobber, only: [:show, :edit, :update, :destroy]
+  before_action :set_jobber, only: [:show, :edit, :update, :destroy, :confirmation]
 
   # GET /jobbers
   # GET /jobbers.json
   def index
     @jobbers = Jobber.all
+  end
+  
+  def confirmation
+    notice = @jobber.confirmed?(params) ?  'Din tilmelding er nu bekræftet - og vi vil kontakte dig hurtigst muligt' : 'Din tilmelding er ikke bekræftet'
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: notice}
+    end
   end
 
   # GET /jobbers/1
@@ -25,6 +32,7 @@ class JobbersController < ApplicationController
   # POST /jobbers.json
   def create
     @jobber = Jobber.new(jobber_params)
+    @jobber.confirmed_token = Devise.friendly_token
     # raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)
     # @raw_confirmation_token   = raw
     # self.confirmation_token   = enc
@@ -35,9 +43,11 @@ class JobbersController < ApplicationController
       if @jobber.save
         JobberMailer.welcome_email(@jobber,current_user).deliver
         format.html { redirect_to @jobber, notice: 'Jobber was successfully created.' }
+        format.js { head 220 }
         format.json { render :show, status: :created, location: @jobber }
       else
         format.html { render :new }
+        format.js { head 404 }
         format.json { render json: @jobber.errors, status: :unprocessable_entity }
       end
     end
@@ -74,6 +84,7 @@ class JobbersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    # "name"=>"navn", "street"=>"adresse", "zip_city"=>"postnr by", "phone_number"=>"12345678", "email"=>"e@a.dk
     def jobber_params
       params.require(:jobber).permit(:name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at)
     end

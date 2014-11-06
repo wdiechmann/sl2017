@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :accounts
 
-  resources :jobbers
+  resources :jobbers do
+    member do
+      get 'confirmation'
+    end
+  end
   
   mount Upmin::Engine => '/admin'
   root to: 'visitors#index'

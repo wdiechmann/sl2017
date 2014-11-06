@@ -14,6 +14,7 @@
 		= render 'layouts/head'
 		:css
 			.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}
+			.simple_form { margin-top: 20px;}
 			h3 strong { color: green; }
 			form .form-control { height: 50px;}
 	
@@ -38,11 +39,13 @@
 							%li{class: "#{'active' if current=='jobs'}"}
 								= link_to "Jobbere", jobbers_url
 						%li{class: "#{'active' if current=='about'}"}
-							%a.sect{:href => "#", :"data-section" => "about"} om lejren
+							%a.sect{:href => "#", :"data-section" => "about", style: "border-left: 0px"} om lejren
 						%li{class: "#{'active' if current=='blog'}"}
-							%a.sect{:href => "#", :"data-section" => "blog"} Blog
+							%a.sect{:href => "#", :"data-section" => "blog", style: "border-left: 0px"} Blog
 						%li{class: "#{'active' if current=='contact'}"}
-							%a.sect{:href => "#", :"data-section" => "contact"} Kontakt
+							%a.sect{:href => "#", :"data-section" => "contact", style: "border-left: 0px"} Kontakt
+
+		= render 'layouts/messages'
 
 		%section.header-10-sub.v-center{ style: "height: 1090px; background-position: 50% 0px;"}
 			.background{ style: "background-position: 50% 0px; width: 112%"}
@@ -80,24 +83,59 @@
 								over når det hele ikke spiller max!
 						.col-sm-6
 							%img{src: asset_url("jobbere.jpg")}
-							%form{ role: "form"}
-								.form-group
-									%label Navn
-									%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
-								.form-group
-									%label Adresse
-									%input.form-control{ type: "text", placeholder: "Pladsen 2" }
-								.form-group
-									%label Postnr By
-									%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
-								.form-group
-									%label Mobilnr
-									%input.form-control{ type: "text", placeholder: "+45 12345678" }
-								.form-group
-									%label Email adresse
-									%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
-								.form-group
-									%button.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
+							/%form{ role: "form", style: "margin-top: 20px"}
+							= simple_form_for(@jobber, id: "jobber-registration") do |f|
+								= f.error_notification
+
+
+
+								.form-inputs
+									.form-group
+										%label Navn
+										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
+										= f.error :name
+
+									.form-group
+										%label Adresse
+										= f.text_field :street, :autofocus => true, class: 'form-control ', placeholder: "Pladsen 2"
+										= f.error :street
+
+									.form-group
+										%label Postnr By
+										= f.text_field :zip_city, :autofocus => true, class: 'form-control ', placeholder: "6000 Sønderborg"
+										= f.error :zip_city
+
+									.form-group
+										%label Mobilnr
+										= f.text_field :phone_number, :autofocus => true, class: 'form-control ', placeholder: "+45 12345678"
+										= f.error :phone_number
+
+									.form-group
+										%label Email adresse
+										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
+										= f.error :email
+
+		
+								.form-actions
+									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
+								
+								/ .form-group
+								/ 	%label Navn
+								/ 	%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
+								/ .form-group
+								/ 	%label Adresse
+								/ 	%input.form-control{ type: "text", placeholder: "Pladsen 2" }
+								/ .form-group
+								/ 	%label Postnr By
+								/ 	%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
+								/ .form-group
+								/ 	%label Mobilnr
+								/ 	%input.form-control{ type: "text", placeholder: "+45 12345678" }
+								/ .form-group
+								/ 	%label Email adresse
+								/ 	%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
+								/ .form-group
+								/ 	%button.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
 
 							%p
 								%small - så kan du regne med at vi kontakter dig indenfor de næste 2 uger, for at finde netop det job, du er som skabt til
@@ -188,7 +226,7 @@
 								Vi er meget opsatte på at gøre det endnu bedre på SL2017 - og derfor er det vigtigt at du fortæller os
 								om din oplevelse på SL2012.
 						.col-sm-6
-							%form{ role: "form"}
+							%form{ role: "form" }
 								.form-group
 									%label Navn
 									%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
@@ -244,13 +282,64 @@
 							powered by 
 							%a{ href: "http://alco.dk", target: "_blank"} ALCO Company
 
-
+		= javascript_include_tag 'application'
 
 		:coffeescript
+			jobberRegistration = () ->
+				request = null
+				$('button.jobber-registration').on 'click', (event) =>
+					# abort any pending request
+					event.preventDefault()
+					if request
+						request.abort()
+						
+					# setup some local variables
+					$form = $('#new_jobber')
+					# let's select and cache all the fields
+					$inputs = $form.find "input, select, button, textarea"
+					
+					# serialize the data in the form
+					serializedData = $form.serialize()
+					
+					# let's disable the inputs for the duration of the ajax request
+					# Note: we disable elements AFTER the form data has been serialized.
+					# Disabled form elements will not be serialized.
+					$inputs.prop("disabled", true)
+					
+					# fire off the request to /form.php
+					request = $.ajax
+						url: '/jobbers.js',
+						type: "post",
+						data: serializedData
+							
+					# callback handler that will be called on success
+					request.done (response, textStatus, jqXHR) ->
+						# log a message to the console
+						swal "Tak!", "Vi har modtaget din tilmelding - og sendt dig en email :)", 'success'
+					
+					# callback handler that will be called on failure
+					request.fail (jqXHR, textStatus, errorThrown) ->
+						# log the error to the console
+						swal "ØV!", "Noget er gået galt \n Fejlen: " + textStatus + ' ' + errorThrown, 'error'
+						
+					# callback handler that will be called regardless
+					# if the request failed or succeeded
+					request.always () ->
+						#reenable the inputs
+						$inputs.prop "disabled", false
+					
+					# prevent default posting of form
+					event.preventDefault()
+
 			$(document).on 'ready page:load', -> 
 				pageOnLoad()
+				jobberRegistration()
+				msg = $('#flash_notice').html()
+				if msg
+					swal 'Super!', msg, 'success'
 				
 		:javascript
+		
 			function fadedEls(el, shift) {
 			    el.css('opacity', 0);
 			    switch (shift) {
@@ -355,7 +444,7 @@
 					(function(el) {
 					    el.css('left', '-100%');
 					    $(window).resize(function() {
-					        if (!el.hasClass('ani-processed')) {
+					        if (!el.hasClass('ani-processed') && el.length > 0) {
 					            el.data('scrollPos', el.offset().top - $(window).height() + el.outerHeight());
 					        }
 					    }).scroll(function() {
@@ -376,7 +465,7 @@
 					(function(el){
 						$(window).resize(function() {
 							shift = el.eq(0).outerHeight() /10;
-						if (!el.hasClass('ani-processed')) {
+						if (!el.hasClass('ani-processed') && el.length > 0) {
 							el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
 						}
 						}).scroll(function() {
@@ -420,125 +509,3 @@
 				$(function() {
 				});
 			})(jQuery);
-
-		/
-		/ <!-- content-8  -->
-		/ %section.content-8.v-center ani-processed"{ style: "opacity: 1;">
-		/     <div>
-		/         <div.container">
-		/             <img src="img/recept@2.png" width="257" height="170" alt="" naptha_cursor="text">
-		/             <h3>If you are missing ingredients</h3>
-		/             <div.row">
-		/                 <div.span6 offset3">
-		/                     <p>If you are missing any ingredients for the recipe, you can order them right from the app. You can also order all of what you need for cooking that specific meal. Same day delivery!</p>
-		/                 </div>
-		/             </div>
-		/         </div>
-		/     </div>
-		/ </section>
-		/
-		/ <!-- content-23  -->
-		/ %section.content-23.v-center custom-bg2"#SectionCooking"{ style: "background-attachment: fixed; background-position: 50% 320px;">
-		/     <div>
-		/         <div.container">
-		/             <div.hero-unit hero-unit-bordered">
-		/                 <h1>Learn how to cook</h1>
-		/             </div>
-		/         </div>
-		/     </div>
-		/     <a.control-btn fui-arrow-down" href="#"> </a>
-		/ </section>
-		/
-		/ <!-- content-8  -->
-		/ %section.content-8.v-center learning-process ani-processed"{ style: "opacity: 1;">
-		/     <div>
-		/         <div.container">
-		/             <img src="img/app@2.png" width="200" height="200" alt="">
-		/             <h3>Fun learning process</h3>
-		/             <div.row">
-		/                 <div.span6 offset3">
-		/                     <p>We have thought of everything, not to scare you away from this fun activity. We will tell you all the details of the cooking process in a simple and fun way!</p>
-		/                 </div>
-		/             </div>
-		/         </div>
-		/     </div>
-		/ </section>
-		/
-		/ <!-- content-23  -->
-		/ %section.content-23.v-center bg-midnight-blue learning-cook"#SectionHere"{ style: "background-position: 50% 320px;">
-		/     <div>
-		/         <div.container">
-		/             <div.hero-unit">
-		/                 <h1>Get ready for a whole new level <br>of learning to cook!</h1>
-		/                 <p.lead">Very soon we will launch and you will <br>be able to see it yourself.</p>
-		/             </div>
-		/         </div>
-		/     </div>
-		/     <a.control-btn fui-arrow-down" href="#"> </a>
-		/ </section>
-		/
-		/ <!-- content-8  -->
-		/ %section.content-8.v-center learning-cook ani-processed"{ style: "opacity: 1;">
-		/     <div>
-		/         <div.container">
-		/             <img src="img/dinamit@2.png" width="200" height="200" alt="">
-		/             <h3>We’re almost here!</h3>
-		/             <div.row">
-		/                 <div.span6 offset3">
-		/                     <p>We are taking care of the last steps for the project launch and soon we will have our first beta release. If you don’t want to miss our release you can sign up for the project newsletter.</p>
-		/                 </div>
-		/             </div>
-		/         </div>
-		/     </div>
-		/ </section>
-		/
-		/ <!-- content-13  -->
-		/ %section.content-13 subscribe-form bg-clouds">
-		/     <div.container ani-processed"{ style: "left: 0px;">
-		/         <div.row">
-		/             <form action="http://hipstafood.us3.list-manage.com/subscribe/post" method="POST">
-		/                 <input type="hidden" name="u" value="0aa3373bcea2f71202f05dbef">
-		/                 <input type="hidden" name="id" value="838ad75f3c">
-		/                 <input type="hidden" name="orig-lang" value="1">
-		/                 <div.span8">
-		/                     <input type="email" placeholder="Enter your e-mail" spellcheck="false" autocapitalize="off" autocorrect="off" name="MERGE0"#MERGE0" value="">
-		/                 </div>
-		/                 <div.span4">
-		/                     <button.btn btn-large btn-success" type="submit">Notify Me</button>
-		/                 </div>
-		/             </form>
-		/         </div>
-		/     </div>
-		/ </section>
-		/
-		/ <!-- footer-3 -->
-		/ <footer.footer-3">
-		/     <div.container">
-		/         <div.row.v-center">
-		/             <div.span2">
-		/                 <div.span2">
-		/                     <a.brand" href="#">Hipsta Food</a>
-		/                 </div>
-		/             </div>
-		/             <div>
-		/                 <div.span7">
-		/                     <div.additional-links">Made by Hipsta Food Crew. Powered by <a href="http://designmodo.com/startup" target="_blank">Startup Framework</a></div>
-		/                 </div>
-		/             </div>
-		/         </div>
-		/     </div>
-		/ </footer>
-		/
-		/ <!-- Placed at the end of the document so the pages load faster -->
-		/ <script type="text/javascript" src="//use.typekit.net/wwv4ffe.js"></script>
-		/ <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-		/ <script src="./startup/flat-ui/js/jquery-1.8.3.min.js"></script>
-		/ <script src="./startup/flat-ui/js/bootstrap.min.js"></script>
-		/ <script src="./startup/common-files/js/easing.min.js"></script>
-		/ <!--[if lt IE 8]>
-		/ <script src="./startup/flat-ui-pro/js/icon-font-ie7.js"></script>
-		/ <![endif]-->
-		/ <script src="./startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-		/ <script src="./startup/common-files/js/jquery.parallax.min.js"></script>
-		/ <script src="./startup/common-files/js/startup-kit.js"></script>
-		/ <script src="./js/script.js"></script>
