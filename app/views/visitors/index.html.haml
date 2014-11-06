@@ -32,14 +32,17 @@
 				/ Collect the nav links, forms, and other content for toggling
 				.collapse.navbar-collapse.navbar-ex1-collapse
 					%ul.nav.navbar-nav.navbar-right
-						%li{class: "#{'active' if current=='about'}"}
-							%a{:href => "#", :"data-section" => "about"} om lejren
 						%li{class: "#{'active' if current=='jobber'}"}
-							%a{:href => "#", :"data-section" => "jobber" } Jobber
+							%a.sect{:href => "#", :"data-section" => "jobber" } Jobber
+						- if user_signed_in?
+							%li{class: "#{'active' if current=='jobs'}"}
+								= link_to "Jobbere", jobbers_url
+						%li{class: "#{'active' if current=='about'}"}
+							%a.sect{:href => "#", :"data-section" => "about"} om lejren
 						%li{class: "#{'active' if current=='blog'}"}
-							%a{:href => "#", :"data-section" => "blog"} Blog
+							%a.sect{:href => "#", :"data-section" => "blog"} Blog
 						%li{class: "#{'active' if current=='contact'}"}
-							%a{:href => "#", :"data-section" => "contact"} Kontakt
+							%a.sect{:href => "#", :"data-section" => "contact"} Kontakt
 
 		%section.header-10-sub.v-center{ style: "height: 1090px; background-position: 50% 0px;"}
 			.background{ style: "background-position: 50% 0px; width: 112%"}
@@ -243,7 +246,9 @@
 
 
 
-
+		:coffeescript
+			$(document).on 'ready page:load', -> 
+				pageOnLoad()
 				
 		:javascript
 			function fadedEls(el, shift) {
@@ -285,8 +290,7 @@
 				})
 			}
 			
-			(function($) {
-				$(function() {
+			function pageOnLoad(){
 					var isMobile = {
 					    Android: function() {
 					        return navigator.userAgent.match(/Android/i);
@@ -315,8 +319,7 @@
 						});
 						return false;
 					});
-					
-					$('.nav').find('a').on('click', function(e) {
+					$('.nav').find('a.sect').on('click', function(e) {
 					    e.preventDefault();
 							elem=this
 							$.when(scrollToSection(elem)).done(collapseMenu(elem));
@@ -411,6 +414,10 @@
 							}
 						});
 					})($('.screen-custom img'));
+			}
+			
+			(function($) {
+				$(function() {
 				});
 			})(jQuery);
 
