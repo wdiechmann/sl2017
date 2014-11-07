@@ -10,7 +10,6 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
  *= require bootstrap-material-design
  *= require sweet-alert
  *= require 'a1-default.css.scss'
@@ -21,6 +20,7 @@
  *= require 'a9-media.css.scss'
  *= require 'icon-font.css'
  *= require 'framework_and_overrides.css.scss'
+ *= require 'scaffolds.css.scss'
  *= require_self
  */
 
