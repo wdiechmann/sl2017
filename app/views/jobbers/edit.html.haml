@@ -1,4 +1,4 @@
 = render 'form'
-.authform
-	= link_to t(:show), @jobber
-	= link_to t(:back), jobbers_path
+%hr
+= link_to 'Vis', @jobber, class: 'btn btn-primary'
+= link_to 'Til oversigten', jobbers_path, class: 'btn btn-info'

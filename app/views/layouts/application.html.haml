@@ -7,8 +7,10 @@
 		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
 		= javascript_include_tag 'application', 'data-turbolinks-track' => true
 		= csrf_meta_tags
+		:css
+			.form-control-wrapper .floating-label { opacity: 1.0 !important;}
 	%body
-		%header
+		%header{ style: "padding-top: 0px;"}
 			= render 'layouts/navigation'
 		%main{:role => "main"}
 			= render 'layouts/messages'

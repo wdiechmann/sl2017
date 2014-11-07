@@ -1,0 +1,26 @@
+.container-fluid
+	.row
+		.col-md-12
+			%h1 Oversigt over jobs
+
+	.row
+		.col-md-12
+			%table.table.table-striped
+				%tr
+					%th Hvad
+					%th Hvor
+					%th Hvornår
+					%th Hvem
+					%th
+					
+				- @jobs.each do |job|
+					%tr
+						%td= link_to job.name, job
+						%td= job.location
+						%td= job.schedule
+						%td mgl
+						%td= link_to 'Destroy', job, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+			%br
+
+			= link_to 'Nyt job', new_job_path, class: 'btn btn-success'

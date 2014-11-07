@@ -3,276 +3,273 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=320, initial-scale=1" />
-  <title>clock.alco.dk bruger velkomst</title>
+  <title>Jobber Database Bruger Velkomst</title>
   <style type="text/css">
+    @import url(http://fonts.googleapis.com/css?family=Lato:400);
 
-    /* ----- Client Fixes ----- */
+    /* Take care of image borders and formatting */
 
-    /* Force Outlook to provide a "view in browser" message */
-    #outlook a {
-      padding: 0;
-    }
-
-    /* Force Hotmail to display emails at full width */
-    .ReadMsgBody {
-      width: 100%;
-    }
-
-    .ExternalClass {
-      width: 100%;
-    }
-
-    /* Force Hotmail to display normal line spacing */
-    .ExternalClass,
-    .ExternalClass p,
-    .ExternalClass span,
-    .ExternalClass font,
-    .ExternalClass td,
-    .ExternalClass div {
-      line-height: 100%;
-    }
-
-
-     /* Prevent WebKit and Windows mobile changing default text sizes */
-    body, table, td, p, a, li, blockquote {
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-
-    /* Remove spacing between tables in Outlook 2007 and up */
-    table, td {
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
-
-    /* Allow smoother rendering of resized image in Internet Explorer */
     img {
+      max-width: 600px;
+      outline: none;
+      text-decoration: none;
       -ms-interpolation-mode: bicubic;
     }
 
-     /* ----- Reset ----- */
-
-    html,
-    body,
-    .body-wrap,
-    .body-wrap-cell {
-      margin: 0;
-      padding: 0;
-      background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      color: #464646;
-      text-align: left;
-    }
-
-    img {
-      border: 0;
-      line-height: 100%;
-      outline: none;
+    a {
       text-decoration: none;
+      border: 0;
+      outline: none;
     }
 
-    table {
+    a img {
+      border: none;
+    }
+
+    /* General styling */
+
+    td, h1, h2, h3  {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
+    }
+
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%;
+      height: 100%;
+      color: #37302d;
+      background: #ffffff;
+    }
+
+     table {
       border-collapse: collapse !important;
     }
 
-    td, th {
-      text-align: left;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      color: #464646;
-      line-height:1.5em;
+
+    h1, h2, h3 {
+      padding: 0;
+      margin: 0;
+      color: #0f9d58;
+      font-weight: 400;
     }
 
-    b a,
-    .footer a {
-      text-decoration: none;
-      color: #464646;
+    h1, h2 { color: #ffffff; opacity: 1.0}
+
+    h3 {
+      color: #777777;
+      font-size: 24px;
     }
 
-    a.blue-link {
-      color: blue;
-      text-decoration: underline;
+    .important-font {
+      color: #f44336;
+      font-weight: bold;
     }
 
-    /* ----- General ----- */
-
-    td.center {
-      text-align: center;
+    .hide {
+      display: none !important;
     }
 
-    .left {
-      text-align: left;
-    }
-
-    .body-padding {
-      padding: 24px 40px 40px;
-    }
-
-    .border-bottom {
-      border-bottom: 1px solid #D8D8D8;
-    }
-
-    table.full-width-gmail-android {
+    .force-full-width {
       width: 100% !important;
     }
 
-
-    /* ----- Header ----- */
-    .header {
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 16px;
-      height: 16px;
-      padding-top: 19px;
-      padding-bottom: 7px;
-    }
-
-    .header a {
-      color: #464646;
-      text-decoration: none;
-    }
-
-    /* ----- Footer ----- */
-
-    .footer a {
-      font-size: 12px;
-    }
   </style>
 
-  <style type="text/css" media="only screen and (max-width: 650px)">
-    @media only screen and (max-width: 650px) {
-      * {
-        font-size: 16px !important;
-      }
+ <style type="text/css" media="screen">
+   @media screen {
+      /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+     td, h1, h2, h3 {
+       font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+     }
+   }
+ </style>
 
-      table[class*="w320"] {
-        width: 320px !important;
-      }
+ <style type="text/css" media="only screen and (max-width: 480px)">
+   /* Mobile styles */
+   @media only screen and (max-width: 480px) {
+     table[class="w320"] {
+       width: 320px !important;
+     }
 
-      td[class="mobile-center"],
-      div[class="mobile-center"] {
-        text-align: center !important;
-      }
+     table[class="w300"] {
+       width: 300px !important;
+     }
 
-      td[class*="body-padding"] {
-        padding: 20px !important;
-      }
+     table[class="w290"] {
+       width: 290px !important;
+     }
 
-      td[class="mobile"] {
-        text-align: right;
-        vertical-align: top;
-      }
-    }
-  </style>
+     td[class="w320"] {
+       width: 320px !important;
+     }
 
+     td[class="mobile-center"] {
+       text-align: center !important;
+     }
+
+     td[class*="mobile-padding"] {
+       padding-left: 20px !important;
+       padding-right: 20px !important;
+       padding-bottom: 20px !important;
+     }
+
+     td[class*="mobile-block"] {
+       display: block !important;
+       width: 100% !important;
+       text-align: left !important;
+       padding-bottom: 20px !important;
+     }
+
+     td[class*="mobile-border"] {
+       border: 0 !important;
+     }
+
+     td[class*="reveal"] {
+       display: block !important;
+     }
+   }
+ </style>
+ 
 </head>
-<body style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none">
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tr>
- <td valign="top" align="left" width="100%" style="background:repeat-x url(https://www.filepicker.io/api/file/al80sTOMSEi5bKdmCgp2) #f9f8f8;">
- <center>
+<body class="body" style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none" bgcolor="#ffffff">
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%">
+  <tr>
+    <td align="center" valign="top" bgcolor="#ffffff"  width="100%">
 
-   <table class="w320 full-width-gmail-android" bgcolor="#f9f8f8" background="https://www.filepicker.io/api/file/al80sTOMSEi5bKdmCgp2" style="background-color:transparent" cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td width="100%" height="48" valign="top">
-            <!--[if gte mso 9]>
-            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:49px;">
-              <v:fill type="tile" src="https://www.filepicker.io/api/file/al80sTOMSEi5bKdmCgp2" color="#ffffff" />
-              <v:textbox inset="0,0,0,0">
-            <![endif]-->
-              <table class="full-width-gmail-android" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <tr   background="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/copy-banner1.jpg" bgcolor="#8b8284" valign="top" style="background: no-repeat url(http://spejderneslejr2017.dk/wp-content/uploads/2013/08/copy-banner1.jpg); background-color: #8b8284; background-position: center;">
+        <td style="border-bottom: 3px solid #fcfcfc;" width="100%" >
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td valign="top" style="height: 55px; padding:10px 0; text-align:left;" class="mobile-center">
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+			<tr>
+			  <td style="border-bottom: 3px solid #fcfcfc;" width="100%" >
+			    <center>
+			      <table cellspacing="0" cellpadding="0" width="500" class="w320">
+			        <tr>
+			          <td valign="top" style="height: 55px; padding:10px 0; text-align:left;" class="mobile-center"  bgcolor:="#333333">
+			            <h3>Spejdernes Lejr 2017</h3>
+			            <p>Jobber Database Bruger tilmelding</p>
+			          </td>
+			        </tr>
+			      </table>
+			    </center>
+			  </td>
+			</tr>
+      <tr style="">
+				<td>
+        <!-- <td background="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png" bgcolor="#8b8284" valign="top" style="background: no-repeat url(http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png); background-color: #8b8284; background-position: center;"> -->
+          <!--[if gte mso 9]>
+          <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:303px;">
+            <v:fill type="tile" src="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png" color="#8b8284" />
+            <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <div>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="530" height="303" class="w320">
                 <tr>
-                  <td class="header center" width="100%">
-                    <a href="#">
-                      clock.alco.dk
-                    </a>
+                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:left;" height="303">
+
+			                <table cellpadding="0" cellspacing="0" width="100%">
+			                  <tr>
+			                    <td style="text-align:center; font-size:30px; padding-bottom:20px;">
+			                      Velkommen!
+			                    </td>
+			                  </tr>
+			                  <tr>
+			                    <td style="padding-bottom:20px;">
+			                      Hej <%= @resource.name %>, <br>
+			                      <br>
+			                      Vi har oprettet dig som bruger, men før vi slipper dig løs, vil vi bede dig om at bekræfte din registrering, ved at trykke på knappen herunder. Den sender dig tilbage til siden, hvor du kan logge på.<br>
+														<p>
+															<strong>Vilkårene</strong> for at bruge jobs.sl17.dk er enkle: Du står til ansvar for dine handlinger, dit login er privat (dvs kun dit!), og det du laver kan ikke laves om!</p>
+															<p>Når du trykker på knappen 'bekræft' bliver din konto aktiv og samtidig erklærer du dig enig i de nævnte vilkår.</p>
+			                      <br>
+			                    </td>
+			                  </tr>
+			                </table>
+
+	                    <table cellspacing="0" cellpadding="0" width="100%">
+	                    <tr>
+	                    <td class="hide reveal">
+	                      &nbsp;
+	                    </td>
+	                      <td style="width:150px; height:33px; background-color: #0f9d58;" >
+	                        <div>
+													<%= link_to 'Bekræft', confirmation_url(@resource, confirmation_token: @token), style: "background-color:#0f9d58;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;" %>
+													</div>
+	                      </td>
+	                      <td>
+	                        &nbsp;
+	                      </td>
+	                    </tr>
+	                  </table>
+
                   </td>
                 </tr>
               </table>
-            <!--[if gte mso 9]>
-              </v:textbox>
-            </v:rect>
-            <![endif]-->
+            </center>
+          </div>
+          <!--[if gte mso 9]>
+            </v:textbox>
+          </v:rect>
+          <![endif]-->
         </td>
       </tr>
-    </table>
-
-    <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff">
-      <tr>
-        <td align="center">
+      <tr class="force-full-width">
+        <td valign="top" class="force-full-width">
           <center>
-            <table class="w320" cellspacing="0" cellpadding="0" width="500">
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
               <tr>
-                <td class="body-padding mobile-padding">
+                <td valign="top" style="border-bottom:1px solid #a1a1a1;">
 
-                <table cellpadding="0" cellspacing="0" width="100%">
+                <table cellspacing="0" cellpadding="0" class="force-full-width">
                   <tr>
-                    <td style="text-align:center; font-size:30px; padding-bottom:20px;">
-                      Velkommen!
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding-bottom:20px;">
-                      Hej <%= @resource.name %>, <br>
-                      <br>
-                      Vi har oprettet dig som bruger, men før vi slipper dig løs, vil vi bede dig om at bekræfte din registrering, ved at trykke på knappen herunder. Den sender dig tilbage til siden, hvor du kan logge på.<br>
-											<p>
-												<strong>Vilkårene</strong> for at bruge clock.alco.dk er enkle: du betaler 50,00 kr/mdr for det første stempelur, og de første 10 medarbejdere. Hvert ekstra stempelur koster 10,00 kr/mdr og hver blok af 10 medarbejdere koster 10,00 kr/mdr. Vi sender en regning hvert kvartal, der dækker det kvartal, regningen er udskrevet i.
-												Opretter du eks.vis 3 stempelure og 22 medarbejdere, sender vi en regning det følgende kvartal på (50 + 2 x 10 + 2 x 10) x 3 mdr eller ialt 270,00 + moms.</p>
-												<p>
-													Tiden frem til næste kvartal er din gratis prøveperiode.<br/>
-													<span style="color: #FA113D">Husk at afmelde din brugerkonto før udgangen af dette kvartal, hvis du ikke kan bruge clock.alco.dk alligevel!</span>
-												</p>
-												<p>Når du trykker på knappen 'bekræft' bliver din konto aktiv og samtidig erklærer du dig enig i de nævnte vilkår.</p>
-                      <br>
-												<%= link_to 'Bekræft', confirmation_url(@resource, confirmation_token: @token), style: "background-color:#0f9d58;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;" %>
+                    <td style="padding: 30px 0;" class="mobile-padding">
+
+
+			                <table cellspacing="0" cellpadding="0" width="100%">
+			                  <tr>
+			                    <td class="left" style="padding-bottom:20px; text-align:left;">
+			                      Dato: <%= l @resource.created_at %><br>
+			                      <b>Bruger nummer:</b> SLdb-<%= "%05d" % @resource.id %>
+			                    </td>
+			                  </tr>
+			                </table>
+
                     </td>
                   </tr>
                 </table>
 
-                <table cellspacing="0" cellpadding="0" width="100%">
-                  <tr>
-                    <td class="left" style="padding-bottom:20px; text-align:left;">
-                      Date: <%= l @resource.created_at %><br>
-                      <b>Bruger nummer:</b> CLOCK-<%= "%05d" % @resource.id %>
-                    </td>
-                  </tr>
-                </table>
-
-                <table cellspacing="0" cellpadding="0" width="100%">
-                  <tr>
-                    <td class="left" style="text-align:left;">
-                      Mange tak fordi du har valgt os til leverandør af din komme/gå registrering,
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="left" width="129" height="20" style="padding-top:10px; text-align:left;">
-											<p class="header">ALCO Company</p>
-                      <%= image_tag 'whd_signature.png', class: "left", width:"35%", alt:"Walther Diechmann's underskrift" %>
-                    </td>
-                  </tr>
-                </table>
 
                 </td>
               </tr>
-            </table>
-          </center>
-        </td>
-      </tr>
-    </table>
-
-    <table class="w320" bgcolor="#E5E5E5" cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td style="border-top:1px solid #B3B3B3;" align="center">
-          <center>
-            <table class="w320" cellspacing="0" cellpadding="0" width="500" bgcolor="#E5E5E5">
               <tr>
                 <td>
-                  <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#E5E5E5">
+
+                  <table cellspacing="0" cellpadding="0" width="100%">
                     <tr>
-                      <td class="center" style="padding:25px; text-align:center;">
-                        <b><a href="mailto:sales@alco.dk">Kontakt os</a></b> hvis du har spørgsmål eller noget på hjerte
+                      <td class="mobile-padding" style="text-align:left;">
+                      <br>
+                        Tak fordi du tilmeldte dig. Har du problemer med at bruge Jobber databasen, så er du altid velkommen til at   <a style="color: #0f9d58;" href="mailto:WHERE">kontakte os</a>!
+                      <br>
+                      <br>
+                      <h5>
+												HR
+												<br/>
+                        Spejdernes Lejr 2017</h5>
+                      <br>
+                      <br>
+                      <br>
+
                       </td>
                     </tr>
                   </table>
@@ -283,23 +280,41 @@
         </td>
       </tr>
       <tr>
-        <td style="border-top:1px solid #B3B3B3; border-bottom:1px solid #B3B3B3;" align="center">
+        <td style="background-color:#c2c2c2;">
           <center>
-            <table class="w320" cellspacing="0" cellpadding="0" width="500" bgcolor="#E5E5E5">
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
               <tr>
-                <td align="center" style="padding:25px; text-align:center">
-                  <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#E5E5E5">
+                <td>
+                  <table cellspacing="0" cellpadding="30" width="100%">
                     <tr>
-                      <td class="center footer" style="font-size:12px;">
-                        <a href="mailto:sales@alco.dk">Kontakt os</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                        <span class="footer-group">
-                          <a href="http://www.facebook.com/alcocomp">Facebook</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                          <a href="http://twitter.com/wdiechmann">Twitter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                          <a href="http://alco.dk">Support</a>
-                        </span>
+                      <td style="text-align:center;">
+                        <a href="#">
+                          <img width="61" height="51" src="https://www.filepicker.io/api/file/vkoOlof0QX6YCDF9cCFV" alt="twitter" />
+                        </a>
+                        <a href="#">
+                          <img width="61" height="51" src="https://www.filepicker.io/api/file/fZaNDx7cSPaE23OX2LbB" alt="google plus" />
+                        </a>
+                        <a href="#">
+                          <img width="61" height="51" src="https://www.filepicker.io/api/file/b3iHzECrTvCPEAcpRKPp" alt="facebook" />
+                        </a>
                       </td>
                     </tr>
                   </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <center>
+                    <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
+                      <tr>
+                        <td style="text-align:center; margin:0 auto;" width="100%">
+                           <a href="#" style="text-align:center;">
+                             <h1>Spejdernes Lejr 2017</h1>
+                           </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </center>
                 </td>
               </tr>
             </table>
@@ -307,10 +322,8 @@
         </td>
       </tr>
     </table>
-
-  </center>
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 </body>
 </html>

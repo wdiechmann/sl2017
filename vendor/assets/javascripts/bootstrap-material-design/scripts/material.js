@@ -39,6 +39,7 @@ $(function (){
         });
 
     };
+    console.log('scripts/material.js')
     initInputs();
 
     // Support for "arrive.js" to dynamically detect creation of elements

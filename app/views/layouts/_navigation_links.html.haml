@@ -1,4 +1,6 @@
 - if user_signed_in?
+	%li= link_to 'Job', jobs_path
+	%li= link_to 'Jobbere', jobbers_path
 	%li= link_to t('devise.navigation.edit_account'), edit_user_registration_path
 	%li= link_to t('devise.navigation.sign_out'), destroy_user_session_path, :method=>'delete'
 

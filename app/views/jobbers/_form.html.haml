@@ -1,34 +1,33 @@
-.authform
 
-	%h3
-		- if @jobber.new_record?
-			= t('jobbers.navigation.adding_a_jobber')
-		- else
-			= t('jobbers.navigation.editing_a_jobber')
+%h3
+	- if @jobber.new_record?
+		Opret en ny jobber
+	- else
+		Ret en jobber
 
 
-	= simple_form_for(@jobber) do |f|
-		= f.error_notification
-	
-		.form-group
-			= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')
-			= f.error :name
+= simple_form_for(@jobber) do |f|
+	= f.error_notification
 
-		.form-group
-			= f.text_field :street, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.street')
-			= f.error :street
+	.form-group
+		= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')
+		= f.error :name
 
-		.form-group
-			= f.text_field :zip_city, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.zip_city')
-			= f.error :zip_city
+	.form-group
+		= f.text_field :street, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.street')
+		= f.error :street
 
-		.form-group
-			= f.text_field :phone_number, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.phone_number')
-			= f.error :phone_number
+	.form-group
+		= f.text_field :zip_city, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.zip_city')
+		= f.error :zip_city
 
-		.form-group
-			= f.text_field :email, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.email')
-			= f.error :email
+	.form-group
+		= f.text_field :phone_number, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.phone_number')
+		= f.error :phone_number
 
-		.form-actions
-			= f.button :submit
+	.form-group
+		= f.text_field :email, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.email')
+		= f.error :email
+
+	.form-actions
+		= f.button :submit

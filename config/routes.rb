@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :jobs
+
   resources :accounts
 
   resources :jobbers do

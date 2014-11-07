@@ -1,0 +1,33 @@
+
+:css
+	#job_description { min-height: 100px; }
+	
+
+%h3
+	- if @job.new_record?
+		= t('jobs.navigation.adding_a_jobber')
+	- else
+		= t('jobs.navigation.editing_a_jobber')
+
+
+= simple_form_for(@job, html: { role: 'form'} ) do |f|
+	= f.error_notification
+
+	.form-group
+		= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvad'
+		= f.error :name
+
+	.form-group
+		= f.text_field :location, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvor'
+		= f.error :location
+
+	.form-group
+		= f.text_field :schedule, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvornår'
+		= f.error :schedule
+
+	.form-group
+		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
+		= f.error :description
+
+	.form-actions
+		= f.button :submit
