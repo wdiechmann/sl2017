@@ -1,5 +1,5 @@
 {
-  "name": "clock",
+  "name": "sl2017",
   "version": "0.0.1",
   "authors": [
     "Walther H Diechmann <walther@diechmann.net>"
@@ -11,7 +11,7 @@
     "blue-collar"
   ],
   "license": "MIT",
-  "homepage": "clock.alco.dk",
+  "homepage": "sl2017.alco.dk",
   "ignore": [
     "**/.*",
     "node_modules",

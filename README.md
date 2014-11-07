@@ -1,4 +1,4 @@
-Clock
+SL2017
 ================
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
@@ -31,12 +31,12 @@ Getting Started
 
 Start by reading through [this 6 part guide on setting up the app and environment for deployment of a Rails app on Debian](http://vladigleba.com/blog/2014/03/05/deploying-rails-apps-part-1-securing-the-server/)
 
-		mkdir clock
-		cd clock
+		mkdir sl2017
+		cd sl2017
 		rbenv local 2.1.2
 		rails new . -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb
 		spring rails server
-		mate .env config/production.rb config/clock.nginx.conf config/secrets.yml config/unicorn_init.sh config/unicorn.rb 
+		mate .env config/production.rb config/sl2017.nginx.conf config/secrets.yml config/unicorn_init.sh config/unicorn.rb 
 		rake secret
 		chmod +x unicorn_init.sh
 
@@ -46,7 +46,7 @@ Start by reading through [this 6 part guide on setting up the app and environmen
 		sudo chgrp oxenserver /etc/init.d
 		sudo chmod g+w /etc/init.d
 		sudo service nginx restart
-		sudo update-rc.d unicorn_clock defaults
+		sudo update-rc.d unicorn_sl2017 defaults
 		
 
 
@@ -79,7 +79,7 @@ Further deployments
 Changing something which involves restarting the webserver and application server
 
 * sudo service nginx restart
-* /etc/init.d/unicorn_clock restart
+* /etc/init.d/unicorn_sl2017 restart
 
 Documentation and Support
 -------------------------

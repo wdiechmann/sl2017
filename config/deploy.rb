@@ -1,6 +1,6 @@
 lock "3.1.0"
-set :application, 'clock'
-set :repo_url, 'git@github.com:wdiechmann/clock.git'
+set :application, 'sl2017'
+set :repo_url, 'git@github.com:wdiechmann/sl2017.git'
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
