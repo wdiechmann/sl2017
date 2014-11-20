@@ -56,7 +56,10 @@ da:
 
   jobber_mailer:
     welcome: "Velkommen"
-    
+
+  message_mailer:
+    thankyou: "Mange tak for din kommentar/besked!"
+      
   jobbers:
     navigation:
       adding_a_jobber: "Tilføj en jobber"

@@ -1,0 +1,33 @@
+%h1 Listing messages
+
+%table
+  %tr
+    %th Title
+    %th Name
+    %th Street
+    %th Zip city
+    %th Email
+    %th Msg from
+    %th Msg to
+    %th Body
+    %th
+    %th
+    %th
+
+  - @messages.each do |message|
+    %tr
+      %td= message.title
+      %td= message.name
+      %td= message.street
+      %td= message.zip_city
+      %td= message.email
+      %td= message.msg_from
+      %td= message.msg_to
+      %td= message.body
+      %td= link_to 'Show', message
+      %td= link_to 'Edit', edit_message_path(message)
+      %td= link_to 'Destroy', message, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Message', new_message_path

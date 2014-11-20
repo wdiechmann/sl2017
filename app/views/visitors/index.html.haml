@@ -44,8 +44,8 @@
 								= link_to "Job", jobs_url
 						%li{class: "#{'active' if current=='about'}"}
 							%a.sect{:href => "#", :"data-section" => "about", style: "border-left: 0px"} om lejren
-						%li{class: "#{'active' if current=='blog'}"}
-							%a.sect{:href => "#", :"data-section" => "blog", style: "border-left: 0px"} Blog
+						/ %li{class: "#{'active' if current=='blog'}"}
+						/ 	%a.sect{:href => "#", :"data-section" => "blog", style: "border-left: 0px"} Blog
 						%li{class: "#{'active' if current=='contact'}"}
 							%a.sect{:href => "#", :"data-section" => "contact", style: "border-left: 0px"} Kontakt
 
@@ -75,21 +75,15 @@
 						.col-sm-3
 							%h6 Målet
 							%p
-								Som jobber er du med til at skabe en helt enestående oplevelse for mere end 40.000 spejdere fra hele landet - og 
-								en pæn sjat fra resten af verden!
+								Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele landet - og en pæn sjat fra resten af verden!
 							%h6 Din opgave
 							%p
-								Her i tiden op til lejren er der masser af udvalg som har brug for hjælp til alt fra oversættelse, planlægning af aktiviteter, bla bla bla
-							/ %p
-							/ 	Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op,
-							/ 	fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
+								Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op, fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
 							%h6 Krav
 							%p
-								Det væsentligste krav er masser af godt humør, viljen til at ville og evnen til at bære
-								over når det hele ikke spiller max!
+								Masser af godt humør, viljen til at ville og evnen til at bære over når det hele ikke spiller max!
 						.col-sm-6
 							%img{src: asset_url("jobbere.jpg")}
-							/%form{ role: "form", style: "margin-top: 20px"}
 							= simple_form_for(@jobber, id: "jobber-registration") do |f|
 								= f.error_notification
 
@@ -136,12 +130,11 @@
 								%h5 Dit navn
 								%p fordi det er rart at kunne kalde folk ved navn, 
 								%h5 Din adresse, postnr og by
-								%p fordi vi efter lejren gerne vil sende dig en tak for din deltagelse,
+								%p fordi vi efter lejren gerne vil sende dig et kompetence bevis,
 								%h5 Dit mobilnr
 								%p fordi vi gerne vil kunne sende dig en SMS ind imellem, når der er noget der brænder slemt på
 								%h5 Din email adresse
 								%p fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren
-
 
 		/ about the camp
 		%section.content-23.v-center.custom-bg#about{ style: "background-position: 50% 0px; width: 112%"}
@@ -164,11 +157,15 @@
 					.row
 						.col-sm-4
 							%p
-								De første spadestik er taget, lejren har fundet sin plads (i Sønderborg på Als). 
-								Vi har nedsat hovedudvalget og vi er begyndt at tegne den store lejr.
+								Spejdernes Lejr 2017 kommer til at foregå i naturskønne omgivelser i Sønderborg.
 						.col-sm-4
 							%p
-								En lejr for alle danske spejderkorps - Det Danske Spejderkorps, KFUM-spejderne i Danmark, De grønne pigespejdere, De Danske Baptisters Spejderkorps, Dansk Spejderkorps Sydslesvig, Kalaallit Nunaanni Spejderit Kattufiat - Grønlands Spejderkorps, Føroya Skótaráð og FDF Frivilligt Drenge- og Pige-Forbund.
+								Det er de fem internationalt anerkendte danske spejderkorps, som arrangerer Spejdernes Lejr i fællesskab:
+								Dansk Spejderkorps Sydslesvig
+								Danske Baptisters Spejderkorps
+								De grønne pigespejdere
+								Det Danske Spejderkorps
+								KFUM-spejderne i Danmark
 						.col-sm-4
 				%p
 				%img{ src: asset_url("banner.jpg")}
@@ -179,11 +176,11 @@
 							%p
 						.col-sm-4
 							%p
-								Lejren varer i 9 dage, fra den 22. til den 30. juli 2017.
+								Lejren bliver afholdt fra den 22.-30. juli.
 						.col-sm-4
 							%p
-								I 14 dage før lejren, og 8 dage efter lejren, har du mulighed for at deltage på pionérlejr. Her kan du blive udfordret på alle de færdigheder, du måske 
-								drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet.
+								I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr. 
+								Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet.
 					.row
 						.col-sm-4{style: "height:400px"}
 
@@ -200,36 +197,68 @@
 						.col-sm-3
 							%h5 Hvad glemte vi på Spejdernes Lejr 2012?
 							%p
+								Vi er meget opsatte på at gøre det endnu bedre på SL2017 - og derfor er det vigtigt at du fortæller os om dine oplevelser fra tidligere.
+							%h5 Ud med det!
+							%p
 								Måske går du med en rigtig dårlig fornemmelse i maven fra sidste lejr - for 
 								vi skal være hudløst ærlige og indrømme at det ikke var alt som blev, som vi havde drømt om!
 								Det allermeste blev godt - meget blev rigtig godt; og så var der måske lige det, som du bed mærke i, som kunne have været
 								åhh, så meget bedre!
-							%h5 Ud med det!
-							%p
-								Vi er meget opsatte på at gøre det endnu bedre på SL2017 - og derfor er det vigtigt at du fortæller os
-								om din oplevelse på SL2012.
 						.col-sm-6
-							%form{ role: "form" }
-								.form-group
-									%label Navn
-									%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
-								.form-group
-									%label Adresse
-									%input.form-control{ type: "text", placeholder: "Pladsen 2" }
-								.form-group
-									%label Postnr By
-									%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
-								.form-group
-									%label Email adresse
-									%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
-								.form-group
-									%label Kommentar
-									%textarea.form-control{ type: "text", placeholder: "Skriv din kommentar...", style: "height: 150px" }
-								.form-group
-									%button.form-control.btn.btn-warning{ type: 'submit' } Hør hvad jeg siger!
+							= simple_form_for(@message, id: "new-message") do |f|
+								= f.error_notification
 
+								.form-inputs
+									.form-group
+										%label Navn
+										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
+										= f.error :name
+
+									.form-group
+										%label Adresse
+										= f.text_field :street, :autofocus => true, class: 'form-control ', placeholder: "Pladsen 2"
+										= f.error :street
+
+									.form-group
+										%label Postnr By
+										= f.text_field :zip_city, :autofocus => true, class: 'form-control ', placeholder: "6000 Sønderborg"
+										= f.error :zip_city
+
+									.form-group
+										%label Email adresse
+										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
+										= f.error :email
+
+									.form-group
+										%label Kommentar
+										= f.text_area :body, :autofocus => true, class: 'form-control ', placeholder: "skriv din kommentar her"
+										= f.error :body
+
+								.form-actions
+									%button.new_message.form-control.btn.btn-success{ type: 'submit' }  Hør hvad jeg siger!
+								/
+								/
+								/
+								/ .form-group
+								/ 	%label Navn
+								/ 	%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
+								/ .form-group
+								/ 	%label Adresse
+								/ 	%input.form-control{ type: "text", placeholder: "Pladsen 2" }
+								/ .form-group
+								/ 	%label Postnr By
+								/ 	%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
+								/ .form-group
+								/ 	%label Email adresse
+								/ 	%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
+								/ .form-group
+								/ 	%label Kommentar
+								/ 	%textarea.form-control{ type: "text", placeholder: "Skriv din kommentar...", style: "height: 150px" }
+								/ .form-group
+								/ 	%button.form-control.btn.btn-warning{ type: 'submit' } Hør hvad jeg siger!
+								/
 							%p
-								%small - og vi siger tak med en tegning af lejrens maskot - Halgrimm den Grusomme
+								%small Du kan forvente at vi kontakter dig, hvis vi vil have uddybet, eller på anden måde har behov for at følge op på det.
 
 							/ .span4.offset1
 							/ 	.screen-wrapper-custom
@@ -239,15 +268,21 @@
 							.span3.offset1
 								%h6 Hvad bruger vi din kommentar til?
 								%p
-									For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
-									hvis der er noget i din kommentar, som vi gerne vil have uddybet.
-								%p 
-									For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre -
-									puttet i en spejdergryde, og så bliver der trukket lod om en gratis lejr!
-
+									For det første er det vigtigt at du skriver navn og emailadresse på 
+									\- så vi kan komme i kontakt med dig hvis der er noget i din kommentar, som vi gerne vil have uddybet.
 								%p
-									For det tredje får du et ark med lejrens maskot Halgrimm hin Halvsløje, tegnet og signeret af tegneren Peter Madsen - og den skal vi
-									kende din adresse for at kunne sende til dig
+									For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre.
+									/
+									/
+									/ For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
+									/ hvis der er noget i din kommentar, som vi gerne vil have uddybet.
+								/ %p
+								/ 	For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre -
+								/ 	puttet i en spejdergryde, og så bliver der trukket lod om en gratis lejr!
+								/
+								/ %p
+								/ 	For det tredje får du et ark med lejrens maskot Halgrimm hin Halvsløje, tegnet og signeret af tegneren Peter Madsen - og den skal vi
+								/ 	kende din adresse for at kunne sende til dig
 
 		/ footer-3
 		%footer.footer-3
@@ -271,6 +306,52 @@
 			userSignIn = () ->
 				$('.user_sign_in').on 'click', (event) ->
 					window.location.href = '/users/sign_in'
+					
+			newMessage = () ->
+				request = null
+				$('button.new-message').on 'click', (event) =>
+					# abort any pending request
+					event.preventDefault()
+					if request
+						request.abort()
+						
+					# setup some local variables
+					$form = $('#new-message')
+					# let's select and cache all the fields
+					$inputs = $form.find "input, select, button, textarea"
+					
+					# serialize the data in the form
+					serializedData = $form.serialize()
+					
+					# let's disable the inputs for the duration of the ajax request
+					# Note: we disable elements AFTER the form data has been serialized.
+					# Disabled form elements will not be serialized.
+					$inputs.prop("disabled", true)
+					
+					# fire off the request to /form.php
+					request = $.ajax
+						url: '/messages.js',
+						type: "post",
+						data: serializedData
+							
+					# callback handler that will be called on success
+					request.done (response, textStatus, jqXHR) ->
+						# log a message to the console
+						swal "Tak!", "Vi har modtaget din besked - og sendt dig en kopi pr email :)", 'success'
+					
+					# callback handler that will be called on failure
+					request.fail (jqXHR, textStatus, errorThrown) ->
+						# log the error to the console
+						swal "ØV!", "Noget er gået galt \n Fejlen: " + textStatus + ' ' + errorThrown, 'error'
+						
+					# callback handler that will be called regardless
+					# if the request failed or succeeded
+					request.always () ->
+						#reenable the inputs
+						$inputs.prop "disabled", false
+					
+					# prevent default posting of form
+					event.preventDefault()
 					
 			jobberRegistration = () ->
 				request = null
@@ -320,6 +401,7 @@
 
 			$(document).on 'ready page:load', -> 
 				pageOnLoad()
+				newMessage()
 				jobberRegistration()
 				userSignIn()
 				msg = $('#flash_notice').html()

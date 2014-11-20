@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @message.title
+%p
+  %b Name:
+  = @message.name
+%p
+  %b Street:
+  = @message.street
+%p
+  %b Zip city:
+  = @message.zip_city
+%p
+  %b Email:
+  = @message.email
+%p
+  %b Msg from:
+  = @message.msg_from
+%p
+  %b Msg to:
+  = @message.msg_to
+%p
+  %b Body:
+  = @message.body
+
+= link_to 'Edit', edit_message_path(@message)
+\|
+= link_to 'Back', messages_path

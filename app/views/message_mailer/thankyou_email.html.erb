@@ -1,11 +1,11 @@
 <%-
-@name=@jobber.name
-@street=@jobber.street
-@zip_city=@jobber.zip_city
-@email=@jobber.email
-@phone_number=@jobber.phone_number
-@id="%05d" % @jobber.id
-@created_at=@jobber.created_at.strftime '%d/%m/%Y'
+@name=@message.name
+@street=@message.street
+@zip_city=@message.zip_city
+@email=@message.email
+@body=@message.body
+@id="%05d" % @message.id
+@created_at=@message.created_at.strftime '%d/%m/%Y'
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -190,27 +190,17 @@
                         <td>
                           <h1>Kære <%= @name %></h1>
                           <br/>
-                          <h2>For at bekræfte din interesse for at være jobber på SL2017, vil vi gerne om du trykker på knappen 'bekræft' lige her nedenfor:</h2>
+                          <h2>Tak for din kommentar!</h2>
                           <br>
+													<p>Vi er meget glade for din tilbagemelding og du kan være sikker på at vi læser alle! 
+													</p>
+													<p>
+														Det er den bedste måde at lære af sine fejl på - ved at lade andre få lov at kommentere dem. Tak fordi du hjælper os med det!
+													</p>
                         </td>
                       </tr>
                     </table>
 
-                    <table cellspacing="0" cellpadding="0" width="100%">
-                    <tr>
-                    <td class="hide reveal">
-                      &nbsp;
-                    </td>
-                      <td style="width:150px; height:33px; background-color: #0f9d58;" >
-                        <div>
-													<%= link_to 'Bekræft', confirmation_jobber_url(@jobber, confirmed_token: @jobber.confirmed_token), style: "background-color:#0f9d58;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;" %>
-												</div>
-                      </td>
-                      <td>
-                        &nbsp;
-                      </td>
-                    </tr>
-                  </table>
                   </td>
                 </tr>
               </table>
@@ -236,6 +226,8 @@
                     <table class="force-full-width" cellspacing="0" cellpadding="0">
                       <tr>
                         <td style="text-align: left;">
+													Du skrev:
+													<br />
                           <span class="important-font">
                             <%= @name %> <br>
                           </span>
@@ -245,9 +237,6 @@
 													<smal>tlfnr: </span><%= @phone_number %><br/>
                         </td>
                         <td style="text-align: right; vertical-align:top;">
-                          <span class="important-font">
-                            Jobber nr: <%= @id %><br>
-                          </span>
                           Dato: <%= @created_at %>
 
                         </td>
@@ -266,21 +255,12 @@
                             <table cellspacing="0" cellpadding="0" class="force-full-width">
                               <tr>
                                 <td class="mobile-border" style="background-color: #555555; color: #ffffff; padding: 5px; border-right: 3px solid #ffffff; text-align:left;">
-                                  Hvad sker der så herefter?
+                                  Din kommentar lød:
                                 </td>
                               </tr>
                               <tr>
                                 <td  style="background-color: #ebebeb; padding: 8px; border-top: 3px solid #ffffff; text-align:left;">
-																	Vi arbejder på højtryk for at skabe en god modtagelse af alle interesserede, og vi forventer at være klar i løbet af februar 2015.
-																	Din henvendelse er noteret, og du bliver kontaktet så snart, vi har nyt om mulighederne for jobbere på SL2017.
-																	<p>
-                                  	Husk at bekræfte din tilmelding (så vi er sikre på at det ikke er en af dine venner, der 'leger' med din email adresse)!
-																	</p>
-                                  <!-- bliver du kontaktet. Der kan gå op til 14 dage afhængigt af hvor travlt vi har med at interview'e jobbere.
-                                  <p>
-                                  Det er ikke noget farligt avanceret interview, blot en kort snak, hvor vi sammen skal finde ud af, hvad du har lyst til at hjælpe med på Spejdernes Lejr 2017.
-                                  <p>
-                                  Når det er på plads, modtager du et referat af interview'et - på email - og i den email vil der også være en handleplan, så du kan se, hvad der videre skal ske. -->
+																	<%= @body %>
                                 </td>
                               </tr>
                             </table>
@@ -303,7 +283,7 @@
                     <tr>
                       <td class="mobile-padding" style="text-align:left;">
                       <br>
-                        Endnu en gang tak for din interesse!
+                        Endnu en gang tak for din kommentar!
 												<!-- Når  dage før vi kontakter dig, så er du altid velkommen til at   <a style="color: #0f9d58;" href="#">kontakte os</a>! -->
                       <br>
                       <br>
