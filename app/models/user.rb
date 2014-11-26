@@ -19,8 +19,16 @@ class User < ActiveRecord::Base
     self.role ||= :user
   end
   
+  def has_role? r
+    good_roles.keys.include? r.to_s
+  end
+  
   def good_roles
-    User.roles.keys.map {|r| ([r.titleize,r] if User.roles[role] >= User.roles[r]) }
+    User.roles.to_hash.select{ |k,v| v <= User.roles[role] }
+  end
+  
+  def select_roles
+    good_roles.keys.map {|r| [r.titleize,r] }
   end
 
   # Include default devise modules. Others available are:

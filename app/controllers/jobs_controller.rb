@@ -1,10 +1,13 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: :create
+  after_action :verify_authorized
 
   # GET /jobs
   # GET /jobs.json
   def index
     @jobs = Job.all
+    authorize Job
   end
 
   # GET /jobs/1
@@ -15,6 +18,7 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     @job = Job.new
+    authorize @job
   end
 
   # GET /jobs/1/edit
@@ -25,6 +29,7 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
+    authorize @job
 
     respond_to do |format|
       if @job.save
@@ -65,6 +70,7 @@ class JobsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_job
       @job = Job.find(params[:id])
+      authorize @job
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

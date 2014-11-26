@@ -120,7 +120,9 @@
 									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
 
 							%p
-								%small - så kan du regne med at vi kontakter dig indenfor de næste 2 uger, for at finde netop det job, du er som skabt til
+								%small Du kan forvente at vi kontakter dig så snart, vi har nyt om mulighederne for jobbere på SL2017.
+								%br
+								%small - vi forventer at være klar i løbet af februar 2015.
 
 						.col-sm-3
 							.span3.offset1
@@ -205,9 +207,9 @@
 								Det allermeste blev godt - meget blev rigtig godt; og så var der måske lige det, som du bed mærke i, som kunne have været
 								åhh, så meget bedre!
 						.col-sm-6
-							= simple_form_for(@message, id: "new-message") do |f|
+							= simple_form_for(@message, id: "new_message") do |f|
 								= f.error_notification
-
+								
 								.form-inputs
 									.form-group
 										%label Navn
@@ -309,14 +311,14 @@
 					
 			newMessage = () ->
 				request = null
-				$('button.new-message').on 'click', (event) =>
+				$('button.new_message').on 'click', (event) =>
 					# abort any pending request
 					event.preventDefault()
 					if request
 						request.abort()
 						
 					# setup some local variables
-					$form = $('#new-message')
+					$form = $('#new_message')
 					# let's select and cache all the fields
 					$inputs = $form.find "input, select, button, textarea"
 					
@@ -342,7 +344,7 @@
 					# callback handler that will be called on failure
 					request.fail (jqXHR, textStatus, errorThrown) ->
 						# log the error to the console
-						swal "ØV!", "Noget er gået galt \n Fejlen: " + textStatus + ' ' + errorThrown, 'error'
+						swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
 						
 					# callback handler that will be called regardless
 					# if the request failed or succeeded

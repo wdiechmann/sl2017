@@ -21,6 +21,9 @@
 
 da:
   hello: "hej Verden"
+  access_denied: "Adgang nægtet!"
+  no_sufficient_permissions: "Du har ikke rettigheder til at gøre det, du har til hensigt! Er det en fejl, eller har du brug for adgang - kontakt venligst en systemansvarlig, og giv ham denne besked: <strong>adgang til %{url} mangler! </strong>"
+  should_be_logged_in: "Du skal være logget på for at kunne gøre noget her!"
   home: "SL2017"
   admin: "Administration"
   edit: "Ret"

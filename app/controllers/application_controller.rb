@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   private
 
     def user_not_authorized
-     flash[:error] = "You are not authorized to perform this action."
+     flash[:error] = I18n.translate(:no_sufficient_permissions, url: request.url + "#" + params[:action])
      redirect_to(request.referrer || root_path)
     end
    

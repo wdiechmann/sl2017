@@ -3,7 +3,7 @@
 </td>
 <td>
   <%= form_for(user) do |f| %>
-    <%= f.select(:role, current_user.good_roles) %>
+    <%= f.select(:role, current_user.select_roles) %>
     <%= f.submit 'Change Role', :class => 'button-xs' %>
   <% end %>
 </td>

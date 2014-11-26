@@ -1,10 +1,13 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: :create
+  after_action :verify_authorized
 
   # GET /messages
   # GET /messages.json
   def index
     @messages = Message.all
+    authorize Message
   end
 
   # GET /messages/1
@@ -15,6 +18,7 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
+    authorize @message
   end
 
   # GET /messages/1/edit
@@ -25,7 +29,8 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(message_params)
-
+    authorize @message
+    
     respond_to do |format|
       if @message.save
         MessageMailer.thankyou_email(@message,current_user).deliver
@@ -34,7 +39,7 @@ class MessagesController < ApplicationController
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
-        format.js { head 404 }
+        format.js { render json: @message.errors, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
@@ -82,6 +87,7 @@ class MessagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
+      authorize @message
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

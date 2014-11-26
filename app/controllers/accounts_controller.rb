@@ -1,10 +1,13 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: :create
+  after_action :verify_authorized
 
   # GET /accounts
   # GET /accounts.json
   def index
     @accounts = Account.all
+    authorize Account
   end
 
   # GET /accounts/1
@@ -15,6 +18,7 @@ class AccountsController < ApplicationController
   # GET /accounts/new
   def new
     @account = Account.new
+    authorize @account
   end
 
   # GET /accounts/1/edit
@@ -25,6 +29,7 @@ class AccountsController < ApplicationController
   # POST /accounts.json
   def create
     @account = Account.new(account_params)
+    authorize @account
 
     respond_to do |format|
       if @account.save
@@ -65,6 +70,7 @@ class AccountsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_account
       @account = Account.find(params[:id])
+      authorize @account
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

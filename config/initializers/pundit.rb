@@ -13,7 +13,7 @@ module PunditHelper
   private
 
   def user_not_authorized
-    flash[:alert] = "Access denied."
+    flash[:alert] = I18n.translate(:access_denied)
     redirect_to (request.referrer || root_path)
   end
 

@@ -1,10 +1,14 @@
 class JobbersController < ApplicationController
   before_action :set_jobber, only: [:show, :edit, :update, :destroy, :confirmation]
+  before_filter :authenticate_user!, except: :create
+  after_action :verify_authorized
+
 
   # GET /jobbers
   # GET /jobbers.json
   def index
     @jobbers = Jobber.all
+    authorize Jobber
   end
   
   def confirmation
@@ -22,6 +26,7 @@ class JobbersController < ApplicationController
   # GET /jobbers/new
   def new
     @jobber = Jobber.new
+    authorize @jobber
   end
 
   # GET /jobbers/1/edit
@@ -32,6 +37,7 @@ class JobbersController < ApplicationController
   # POST /jobbers.json
   def create
     @jobber = Jobber.new(jobber_params)
+    authorize @jobber
     @jobber.confirmed_token = Devise.friendly_token
     # raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)
     # @raw_confirmation_token   = raw
@@ -81,6 +87,7 @@ class JobbersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_jobber
       @jobber = Jobber.find(params[:id])
+      authorize @jobber
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
