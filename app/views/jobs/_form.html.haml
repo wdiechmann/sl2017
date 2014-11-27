@@ -26,6 +26,30 @@
 		= f.error :schedule
 
 	.form-group
+		= f.number_field :priority, :autofocus => true, class: 'form-control floating-label', placeholder: 'Prioritet'
+		= f.error :priority
+
+	.form-group
+		= f.number_field :jobbers_min, :autofocus => true, class: 'form-control floating-label', placeholder: 'Mindste antal jobbere'
+		= f.error :jobbers_min
+
+	.form-group
+		= f.number_field :jobbers_wanted, :autofocus => true, class: 'form-control floating-label', placeholder: 'Ønsket antal jobbere'
+		= f.error :jobbers_wanted
+
+	.form-group
+		= f.number_field :jobbers_max, :autofocus => true, class: 'form-control floating-label', placeholder: 'Maksimalt antal jobbere', hint: 'Opgaven kan ikke løses med flere jobbere'
+		= f.error :jobbers_max
+
+	/ .form-group
+	/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
+	/ 	= f.error :vacancies
+	/ .form-group
+	/ 	= f.date_field :delegated_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Delegeret den'
+	/ 	= f.error :description
+	/
+
+	.form-group
 		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
 		= f.error :description
 

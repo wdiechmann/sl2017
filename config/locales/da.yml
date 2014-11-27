@@ -29,6 +29,12 @@ da:
   edit: "Ret"
   back: "Oversigt"
   delete: "Slet"
+  
+  jobs:
+    navigation:
+      adding_a_jobber:  "Tilføj et nyt job"
+  
+  
   activerecord:
     errors:
       models:

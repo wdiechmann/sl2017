@@ -1,4 +1,6 @@
-
+:css
+	input.date.empty~.floating-label { padding-left: 125px;}
+	
 %h3
 	- if @jobber.new_record?
 		Opret en ny jobber
@@ -28,6 +30,22 @@
 	.form-group
 		= f.text_field :email, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.email')
 		= f.error :email
+
+	.form-group
+		= f.number_field :jobbers_controlled, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.jobbers_controlled')
+		= f.error :jobbers_controlled
+
+	.form-group
+		= f.date_field :jobber_assigned, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.jobber_assigned')
+		= f.error :jobber_assigned
+
+	.form-group
+		= f.date_field :next_contact_at, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.next_contact_at')
+		= f.error :next_contact_at
+
+	.form-group
+		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.description')
+		= f.error :description
 
 	.form-actions
 		= f.button :submit

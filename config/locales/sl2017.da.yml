@@ -71,6 +71,10 @@ da:
       zip_city: "Postnr By"
       phone_number: "Telefon nummer"
       email: "Email adresse"
+      jobber_assigned:  "Hvornår er jobberen anvist arbejde"
+      jobbers_controlled: "Hvormange jobbere kontrollerer jobberen"
+      next_contact_at: "Hvornår skal jobberen kontaktes næste gang"
+      description: "Kommentarer i forbindelse med jobanvisning/interview af jobberen"
 
     
   punch_clocks:

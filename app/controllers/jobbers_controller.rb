@@ -93,6 +93,6 @@ class JobbersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # "name"=>"navn", "street"=>"adresse", "zip_city"=>"postnr by", "phone_number"=>"12345678", "email"=>"e@a.dk
     def jobber_params
-      params.require(:jobber).permit(:name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at)
+      params.require(:jobber).permit(:name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at, :jobber_assigned, :next_contact_at, :description, :jobbers_controlled)
     end
 end
