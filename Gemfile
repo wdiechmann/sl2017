@@ -24,8 +24,8 @@ gem 'dotenv-rails'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
-  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-  #gem 'bcrypt-ruby', :require => 'bcrypt', platforms: [:mingw, :mswin, :x64_mingw]
+  gem 'tzinfo-data'
+  gem 'bcrypt-ruby', :require => 'bcrypt'
   gem 'capistrano', '~> 3.1.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
