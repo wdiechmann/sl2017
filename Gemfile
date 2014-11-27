@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
+ruby '2.1.5'
 gem 'rails', '4.1.5'
 gem 'rails-i18n', '~> 4.0.0'
 gem 'roadie-rails'
@@ -16,7 +16,7 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'haml-rails'
 gem 'mysql2'
-gem 'unicorn' # gem "puma"
+#gem "puma"
 gem 'pundit'
 gem 'simple_form'
 gem 'upmin-admin'
@@ -24,6 +24,8 @@ gem 'dotenv-rails'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
+  gem 'tzinfo-data'
+  gem 'bcrypt-ruby', :require => 'bcrypt'
   gem 'capistrano', '~> 3.1.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
