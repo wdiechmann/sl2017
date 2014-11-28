@@ -32,9 +32,8 @@ da:
   
   jobs:
     navigation:
-      adding_a_jobber:  "Tilføj et nyt job"
-  
-  
+      adding_a_job:  "Tilføj et nyt job"
+      
   activerecord:
     errors:
       models:

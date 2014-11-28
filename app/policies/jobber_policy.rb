@@ -10,5 +10,8 @@ class JobberPolicy < ApplicationPolicy
     true
   end
 
+  def confirmation?
+    true
+  end
 
 end

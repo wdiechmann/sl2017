@@ -36,7 +36,9 @@
 				.collapse.navbar-collapse.navbar-ex1-collapse
 					%ul.nav.navbar-nav.navbar-right
 						%li{class: "#{'active' if current=='jobber'}"}
-							%a.sect{:href => "#", :"data-section" => "jobber" } Jobber
+							%a.sect{:href => "#", :"data-section" => "jobber" } Bliv Jobber
+						%li{class: "#{'active' if current=='jobber'}"}
+							%a.sect{:href => "#", :"data-section" => "jobs" } Aktuelle jobs
 						- if user_signed_in?
 							%li
 								= link_to "Jobbere", jobbers_url
@@ -65,6 +67,7 @@
 		
 		/ jobber intro
 		%section#jobber.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+			%a{ name: "jobform"}
 			%div
 				.container
 					%h3 
@@ -140,6 +143,68 @@
 								%p fordi vi gerne vil kunne ringe til dig, hvis vi har brug for nogle ekstra oplysninger
 								%h5 Din email adresse
 								%p fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren
+
+		/ vacancies
+		%section#jobs.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+			%div
+				.container
+					%h3 
+						Aktuelle 
+						%strong jobs
+						på Spejdernes Lejr 2017
+					.row.v-center
+						.col-sm-3
+							%h6 Hvad er et job?
+							%p
+								Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange,
+								bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.
+							%h6 Hvad er der brug for?
+							%p
+								Her til højre kan du se de #{Job.all.vacancies.count} jobs
+								som vi mangler hænder til allerede nu!
+						.col-sm-6
+							:css
+								.job-wrapper {
+									width: 45%;
+									margin: 5px;
+									float: left;
+								}
+								.job-section {
+									border-radius: 3px;
+									padding: 3px;
+									background-color: #EDF6EE;
+								}
+								.job-title {
+									font-size: 10px;
+								}
+								.job-description {
+									font-size: 9px;
+								}
+								.job-location { font-size: 8px;}
+								.job-schedule { font-size: 8px;}
+							%div{ style: "clear: both"}
+								- Job.all.vacancies.each do |job|
+									.job-wrapper
+										.job-section
+											.job-title
+												%b= job.name
+											.job-description= job.description
+											.job-location
+												%b hvor
+												= job.location
+											.job-schedule 
+												%b hvornår
+												= job.schedule
+
+						.col-sm-3
+							.span3.offset1
+								%h6 Hvad skal jeg gøre?
+								%p
+									Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,
+									eller vil du bare rigtig gerne hjælpe?
+								%p 
+									%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" } Tryk her
+
 
 		/ about the camp
 		%section.content-23.v-center.custom-bg#about{ style: "background-position: 50% 0px; width: 112%"}
@@ -273,14 +338,14 @@
 							.span3.offset1
 								%h6 Hvad bruger vi din kommentar til?
 								%p
-									For det første er det vigtigt at du skriver navn og emailadresse på 
+									Det er vigtigt at du skriver navn og emailadresse på 
 									\- så vi kan komme i kontakt med dig hvis der er noget i din kommentar, som vi gerne vil have uddybet.
-								%p
-									For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre.
-									/
-									/
-									/ For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
-									/ hvis der er noget i din kommentar, som vi gerne vil have uddybet.
+								/ %p
+								/ 	For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre.
+								/
+								/
+								/ For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
+								/ hvis der er noget i din kommentar, som vi gerne vil have uddybet.
 								/ %p
 								/ 	For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre -
 								/ 	puttet i en spejdergryde, og så bliver der trukket lod om en gratis lejr!
