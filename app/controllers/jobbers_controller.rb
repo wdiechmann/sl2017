@@ -1,6 +1,6 @@
 class JobbersController < ApplicationController
   before_action :set_jobber, only: [:show, :edit, :update, :destroy, :confirmation]
-  before_filter :authenticate_user!, except: :create
+  before_filter :authenticate_user!, except: [:create, :confirmation]
   after_action :verify_authorized
 
 

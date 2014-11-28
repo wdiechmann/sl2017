@@ -33,9 +33,15 @@
 			= @job.jobbers_max
 	.row
 		.col-md-2
+			%b Markedsfør jobbet fra den
+		.col-md-10
+			= @job.promote_job_at
+	.row
+		.col-md-2
 			%b Hvordan
 		.col-md-10
 			= @job.description
+
 	.row
 		.col-md-2
 		.col-md-10

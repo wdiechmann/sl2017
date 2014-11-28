@@ -160,8 +160,12 @@
 								bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.
 							%h6 Hvad er der brug for?
 							%p
-								Her til højre kan du se de #{Job.all.vacancies.count} jobs
-								som vi mangler hænder til allerede nu!
+								- jobcount = Job.all.vacancies(Date.today).count
+								- if jobcount < 1
+									Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!
+								- else
+									Her til højre kan du se #{jobcount==1 ? "det ene job" : (jobcount>20 ? "nogen af de #{jobcount} jobs" : "de #{jobcount} jobs")}
+									som vi mangler hænder til allerede nu!
 						.col-sm-6
 							:css
 								.job-wrapper {
@@ -183,18 +187,23 @@
 								.job-location { font-size: 8px;}
 								.job-schedule { font-size: 8px;}
 							%div{ style: "clear: both"}
-								- Job.all.vacancies.each do |job|
-									.job-wrapper
-										.job-section
-											.job-title
-												%b= job.name
-											.job-description= job.description
-											.job-location
-												%b hvor
-												= job.location
-											.job-schedule 
-												%b hvornår
-												= job.schedule
+								- if jobcount < 1
+									%p Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.
+									%p Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)
+									%p Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!
+								- else
+									- Job.all.vacancies(Date.today).limit(20).each do |job|
+										.job-wrapper
+											.job-section
+												.job-title
+													%b= job.name
+												.job-description= job.description
+												.job-location
+													%b hvor
+													= job.location
+												.job-schedule 
+													%b hvornår
+													= job.schedule
 
 						.col-sm-3
 							.span3.offset1

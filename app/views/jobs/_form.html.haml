@@ -42,6 +42,10 @@
 		= f.number_field :jobbers_max, :autofocus => true, class: 'form-control floating-label', placeholder: 'Maksimalt antal jobbere - Angiv antallet af jobbere som maksimalt kan bruges. Der er - eksempelvis - ikke plads til mere end 5 jobbere i en almindelig personvogn'
 		= f.error :jobbers_max
 
+	.form-group
+		= f.date_field :promote_job_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
+		= f.error :promote_job_at
+
 	/ .form-group
 	/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
 	/ 	= f.error :vacancies
