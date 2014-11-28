@@ -14,31 +14,32 @@
 	= f.error_notification
 
 	.form-group
-		= f.text_field :name, autofocus: true, class: 'form-control floating-label', placeholder: 'Hvad', :"data-toggle"=>"tooltip", title: "En kort beskrivelse/overskrift til hvad jobbet består i"
+		/ <a class="help" href="#" tabindex="0" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">?</a>
+		= f.text_field :name, autofocus: true, class: 'form-control floating-label', placeholder: 'Hvad - beskriv opgaven kort'
 		= f.error :name
 
 	.form-group
-		= f.text_field :location, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvor', :"data-toggle"=>"tooltip", title: "Hvor skal jobbet udføres"
+		= f.text_field :location, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvor - skal opgaven løses; fx.: iskiosken ved supermarkedet'
 		= f.error :location
 
 	.form-group
-		= f.text_field :schedule, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvornår', :"data-toggle"=>"tooltip", title: "Skriv hvornår (start og varighed) - ex.vis hver morgen kl. 6-7"
+		= f.text_field :schedule, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvornår - skriv tidspunkt og evt varighed; fx.: hver morgen 6-7'
 		= f.error :schedule
 
 	.form-group
-		= f.number_field :priority, :autofocus => true, class: 'form-control floating-label', placeholder: 'Prioritet', :"data-toggle"=>"tooltip", title: "1-5 Hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid"
+		= f.number_field :priority, :autofocus => true, class: 'form-control floating-label', placeholder: 'Prioritet - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid'
 		= f.error :priority
 
 	.form-group
-		= f.number_field :jobbers_min, :autofocus => true, class: 'form-control floating-label', placeholder: 'Mindste antal jobbere', :"data-toggle"=>"tooltip", title: "Angiv antallet af jobbere som mindst skal bruges. 1 almindelig jobber alene kan eksempelvis ikke løfte 1 kummefryser"
+		= f.number_field :jobbers_min, :autofocus => true, class: 'form-control floating-label', placeholder: 'Mindste antal jobbere - Angiv antallet af jobbere som mindst skal bruges. 1 almindelig jobber alene kan eksempelvis ikke løfte 1 kummefryser'
 		= f.error :jobbers_min
 
 	.form-group
-		= f.number_field :jobbers_wanted, :autofocus => true, class: 'form-control floating-label', placeholder: 'Ønsket antal jobbere', :"data-toggle"=>"tooltip", title: "Angiv antallet af jobbere som vil gøre det til en nem opgave for alle."
+		= f.number_field :jobbers_wanted, :autofocus => true, class: 'form-control floating-label', placeholder: 'Ønsket antal jobbere - Angiv antallet af jobbere som vil gøre det til en nem opgave for alle.'
 		= f.error :jobbers_wanted
 
 	.form-group
-		= f.number_field :jobbers_max, :autofocus => true, class: 'form-control floating-label', placeholder: 'Maksimalt antal jobbere', :"data-toggle"=>"tooltip", title: "Angiv antallet af jobbere som maksimalt kan bruges. Der er - eksempelvis - ikke plads til mere end 5 jobbere i en almindelig personvogn"
+		= f.number_field :jobbers_max, :autofocus => true, class: 'form-control floating-label', placeholder: 'Maksimalt antal jobbere - Angiv antallet af jobbere som maksimalt kan bruges. Der er - eksempelvis - ikke plads til mere end 5 jobbere i en almindelig personvogn'
 		= f.error :jobbers_max
 
 	/ .form-group
@@ -50,7 +51,7 @@
 	/
 
 	.form-group
-		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan', :"data-toggle"=>"tooltip", title: "En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv."
+		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.'
 		= f.error :description
 
 	.form-actions
@@ -58,4 +59,13 @@
 
 	:coffeescript
 		$ ->
-				$('[data-toggle="tooltip"]').tooltip()
+			# done = false
+			# $('input').on 'focus', () ->
+			# 	return if done
+			# 	$('.floating-label').each (index,elem) ->
+			# 		h = $(elem).closest('.form-group').find('a.help')[0]
+			# 		$(h).insertBefore(elem)
+			# 	done=true
+			#
+			# $('[data-toggle="popover"]').popover()
+			

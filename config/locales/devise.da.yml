@@ -1,9 +1,14 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
 da:
+  change_your_password: "Skift din adgangskode"
+  new_password: "Ny adgangskode"
+  confirm_new_password: "Gentag adgangskoden"
+  change_my_password: "Skift min adgangskode"
   devise:
     confirmations:
       confirmed: "Din email adresse er blevet bekræftet korrekt!"
+      resend_instructions: "Send bekræftelses email igen"
       send_instructions: "Du vil modtage en email med instruktioner om hvordan du bekræfter din email adresse om få minutter."
       send_paranoid_instructions: "Hvis din email adresse findes i vores database, vil du modtage en email om få minutter, med instruktioner om hvordan du bekræfter din email adresse."
     failure:
@@ -45,6 +50,7 @@ da:
       missing_confirmation_email: "Har du ikke fået den velkomst email, med link til at bekræfte din registrering? Brug knappen her for at få den email sendt igen!"
       resend_confirmation_instructions: "Send bekræftelse email igen"
       updated: "Din profil er blevet opdateret korrekt"
+      already_signed_up: "Hvis du allerede har registreret dig - brug dette link istedet!"
     sessions:
       sign_in: "Log på som bruger"
       signed_in: "Du loggede ind korrekt."

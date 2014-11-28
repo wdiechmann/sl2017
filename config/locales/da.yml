@@ -66,6 +66,7 @@ da:
       sign_up: "Registrér"
       users: "Brugere"
       forgot: "Nulstil adgangskoden"
+      resend_confirmation_instructions: "Send min bekræftelses email igen"
       
     forms:
       name: "Dit navn"

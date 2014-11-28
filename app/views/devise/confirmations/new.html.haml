@@ -14,12 +14,12 @@
 
 		.form-group
 			= t('devise.registrations.already_signed_up')
-			= link_to 'Sign in', new_session_path(resource_name), class: 'label label-info'
+			= link_to t('devise.navigation.sign_in'), new_session_path(resource_name), class: 'label label-info'
 
 
 		.form-group
 			= t('devise.registrations.not_signed_up')
-			= link_to t('devise.navigation.sign_in'), new_registration_path(resource_name), class: 'label label-info'
+			= link_to t('devise.navigation.sign_up'), new_registration_path(resource_name), class: 'label label-info'
 
 
 		- if devise_mapping.recoverable?

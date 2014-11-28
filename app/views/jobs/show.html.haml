@@ -3,34 +3,39 @@
 	%h3 Job
 	.row
 		.col-md-2
-			%b Navn
+			%b Hvad
 		.col-md-10
-			= @jobber.name
+			= @job.name
 	.row
 		.col-md-2
-			%b Gade
+			%b Hvor
 		.col-md-10
-			= @jobber.street
+			= @job.location
 	.row
 		.col-md-2
-			%b Postnr By
+			%b Hvornår
 		.col-md-10
-			= @jobber.zip_city
+			= @job.schedule
 	.row
 		.col-md-2
-			%b Tlfnr
+			%b Mindste antal jobbere
 		.col-md-10
-			= @jobber.phone_number
+			= @job.jobbers_min
 	.row
 		.col-md-2
-			%b Email
+			%b Ønsket antal jobbere
 		.col-md-10
-			= @jobber.email
+			= @job.jobbers_wanted
 	.row
 		.col-md-2
-			%b Bekræftet den
+			%b Største antal jobbere
 		.col-md-10
-			= @jobber.confirmed_at.strftime "%d/%m/%Y %H:%M" if  @jobber.confirmed_at
+			= @job.jobbers_max
+	.row
+		.col-md-2
+			%b Hvordan
+		.col-md-10
+			= @job.description
 	.row
 		.col-md-2
 		.col-md-10
@@ -40,22 +45,3 @@
 			&nbsp
 			&nbsp
 			= link_to 'Til oversigten', jobs_path, class: 'btn btn-info'
-
-%p#notice= notice
-
-%p
-  %b Name:
-  = @job.name
-%p
-  %b Location:
-  = @job.location
-%p
-  %b Schedule:
-  = @job.schedule
-%p
-  %b Description:
-  = @job.description
-
-= link_to 'Edit', edit_job_path(@job)
-\|
-= link_to 'Back', jobs_path
