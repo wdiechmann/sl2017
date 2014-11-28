@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :employees
   belongs_to :account
   
-  validates :name, presence: true
+  validates :name, presence: true, :if => :new_record?
 
   def create_account
     if self.account.nil?

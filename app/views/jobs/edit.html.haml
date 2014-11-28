@@ -1,7 +1,4 @@
-%h1 Editing job
-
 = render 'form'
-
-= link_to 'Show', @job
-\|
-= link_to 'Back', jobs_path
+%hr
+= link_to 'Vis', @job, class: 'btn btn-primary'
+= link_to 'Til oversigten', jobs_path, class: 'btn btn-info'

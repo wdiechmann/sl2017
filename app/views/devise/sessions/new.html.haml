@@ -23,6 +23,12 @@
 
 
 		= f.submit t('devise.forms.sign_in'), class: 'btn btn-primary'
+		
+
+		- if devise_mapping.confirmable?
+			.form-group
+				= t('devise.registrations.missing_confirmation_email')
+				= link_to t('devise.navigation.resend_confirmation_instructions'), new_confirmation_path(resource_name), class: 'label label-info'
 
 		- if devise_mapping.registerable?
 			.form-group

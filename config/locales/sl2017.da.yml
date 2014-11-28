@@ -59,6 +59,11 @@ da:
 
   message_mailer:
     thankyou: "Mange tak for din kommentar/besked!"
+
+  jobs:
+    navigation:
+      adding_a_jobber: "Tilføj et job"
+      editing_a_job: "Ret et job"
       
   jobbers:
     navigation:

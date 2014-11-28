@@ -1,3 +1,46 @@
+.container
+
+	%h3 Job
+	.row
+		.col-md-2
+			%b Navn
+		.col-md-10
+			= @jobber.name
+	.row
+		.col-md-2
+			%b Gade
+		.col-md-10
+			= @jobber.street
+	.row
+		.col-md-2
+			%b Postnr By
+		.col-md-10
+			= @jobber.zip_city
+	.row
+		.col-md-2
+			%b Tlfnr
+		.col-md-10
+			= @jobber.phone_number
+	.row
+		.col-md-2
+			%b Email
+		.col-md-10
+			= @jobber.email
+	.row
+		.col-md-2
+			%b Bekræftet den
+		.col-md-10
+			= @jobber.confirmed_at.strftime "%d/%m/%Y %H:%M" if  @jobber.confirmed_at
+	.row
+		.col-md-2
+		.col-md-10
+	.row
+		.col-md-12
+			= link_to 'Redigér', edit_job_path(@job), class: 'btn btn-success'
+			&nbsp
+			&nbsp
+			= link_to 'Til oversigten', jobs_path, class: 'btn btn-info'
+
 %p#notice= notice
 
 %p
