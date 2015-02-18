@@ -21,6 +21,13 @@
  *= require 'icon-font.css'
  *= require 'framework_and_overrides.css.scss'
  *= require 'scaffolds.css.scss'
+ *= require 'masonry/basic'
+ *= require 'masonry/centered'
+ *= require 'masonry/fluid'
+ *= require 'masonry/gutters'
+ *= require 'masonry/infinitescroll'
+ *= require 'masonry/right-to-left'
+ *= require 'masonry/transitions'
  *= require_self
  */
 

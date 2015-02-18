@@ -20,6 +20,7 @@ gem 'pundit'
 gem 'simple_form'
 gem 'upmin-admin'
 gem 'dotenv-rails'
+gem 'masonry-rails'
 group :production do
   gem "unicorn"
 end
@@ -37,7 +38,7 @@ group :development do
   # gem 'capistrano-puma', require: false
   #
   # see implementation here: https://github.com/capistrano/maintenance
-  gem 'capistrano-maintenance', github: "capistrano/maintenance", require: false 
+  gem 'capistrano-maintenance', github: "capistrano/maintenance", require: false
   #
   gem 'html2haml'
   gem 'hub', :require=>nil

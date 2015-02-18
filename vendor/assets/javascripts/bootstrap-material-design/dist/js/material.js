@@ -12,14 +12,14 @@ function rippleAway(){
                     ".nav-tabs a:not(.withoutripple)," +
                     ".withripple" );
   }
-  
+
   var empty = function(fld) {
     try {
       data = $(fld).val();
-    } catch(exception){ 
+    } catch(exception){
       return true;
     }
-    
+    if( $(fld)[0].type == 'date' ) { return false}
     if(typeof(data) == 'number' || typeof(data) == 'boolean') { return false }
     if(typeof(data) == 'undefined' || data === null) { return true }
     if(typeof(data.length) != 'undefined') { return data.length == 0 }
@@ -111,10 +111,9 @@ function rippleAway(){
       }
       $(this).prev().val(value);
   });
-  
+
 }
 
 $(document).on('ready page:load', function(){
   rippleAway();
-}); 
-
+});

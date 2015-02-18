@@ -10,7 +10,7 @@ class JobbersController < ApplicationController
     @jobbers = Jobber.all
     authorize Jobber
   end
-  
+
   def confirmation
     notice = @jobber.confirmed?(params) ?  'Din tilmelding er nu bekræftet - og vi vil kontakte dig hurtigst muligt' : 'Din tilmelding er ikke bekræftet'
     respond_to do |format|
@@ -37,6 +37,7 @@ class JobbersController < ApplicationController
   # POST /jobbers.json
   def create
     @jobber = Jobber.new(jobber_params)
+    binding.pry
     authorize @jobber
     @jobber.confirmed_token = Devise.friendly_token
     # raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)
@@ -93,6 +94,6 @@ class JobbersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # "name"=>"navn", "street"=>"adresse", "zip_city"=>"postnr by", "phone_number"=>"12345678", "email"=>"e@a.dk
     def jobber_params
-      params.require(:jobber).permit(:name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at, :jobber_assigned, :next_contact_at, :description, :jobbers_controlled)
+      params.require(:jobber).permit(:job_name, :job_id, :name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at, :jobber_assigned, :next_contact_at, :description, :jobbers_controlled)
     end
 end

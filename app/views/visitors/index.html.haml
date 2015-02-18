@@ -19,7 +19,65 @@
 			form .form-control { height: 50px;}
 			.navbar-collapse ul.nav li a { border: 0px;}
 			.scroll-btn a { background-color: transparent;}
-	
+			.job-wrapper {
+				width: 45%;
+				margin: 5px;
+				float: left;
+			}
+			.job-section {
+				border-radius: 3px;
+				padding: 3px;
+				background-color: #EDF6EE;
+			}
+			.job-title {
+				font-size: 10px;
+			}
+			.job-description {
+				font-size: 9px;
+			}
+			.job-location { font-size: 8px;}
+			.job-schedule { font-size: 8px;}
+			#masonry-container {
+				background: #FFF;
+				padding: 5px;
+				margin-bottom: 20px;
+				border-radius: 5px;
+				clear: both;
+				-webkit-border-radius: 5px;
+					-moz-border-radius: 5px;
+								border-radius: 5px;
+			}
+
+			.clearfix:before, .clearfix:after { content: ""; display: table; }
+			.clearfix:after { clear: both; }
+			.clearfix { zoom: 1; }
+
+			.col1 { width: 80px; }
+			.col2 { width: 180px; }
+			.col3 { width: 280px; }
+			.col3 { width: 240px; }
+			.col4 { width: 380px; }
+			.col5 { width: 480px; }
+
+			.col1 img { max-width: 80px; }
+			.col2 img { max-width: 180px; }
+			.col3 img { max-width: 280px; }
+			.col4 img { max-width: 380px; }
+			.col5 img { max-width: 480px; }
+
+			.box {
+				text-align: left
+			}
+
+			.green-box {
+				color: white;
+				background-color: green;
+				font-size: 1.2em;
+				text-align: left;
+				padding: 10px;
+			}
+
+
 	%body
 		%nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation", style: "background-color: #2a1d32"}
 			.container
@@ -30,7 +88,7 @@
 						%span.icon-bar
 						%span.icon-bar
 					/ You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it)
-					%a.navbar-brand{:href => "/"} 
+					%a.navbar-brand{:href => "/"}
 						SL2017
 				/ Collect the nav links, forms, and other content for toggling
 				.collapse.navbar-collapse.navbar-ex1-collapse
@@ -64,14 +122,14 @@
 				%a{href:"#"}
 					%span.mouse
 						%span
-		
+
 		/ jobber intro
 		%section#jobber.content-7.v-center.ani-processed{ style: "opacity: 1;"}
 			%a{ name: "jobform"}
 			%div
 				.container
-					%h3 
-						Meld dig som 
+					%h3
+						Meld dig som
 						%strong jobber
 						på Spejdernes Lejr 2017
 					.row.v-center
@@ -88,12 +146,17 @@
 								Masser af godt humør, viljen til at ville og evnen til at bære over når det hele ikke spiller max!
 						.col-sm-6
 							%img{src: asset_url("jobbere.jpg")}
-							= simple_form_for(@jobber, id: "jobber-registration") do |f|
+							= simple_form_for(@jobber) do |f|
 								= f.error_notification
 
 
 
 								.form-inputs
+									.form-group.jobber_job_group{ style: 'display: none'}
+										%label Job
+										= f.hidden_field :job_id
+										= f.text_field :job_name, :autofocus => true, class: 'form-control '
+
 									.form-group
 										%label Navn
 										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
@@ -119,7 +182,7 @@
 										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
 										= f.error :email
 
-		
+
 								.form-actions
 									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
 
@@ -134,7 +197,7 @@
 								%p
 									Vi prøver at nøjes med at spørge om de oplysninger, vi skal bruge
 								%h5 Dit navn
-								%p fordi det er rart at kunne kalde folk ved navn, 
+								%p fordi det er rart at kunne kalde folk ved navn,
 								%h5 Din adresse, postnr og by
 								/%p fordi vi efter lejren gerne vil sende dig et kompetence bevis,
 								%p fordi det er rart at vide hvor du bor, hvis der er to som har det samme navn
@@ -146,73 +209,71 @@
 
 		/ vacancies
 		%section#jobs.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+			- jobcount = Job.all.vacancies(Date.today).count
+
 			%div
 				.container
-					%h3 
-						Aktuelle 
-						%strong jobs
-						på Spejdernes Lejr 2017
-					.row.v-center
-						.col-sm-3
-							%h6 Hvad er et job?
-							%p
-								Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange,
-								bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.
-							%h6 Hvad er der brug for?
-							%p
-								- jobcount = Job.all.vacancies(Date.today).count
-								- if jobcount < 1
-									Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!
-								- else
-									Her til højre kan du se #{jobcount==1 ? "det ene job" : (jobcount>20 ? "nogen af de #{jobcount} jobs" : "de #{jobcount} jobs")}
-									som vi mangler hænder til allerede nu!
-						.col-sm-6
-							:css
-								.job-wrapper {
-									width: 45%;
-									margin: 5px;
-									float: left;
-								}
-								.job-section {
-									border-radius: 3px;
-									padding: 3px;
-									background-color: #EDF6EE;
-								}
-								.job-title {
-									font-size: 10px;
-								}
-								.job-description {
-									font-size: 9px;
-								}
-								.job-location { font-size: 8px;}
-								.job-schedule { font-size: 8px;}
-							%div{ style: "clear: both"}
-								- if jobcount < 1
-									%p Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.
-									%p Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)
-									%p Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!
-								- else
-									- Job.all.vacancies(Date.today).limit(20).each do |job|
-										.job-wrapper
-											.job-section
-												.job-title
-													%b= job.name
-												.job-description= job.description
-												.job-location
-													%b hvor
-													= job.location
-												.job-schedule 
-													%b hvornår
-													= job.schedule
+					.col12
+						%h3
+							Aktuelle
+							%strong jobs
+							på Spejdernes Lejr 2017
+					.col12
+						- if jobcount < 1
+							%h4 Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!
+						- else
+							%h4
+								Her nedenfor kan du se #{jobcount==1 ? "det ene job" : (jobcount>20 ? "nogen af de #{jobcount} jobs" : "de #{jobcount} jobs")}
+								som vi mangler hænder til allerede nu!
 
-						.col-sm-3
-							.span3.offset1
-								%h6 Hvad skal jeg gøre?
-								%p
-									Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,
-									eller vil du bare rigtig gerne hjælpe?
-								%p 
-									%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" } Tryk her
+					.col12
+
+						/ .job-listings{ style: "clear: both"}
+						#masonry-container.job-listings.transitions-enabled.infinite-scroll.clearfix
+
+							.job-wrapper
+								.job-section.col3.box.stamp
+									.job-title
+										%b Hvad er et job?
+									.job-description
+										Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange,
+										bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.
+
+
+							.job-wrapper
+								.job-section.col3.box.stamp
+									.job-title
+										Hvad skal jeg gøre?
+									.job-description
+										%p
+											Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,
+											eller vil du bare rigtig gerne hjælpe?
+										%p
+											%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" } Tryk her
+
+							- if jobcount < 1
+								.job-wrapper
+									.job-section.col5.box.stamp.green-box
+										%p Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.
+										%p Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)
+										%p Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!
+							- else
+								- Job.all.vacancies(Date.today).limit(20).each do |job|
+									.job-wrapper
+										.job-section.col3.box
+											.job-title
+												%b= job.name
+											.job-description
+												= job.description
+											.job-location
+												%b hvor
+												= job.location
+											.job-schedule
+												%b hvornår
+												= job.schedule
+											%p
+												%a.btn.job-btn.btn-success{:href => "#jobform", :"data-job-name" => "#{job.name}", :"data-job-id" => "#{job.id}", :"data-section" => "jobber", style: "color: white" }= get_random_label
+
 
 
 		/ about the camp
@@ -223,8 +284,8 @@
 						%h1 Spejdernes Lejr 2017 - hvad er det?
 			%a.control-btn{ href: "#"}
 				%span.glyphicon.glyphicon-chevron-down
-		
-		/ 
+
+		/
 		%section.content-23.v-center#about_2{ style: "background-position: 50% 0px; width: 112%"}
 			%div
 				.container
@@ -258,110 +319,11 @@
 								Lejren bliver afholdt fra den 22.-30. juli.
 						.col-sm-4
 							%p
-								I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr. 
+								I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr.
 								Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet.
 					.row
 						.col-sm-4{style: "height:400px"}
 
-		
-		/ contact
-		%section#contact.content-7.v-center.ani-processed{ style: "opacity: 1;"}
-			%div
-				.container
-					%h3 
-						Har du en 
-						%strong vigtig
-						besked til os?
-					.row.v-center
-						.col-sm-3
-							%h5 Hvad glemte vi på Spejdernes Lejr 2012?
-							%p
-								Vi er meget opsatte på at gøre det endnu bedre på SL2017 - og derfor er det vigtigt at du fortæller os om dine oplevelser fra tidligere.
-							%h5 Ud med det!
-							%p
-								Måske går du med en rigtig dårlig fornemmelse i maven fra sidste lejr - for 
-								vi skal være hudløst ærlige og indrømme at det ikke var alt som blev, som vi havde drømt om!
-								Det allermeste blev godt - meget blev rigtig godt; og så var der måske lige det, som du bed mærke i, som kunne have været
-								åhh, så meget bedre!
-						.col-sm-6
-							= simple_form_for(@message, id: "new_message") do |f|
-								= f.error_notification
-								
-								.form-inputs
-									.form-group
-										%label Navn
-										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
-										= f.error :name
-
-									.form-group
-										%label Adresse
-										= f.text_field :street, :autofocus => true, class: 'form-control ', placeholder: "Pladsen 2"
-										= f.error :street
-
-									.form-group
-										%label Postnr By
-										= f.text_field :zip_city, :autofocus => true, class: 'form-control ', placeholder: "6000 Sønderborg"
-										= f.error :zip_city
-
-									.form-group
-										%label Email adresse
-										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
-										= f.error :email
-
-									.form-group
-										%label Kommentar
-										= f.text_area :body, :autofocus => true, class: 'form-control ', placeholder: "skriv din kommentar her"
-										= f.error :body
-
-								.form-actions
-									%button.new_message.form-control.btn.btn-success{ type: 'submit' }  Hør hvad jeg siger!
-								/
-								/
-								/
-								/ .form-group
-								/ 	%label Navn
-								/ 	%input.form-control{ type: "text", placeholder: "Søren Spejdersen" }
-								/ .form-group
-								/ 	%label Adresse
-								/ 	%input.form-control{ type: "text", placeholder: "Pladsen 2" }
-								/ .form-group
-								/ 	%label Postnr By
-								/ 	%input.form-control{ type: "text", placeholder: "6000 Sønderborg" }
-								/ .form-group
-								/ 	%label Email adresse
-								/ 	%input.form-control{ type: "text", placeholder: "soren@spejder.liv" }
-								/ .form-group
-								/ 	%label Kommentar
-								/ 	%textarea.form-control{ type: "text", placeholder: "Skriv din kommentar...", style: "height: 150px" }
-								/ .form-group
-								/ 	%button.form-control.btn.btn-warning{ type: 'submit' } Hør hvad jeg siger!
-								/
-							%p
-								%small Du kan forvente at vi kontakter dig, hvis vi vil have uddybet, eller på anden måde har behov for at følge op på det.
-
-							/ .span4.offset1
-							/ 	.screen-wrapper-custom
-							/ 		.screen-custom
-							/ 			%img.ani-processed{ src: "", style: "top: -2010px"}
-						.col-sm-3
-							.span3.offset1
-								%h6 Hvad bruger vi din kommentar til?
-								%p
-									Det er vigtigt at du skriver navn og emailadresse på 
-									\- så vi kan komme i kontakt med dig hvis der er noget i din kommentar, som vi gerne vil have uddybet.
-								/ %p
-								/ 	For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre.
-								/
-								/
-								/ For det første er det vigtigt at du skriver navn og emailadresse på - så vi kan komme i kontakt med dig
-								/ hvis der er noget i din kommentar, som vi gerne vil have uddybet.
-								/ %p
-								/ 	For det andet bliver de bedste observationer og iagttagelser - måske er din oplevelse netop det, der gør at den næste lejr bliver så meget bedre -
-								/ 	puttet i en spejdergryde, og så bliver der trukket lod om en gratis lejr!
-								/
-								/ %p
-								/ 	For det tredje får du et ark med lejrens maskot Halgrimm hin Halvsløje, tegnet og signeret af tegneren Peter Madsen - og den skal vi
-								/ 	kende din adresse for at kunne sende til dig
 
 		/ footer-3
 		%footer.footer-3
@@ -373,19 +335,25 @@
 					.col-sm-8.user_sign_in{ style: "height: 40px;"}
 					.col-sm-4{style: "bottom: 0px"}
 						%p.small
-							made by 
+							made by
 							%a{ href: "http://twitter.com/wdiechmann", target: "_blank"} wdiechmann
 							%br
-							powered by 
+							powered by
 							%a{ href: "http://alco.dk", target: "_blank"} ALCO Company
 
 		= javascript_include_tag 'application'
 
 		:coffeescript
+
+			$('.btn.job-btn').on 'click', (event) ->
+				$('#jobber_job_id').val($(this).data('job-id'))
+				$('#jobber_job_name').val($(this).data('job-name'))
+				$('.jobber_job_group').show()
+
 			userSignIn = () ->
 				$('.user_sign_in').on 'click', (event) ->
 					window.location.href = '/users/sign_in'
-					
+
 			newMessage = () ->
 				request = null
 				$('button.new_message').on 'click', (event) =>
@@ -393,45 +361,45 @@
 					event.preventDefault()
 					if request
 						request.abort()
-						
+
 					# setup some local variables
 					$form = $('#new_message')
 					# let's select and cache all the fields
 					$inputs = $form.find "input, select, button, textarea"
-					
+
 					# serialize the data in the form
 					serializedData = $form.serialize()
-					
+
 					# let's disable the inputs for the duration of the ajax request
 					# Note: we disable elements AFTER the form data has been serialized.
 					# Disabled form elements will not be serialized.
 					$inputs.prop("disabled", true)
-					
+
 					# fire off the request to /form.php
 					request = $.ajax
 						url: '/messages.js',
 						type: "post",
 						data: serializedData
-							
+
 					# callback handler that will be called on success
 					request.done (response, textStatus, jqXHR) ->
 						# log a message to the console
 						swal "Tak!", "Vi har modtaget din besked - og sendt dig en kopi pr email :)", 'success'
-					
+
 					# callback handler that will be called on failure
 					request.fail (jqXHR, textStatus, errorThrown) ->
 						# log the error to the console
 						swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
-						
+
 					# callback handler that will be called regardless
 					# if the request failed or succeeded
 					request.always () ->
 						#reenable the inputs
 						$inputs.prop "disabled", false
-					
+
 					# prevent default posting of form
 					event.preventDefault()
-					
+
 			jobberRegistration = () ->
 				request = null
 				$('button.jobber-registration').on 'click', (event) =>
@@ -439,46 +407,46 @@
 					event.preventDefault()
 					if request
 						request.abort()
-						
+
 					# setup some local variables
 					$form = $('#new_jobber')
 					# let's select and cache all the fields
 					$inputs = $form.find "input, select, button, textarea"
-					
+
 					# serialize the data in the form
 					serializedData = $form.serialize()
-					
+
 					# let's disable the inputs for the duration of the ajax request
 					# Note: we disable elements AFTER the form data has been serialized.
 					# Disabled form elements will not be serialized.
 					$inputs.prop("disabled", true)
-					
+
 					# fire off the request to /form.php
 					request = $.ajax
 						url: '/jobbers.js',
 						type: "post",
 						data: serializedData
-							
+
 					# callback handler that will be called on success
 					request.done (response, textStatus, jqXHR) ->
 						# log a message to the console
 						swal "Tak!", "Vi har modtaget din tilmelding - og sendt dig en email :)", 'success'
-					
+
 					# callback handler that will be called on failure
 					request.fail (jqXHR, textStatus, errorThrown) ->
 						# log the error to the console
 						swal "ØV!", "Noget er gået galt \n Fejlen: " + textStatus + ' ' + errorThrown, 'error'
-						
+
 					# callback handler that will be called regardless
 					# if the request failed or succeeded
 					request.always () ->
 						#reenable the inputs
 						$inputs.prop "disabled", false
-					
+
 					# prevent default posting of form
 					event.preventDefault()
 
-			$(document).on 'ready page:load', -> 
+			$(document).on 'ready page:load', ->
 				pageOnLoad()
 				newMessage()
 				jobberRegistration()
@@ -486,9 +454,9 @@
 				msg = $('#flash_notice').html()
 				if msg
 					swal 'Super!', msg, 'success'
-				
+
 		:javascript
-		
+
 			function fadedEls(el, shift) {
 			    el.css('opacity', 0);
 			    switch (shift) {
@@ -516,18 +484,18 @@
 			        }
 			    });
 			};
-			
+
 			function collapseMenu(e){
 				$(e).closest('.collapse').removeClass('in');
 			}
-			
+
 			function scrollToSection(e){
 				$.scrollTo($('#' + $(e).data('section')), {
 					axis : 'y',
 					duration : 500
 				})
 			}
-			
+
 			function pageOnLoad(){
 					var isMobile = {
 					    Android: function() {
@@ -549,6 +517,7 @@
 					        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
 					    }
 					};
+
 					$('.header-10-sub .scroll-btn a,a.control-btn').on('click', function(e) {
 						e.preventDefault();
 						$.scrollTo($(this).closest('section').next(), {
@@ -562,34 +531,34 @@
 							elem=this
 							$.when(scrollToSection(elem)).done(collapseMenu(elem));
 					});
-					
+
 					// Sections height & scrolling
 					$(window).resize(function() {
 					    var sH = $(window).height();
 					    $('section.header-10-sub').css('height', (sH + 'px'));
 					});
-					
+
 					// Parallax
 					if(!isMobile.any()) {
 					    $('.header-10-sub,.header-10-sub .background').each(function() {
 					        $(this).parallax('50%', -0.3, false);
 					    });
-					
+
 					    $('.content-23:not(.custom-bg)').each(function() {
 					        $(this).parallax('50%', 0.3, false);
 					    });
-					
+
 					    $('.content-23.custom-bg2').css({
 					        backgroundAttachment: 'fixed'
 					    });
 					};
-					
+
 					if(!isMobile.any()) {
 					    // Faded elements
 					    // fadedEls($('.content-7'), 300);
 					    // fadedEls($('.content-8'), 300);
 					};
-					
+
 					(function(el) {
 					    el.css('left', '-100%');
 					    $(window).resize(function() {
@@ -607,9 +576,22 @@
 					        }
 					    });
 					})($('.content-13 > .container'));
-					
+
 					$(window).resize().scroll();
-					
+
+					// Masonry
+					$('#masonry-container').masonry({
+						itemSelector: '.box',
+						// set columnWidth a fraction of the container width
+						// columnWidth: function( containerWidth ) {
+						//	return containerWidth / 2;
+						// },
+						// columnWidth: 100,
+						isAnimated: true,
+						gutterWidth: 5
+					});
+
+
 					// Carousel
 					(function(el){
 						$(window).resize(function() {
@@ -653,7 +635,7 @@
 						});
 					})($('.screen-custom img'));
 			}
-			
+
 			(function($) {
 				$(function() {
 				});
