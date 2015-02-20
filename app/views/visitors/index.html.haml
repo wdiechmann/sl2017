@@ -155,10 +155,7 @@
 								.form-actions
 									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' }= t('visitor.submit_jobber_form')
 
-							%p
-								%small Du kan forvente at vi kontakter dig så snart, vi har nyt om mulighederne for jobbere på SL2017.
-								%br
-								%small - vi forventer at være klar i løbet af februar 2015.
+							%p= t('visitor.submit_jobber_form_subtext_html')
 
 						.col-sm-3
 							.span3.offset1
@@ -236,44 +233,6 @@
 
 
 
-		/ about the camp
-		%section.content-23.v-center.custom-bg#about{ style: "background-position: 50% 0px; width: 112%"}
-			%div
-				.container
-					.hero-unit.hero-unit-bordered
-						%h1= t('visitor.about_hero_h1')
-			%a.control-btn{ href: "#"}
-				%span.glyphicon.glyphicon-chevron-down
-
-		/
-		%section.content-23.v-center#about_2{ style: "background-position: 50% 0px; width: 112%"}
-			%div
-				.container
-					.row
-						.col-sm-4{style: "height:200px"}
-					.row
-						.col-sm-12
-							%h1= t('visitor.about_all_h1')
-					.row
-						.col-sm-4
-							%p= t('visitor.about_location')
-
-						.col-sm-4
-							%p= t('visitor.about_corpses')
-						.col-sm-4
-				%p
-				%img{ src: asset_url("banner.jpg")}
-				%p
-				.container
-					.row
-						.col-sm-4
-							%p
-						.col-sm-4
-							%p= t('visitor.about_when')
-						.col-sm-4
-							%p= t('visitor.about_pioner')
-					.row
-						.col-sm-4{style: "height:400px"}
 
 
 		/ footer-3

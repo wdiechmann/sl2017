@@ -27,8 +27,8 @@ da:
     jobs: 'Jobs'
     about: 'om lejren'
     lending_a_hand: "Gir' du en hånd med?"
-    hero_p1: 'Skal du hjælpe os med at skabe Spejdernes Lejr 2017?'
-    jobintro_h3_html: 'Meld dig så du kan hjælpe os med at lave <strong>Spejdernes Lejr 2017</strong>'
+    hero_p1: 'Skal du også skabe Spejdernes Lejr 2017?'
+    jobintro_h3_html: '<strong>Du kan være med til at lave Spejdernes Lejr 2017</strong>'
     jobintro_target_h6: 'Målet'
     jobintro_p1: 'Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele Danmark - og en pæn sjat fra resten af verden!'
     jobintro_task_h6: 'Din opgave'
@@ -38,6 +38,7 @@ da:
     jobintro_p3: 'Masser af godt humør, viljen til at skabe og evnen til at bære over når det hele ikke spiller max!'
 
     submit_jobber_form: "Ja! Jeg gir' en hånd!"
+    submit_jobber_form_subtext_html: "<small>Du kan forvente at vi kontakter dig så snart, vi har nyt - vi glæder os til at du også er med.</small>"
 
     jobform_info_h6: 'Hvad bruger vi oplysningerne til?'
     jobform_info_p1: 'Vi prøver at nøjes med at spørge om de oplysninger, vi skal bruge'
