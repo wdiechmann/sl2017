@@ -20,6 +20,70 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 da:
+  visitor:
+    be_a_jobber: 'Bliv Jobber'
+    current_jobs: 'Aktuelle jobs'
+    jobbers: 'Jobbere'
+    jobs: 'Jobs'
+    about: 'om lejren'
+    lending_a_hand: "Gir' du en hånd med?"
+    hero_p1: 'Skal du hjælpe os med at skabe Spejdernes Lejr 2017?'
+    jobintro_h3_html: 'Meld dig som <strong> jobber </strong>  på Spejdernes Lejr 2017'
+    jobintro_target_h6: 'Målet'
+    jobintro_p1: 'Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele landet - og en pæn sjat fra resten af verden!'
+    jobintro_task_h6: 'Din opgave'
+    jobintro_p2: 'Her i tiden op til lejren er der masser af udvalg som har brug for hjælp til at planlægge og udvikle lejren. Der er brug for hjælp til alt fra oversættere til hovedudvalgsmedlemmer.'
+    # 								/ Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op, fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
+    jobintro_demands_h6: 'Krav'
+    jobintro_p3: 'Masser af godt humør, viljen til at ville og evnen til at bære over når det hele ikke spiller max!'
+
+    submit_jobber_form: "Ja! Jeg gir' en hånd!"
+
+    jobform_info_h6: 'Hvad bruger vi oplysningerne til?'
+    jobform_info_p1: 'Vi prøver at nøjes med at spørge om de oplysninger, vi skal bruge'
+    jobform_info_h5_name: 'Dit navn'
+    jobform_info_p2: 'fordi det er rart at kunne kalde folk ved navn,'
+    jobform_info_h5_adr: ' Din adresse, postnr og by'
+    jobform_info_p3: 'fordi det er rart at vide hvor du bor, hvis der er to som har det samme navn'
+    #								/%p fordi vi efter lejren gerne vil sende dig et kompetence bevis,
+    jobform_info_h5_cell: 'Dit mobilnr'
+    jobform_info_p4: 'fordi vi gerne vil kunne ringe til dig, hvis vi har brug for nogle ekstra oplysninger'
+    #								/ %p fordi vi gerne vil kunne sende dig en SMS ind imellem, når der er noget der brænder slemt på
+    jobform_info_h5_email: 'Din email adresse'
+    jobform_info_p5: 'fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren'
+
+    vacancies_h3_html: 'Aktuelle <strong>jobs</strong> på Spejdernes Lejr 2017'
+    nojob_list_h4: ' Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!'
+    one_job: 'det ene job'
+    some_jobs: 'nogen af de %{jobcount} jobs'
+    all_jobs: "de %{jobcount} jobs"
+    joblist_h4: 'Her nedenfor kan du se %{jobcount} som vi mangler hænder til allerede nu!'
+    # på engelsk/tysk/fransk kunne vi evt. istedet skrive: Use Google Translate to learn about one of the jobs....
+
+    what_job: 'Hvad er et job?'
+    jobbing_now: 'Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange, bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.'
+    job_what_to_do: 'Hvad skal jeg gøre?'
+    job_detail_p1: 'Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,eller vil du bare rigtig gerne hjælpe?'
+    goto_jobber_form: 'Tryk her'
+    no_jobs_msg_html: '<p>Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.</p><p>Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)</p><p>Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!</p>'
+    about_hero_h1: 'Spejdernes Lejr 2017 - hvad er det?'
+    about_all_h1: ' En lejr for alle danske spejdere'
+    about_location: 'Spejdernes Lejr 2017 kommer til at foregå i naturskønne omgivelser i Sønderborg.'
+    about_corpses: 'Det er de fem internationalt anerkendte danske spejderkorps, som arrangerer Spejdernes Lejr i fællesskab: Dansk Spejderkorps Sydslesvig Danske Baptisters Spejderkorps De grønne pigespejdere Det Danske Spejderkorps KFUM-spejderne i Danmark'
+    about_when: 'Lejren bliver afholdt fra den 22.-30. juli.'
+    about_pioner: "I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr. Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet."
+
+
+  simple_form:
+    labels:
+      jobber:
+        job_name: 'Det job jeg er lidt lun på'
+        name: 'Navn (for- og efternavn)'
+        street: 'Gade og husnummer'
+        zip_city: 'Postnr og By'
+        phone_number: 'Mobilnr (helst)'
+        email: 'Email adresse'
+
   hello: "hej Verden"
   access_denied: "Adgang nægtet!"
   no_sufficient_permissions: "Du har ikke rettigheder til at gøre det, du har til hensigt! Er det en fejl, eller har du brug for adgang - kontakt venligst en systemansvarlig, og giv ham denne besked: <strong>adgang til %{url} mangler! </strong>"
@@ -29,11 +93,11 @@ da:
   edit: "Ret"
   back: "Oversigt"
   delete: "Slet"
-  
+
   jobs:
     navigation:
       adding_a_job:  "Tilføj et nyt job"
-      
+
   activerecord:
     errors:
       models:
@@ -66,7 +130,7 @@ da:
       users: "Brugere"
       forgot: "Nulstil adgangskoden"
       resend_confirmation_instructions: "Send min bekræftelses email igen"
-      
+
     forms:
       name: "Dit navn"
       email: "Din email adresse"
@@ -81,7 +145,7 @@ da:
       cancel_button: "Luk min konto!"
       remember_me: "Husk mig"
       resend_confirmation: "Send en ny!"
-      
+
     confirmations:
       keep: "-"
       resend_confirmation: "Send instruktioner igen"

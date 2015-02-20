@@ -79,35 +79,7 @@
 
 
 	%body
-		%nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation", style: "background-color: #2a1d32"}
-			.container
-				.navbar-header
-					%button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
-						%span.sr-only Vip navigationen
-						%span.icon-bar
-						%span.icon-bar
-						%span.icon-bar
-					/ You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it)
-					%a.navbar-brand{:href => "/"}
-						SL2017
-				/ Collect the nav links, forms, and other content for toggling
-				.collapse.navbar-collapse.navbar-ex1-collapse
-					%ul.nav.navbar-nav.navbar-right
-						%li{class: "#{'active' if current=='jobber'}"}
-							%a.sect{:href => "#", :"data-section" => "jobber" } Bliv Jobber
-						%li{class: "#{'active' if current=='jobber'}"}
-							%a.sect{:href => "#", :"data-section" => "jobs" } Aktuelle jobs
-						- if user_signed_in?
-							%li
-								= link_to "Jobbere", jobbers_url
-							%li
-								= link_to "Job", jobs_url
-						%li{class: "#{'active' if current=='about'}"}
-							%a.sect{:href => "#", :"data-section" => "about", style: "border-left: 0px"} om lejren
-						/ %li{class: "#{'active' if current=='blog'}"}
-						/ 	%a.sect{:href => "#", :"data-section" => "blog", style: "border-left: 0px"} Blog
-						%li{class: "#{'active' if current=='contact'}"}
-							%a.sect{:href => "#", :"data-section" => "contact", style: "border-left: 0px"} Kontakt
+		= render partial: 'layouts/navbar', locals: {current: current}
 
 		= render 'layouts/messages'
 
@@ -116,8 +88,8 @@
 			%div
 				.container
 					.hero-unit
-						%h1 Gir' du en hånd med?
-						%p Skal du hjælpe os med at skabe Spejdernes Lejr 2017?
+						%h1= t('visitor.lending_a_hand')
+						%p= t('visitor.hero_p1')
 			%span.scroll-btn
 				%a{href:"#"}
 					%span.mouse
@@ -128,22 +100,19 @@
 			%a{ name: "jobform"}
 			%div
 				.container
-					%h3
-						Meld dig som
-						%strong jobber
-						på Spejdernes Lejr 2017
+					%h3= t('visitor.jobintro_h3_html')
+
 					.row.v-center
 						.col-sm-3
-							%h6 Målet
-							%p
-								Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele landet - og en pæn sjat fra resten af verden!
-							%h6 Din opgave
-							%p
-								/ Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op, fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
-								Her i tiden op til lejren er der masser af udvalg som har brug for hjælp til at planlægge og udvikle lejren. Der er brug for hjælp til alt fra oversættere til hovedudvalgsmedlemmer.
-							%h6 Krav
-							%p
-								Masser af godt humør, viljen til at ville og evnen til at bære over når det hele ikke spiller max!
+							%h6= t('visitor.jobintro_target_h6')
+							%p= t('visitor.jobintro_p1')
+
+							%h6= t('visitor.jobintro_task_h6')
+							%p= t('visitor.jobintro_p2')
+
+							%h6= t('visitor.jobintro_demands_h6')
+							%p= t('visitor.jobintro_p3')
+
 						.col-sm-6
 							%img{src: asset_url("jobbere.jpg")}
 							= simple_form_for(@jobber) do |f|
@@ -153,38 +122,38 @@
 
 								.form-inputs
 									.form-group.jobber_job_group{ style: 'display: none'}
-										%label Job
+										= f.label :job_name
 										= f.hidden_field :job_id
 										= f.text_field :job_name, :autofocus => true, class: 'form-control '
 
 									.form-group
-										%label Navn
+										= f.label :name
 										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
 										= f.error :name
 
 									.form-group
-										%label Adresse
+										= f.label :street
 										= f.text_field :street, :autofocus => true, class: 'form-control ', placeholder: "Pladsen 2"
 										= f.error :street
 
 									.form-group
-										%label Postnr By
+										= f.label :zip_city
 										= f.text_field :zip_city, :autofocus => true, class: 'form-control ', placeholder: "6000 Sønderborg"
 										= f.error :zip_city
 
 									.form-group
-										%label Mobilnr
+										= f.label :phone_number
 										= f.text_field :phone_number, :autofocus => true, class: 'form-control ', placeholder: "+45 12345678"
 										= f.error :phone_number
 
 									.form-group
-										%label Email adresse
+										= f.label :email
 										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
 										= f.error :email
 
 
 								.form-actions
-									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' } Ja! Jeg gir' en hånd!
+									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' }= t('visitor.submit_jobber_form')
 
 							%p
 								%small Du kan forvente at vi kontakter dig så snart, vi har nyt om mulighederne for jobbere på SL2017.
@@ -193,19 +162,22 @@
 
 						.col-sm-3
 							.span3.offset1
-								%h6 Hvad bruger vi oplysningerne til?
+								%h6= t('visitor.jobform_info_h6')
+								%p= t('visitor.jobform_info_p1')
+
+
+								%h5= t('visitor.jobform_info_h5_name')
+								%p= t('visitor.jobform_info_p2')
 								%p
-									Vi prøver at nøjes med at spørge om de oplysninger, vi skal bruge
-								%h5 Dit navn
-								%p fordi det er rart at kunne kalde folk ved navn,
-								%h5 Din adresse, postnr og by
-								/%p fordi vi efter lejren gerne vil sende dig et kompetence bevis,
-								%p fordi det er rart at vide hvor du bor, hvis der er to som har det samme navn
-								%h5 Dit mobilnr
-								/ %p fordi vi gerne vil kunne sende dig en SMS ind imellem, når der er noget der brænder slemt på
-								%p fordi vi gerne vil kunne ringe til dig, hvis vi har brug for nogle ekstra oplysninger
-								%h5 Din email adresse
-								%p fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren
+
+								%h5= t('visitor.jobform_info_h5_adr')
+								%p= t('visitor.jobform_info_p3')
+
+								%h5= t('visitor.jobform_info_h5_cell')
+								%p= t('visitor.jobform_info_p4')
+
+								%h5= t('visitor.jobform_info_h5_email')
+								%p= t('visitor.jobform_info_p5')
 
 		/ vacancies
 		%section#jobs.content-7.v-center.ani-processed{ style: "opacity: 1;"}
@@ -214,17 +186,12 @@
 			%div
 				.container
 					.col12
-						%h3
-							Aktuelle
-							%strong jobs
-							på Spejdernes Lejr 2017
+						%h3= t('visitor.vacancies_h3_html')
 					.col12
 						- if jobcount < 1
-							%h4 Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!
+							%h4= t('visitor.nojob_list_h4')
 						- else
-							%h4
-								Her nedenfor kan du se #{jobcount==1 ? "det ene job" : (jobcount>20 ? "nogen af de #{jobcount} jobs" : "de #{jobcount} jobs")}
-								som vi mangler hænder til allerede nu!
+							%h4= t('visitor.joblist_h4', jobcount: (jobcount==1 ? t('visitor.one_job') : (jobcount>20 ? t('visitor.some_jobs', jobcount: jobcount) : t('visitor.all_jobs', jobcount: jobcount))))
 
 					.col12
 
@@ -234,29 +201,22 @@
 							.job-wrapper
 								.job-section.col3.box.stamp
 									.job-title
-										%b Hvad er et job?
-									.job-description
-										Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange,
-										bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.
+										%b= t('visitor.what_job')
+									.job-description= t('visitor.jobbing_now')
 
 
 							.job-wrapper
 								.job-section.col3.box.stamp
 									.job-title
-										Hvad skal jeg gøre?
+										%b= t('visitor.job_what_to_do')
 									.job-description
+										%p= t('visitor.job_detail_p1')
 										%p
-											Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,
-											eller vil du bare rigtig gerne hjælpe?
-										%p
-											%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" } Tryk her
+											%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" }= t('visitor.goto_jobber_form')
 
 							- if jobcount < 1
 								.job-wrapper
-									.job-section.col5.box.stamp.green-box
-										%p Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.
-										%p Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)
-										%p Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!
+									.job-section.col5.box.stamp.green-box= t('visitor.no_jobs_msg_html')
 							- else
 								- Job.all.vacancies(Date.today).limit(20).each do |job|
 									.job-wrapper
@@ -281,7 +241,7 @@
 			%div
 				.container
 					.hero-unit.hero-unit-bordered
-						%h1 Spejdernes Lejr 2017 - hvad er det?
+						%h1= t('visitor.about_hero_h1')
 			%a.control-btn{ href: "#"}
 				%span.glyphicon.glyphicon-chevron-down
 
@@ -293,19 +253,13 @@
 						.col-sm-4{style: "height:200px"}
 					.row
 						.col-sm-12
-							%h1 En lejr for alle danske spejdere
+							%h1= t('visitor.about_all_h1')
 					.row
 						.col-sm-4
-							%p
-								Spejdernes Lejr 2017 kommer til at foregå i naturskønne omgivelser i Sønderborg.
+							%p= t('visitor.about_location')
+
 						.col-sm-4
-							%p
-								Det er de fem internationalt anerkendte danske spejderkorps, som arrangerer Spejdernes Lejr i fællesskab:
-								Dansk Spejderkorps Sydslesvig
-								Danske Baptisters Spejderkorps
-								De grønne pigespejdere
-								Det Danske Spejderkorps
-								KFUM-spejderne i Danmark
+							%p= t('visitor.about_corpses')
 						.col-sm-4
 				%p
 				%img{ src: asset_url("banner.jpg")}
@@ -315,12 +269,9 @@
 						.col-sm-4
 							%p
 						.col-sm-4
-							%p
-								Lejren bliver afholdt fra den 22.-30. juli.
+							%p= t('visitor.about_when')
 						.col-sm-4
-							%p
-								I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr.
-								Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet.
+							%p= t('visitor.about_pioner')
 					.row
 						.col-sm-4{style: "height:400px"}
 

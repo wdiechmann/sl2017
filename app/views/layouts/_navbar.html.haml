@@ -1,0 +1,30 @@
+%nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation", style: "background-color: #2a1d32"}
+  .container
+    .navbar-header
+      %button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Vip navigationen
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      / You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it)
+      %a.navbar-brand{:href => "/"}
+        SL2017
+    / Collect the nav links, forms, and other content for toggling
+    .collapse.navbar-collapse.navbar-ex1-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li{class: "#{'active' if current=='jobber'}"}
+          %a.sect{:href => "#", :"data-section" => "jobber" }= t('visitor.be_a_jobber')
+        %li{class: "#{'active' if current=='jobber'}"}
+          %a.sect{:href => "#", :"data-section" => "jobs" }= t('visitor.current_jobs')
+        - if user_signed_in?
+          %li
+            = link_to t('visitor.jobbers'), jobbers_url
+          %li
+            = link_to t('visitor.jobs'), jobs_url
+
+        %li{class: "#{'active' if current=='about'}"}
+          %a.sect{:href => "#", :"data-section" => "about", style: "border-left: 0px"}= t('visitor.about')
+        / %li{class: "#{'active' if current=='blog'}"}
+        / 	%a.sect{:href => "#", :"data-section" => "blog", style: "border-left: 0px"} Blog
+        / %li{class: "#{'active' if current=='contact'}"}
+        /   %a.sect{:href => "#", :"data-section" => "contact", style: "border-left: 0px"} Kontakt

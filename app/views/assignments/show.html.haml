@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Job:
+  = @assignment.job
+%p
+  %b Jobber:
+  = @assignment.jobber
+%p
+  %b Assigned at:
+  = @assignment.assigned_at
+%p
+  %b Assigned:
+  = @assignment.assigned_id
+%p
+  %b Assigned type:
+  = @assignment.assigned_type
+%p
+  %b Withdrawn at:
+  = @assignment.withdrawn_at
+%p
+  %b Withdrawn:
+  = @assignment.withdrawn_id
+%p
+  %b Withdrawn type:
+  = @assignment.withdrawn_type
+
+= link_to 'Edit', edit_assignment_path(@assignment)
+\|
+= link_to 'Back', assignments_path

@@ -1,0 +1,15 @@
+= simple_form_for(@assignment) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :job
+    = f.association :jobber
+    = f.input :assigned_at
+    = f.input :assigned_id
+    = f.input :assigned_type
+    = f.input :withdrawn_at
+    = f.input :withdrawn_id
+    = f.input :withdrawn_type
+
+  .form-actions
+    = f.button :submit

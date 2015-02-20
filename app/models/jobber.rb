@@ -1,5 +1,6 @@
 class Jobber < ActiveRecord::Base
 
+	has_many :assignments
 
 	validates :name, presence: true
 	validates :street, presence: true
@@ -34,5 +35,10 @@ class Jobber < ActiveRecord::Base
       false
     end
   end
+
+	# find a job attached to the jobber and assign the jobber
+	def assign_job assignee
+		Job.find(self.job_id).assign_jobber(self,assignee) unless self.job_id.nil?
+	end
 
 end

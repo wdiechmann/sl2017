@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  resources :assignments
+
   resources :messages
-  
+
   resources :jobs
 
   resources :accounts
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
       get 'confirmation'
     end
   end
-  
+
   mount Upmin::Engine => '/admin'
   root to: 'visitors#index'
   devise_for :users

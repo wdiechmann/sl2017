@@ -37,7 +37,6 @@ class JobbersController < ApplicationController
   # POST /jobbers.json
   def create
     @jobber = Jobber.new(jobber_params)
-    binding.pry
     authorize @jobber
     @jobber.confirmed_token = Devise.friendly_token
     # raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)
@@ -48,6 +47,7 @@ class JobbersController < ApplicationController
 
     respond_to do |format|
       if @jobber.save
+        @jobber.assign_job (current_user||@jobber)
         JobberMailer.welcome_email(@jobber,current_user).deliver
         format.html { redirect_to @jobber, notice: 'Jobber was successfully created.' }
         format.js { head 220 }

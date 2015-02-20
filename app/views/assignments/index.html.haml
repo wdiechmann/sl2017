@@ -1,0 +1,33 @@
+%h1 Listing assignments
+
+%table
+  %tr
+    %th Job
+    %th Jobber
+    %th Assigned at
+    %th Assigned
+    %th Assigned type
+    %th Withdrawn at
+    %th Withdrawn
+    %th Withdrawn type
+    %th
+    %th
+    %th
+
+  - @assignments.each do |assignment|
+    %tr
+      %td= assignment.job
+      %td= assignment.jobber
+      %td= assignment.assigned_at
+      %td= assignment.assigned_id
+      %td= assignment.assigned_type
+      %td= assignment.withdrawn_at
+      %td= assignment.withdrawn_id
+      %td= assignment.withdrawn_type
+      %td= link_to 'Show', assignment
+      %td= link_to 'Edit', edit_assignment_path(assignment)
+      %td= link_to 'Destroy', assignment, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Assignment', new_assignment_path
