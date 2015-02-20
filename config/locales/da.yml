@@ -21,21 +21,21 @@
 
 da:
   visitor:
-    be_a_jobber: 'Bliv Jobber'
+    be_a_jobber: 'Sæt dit eget frillige spor'
     current_jobs: 'Aktuelle jobs'
-    jobbers: 'Jobbere'
+    jobbers: 'Frivillige'
     jobs: 'Jobs'
     about: 'om lejren'
     lending_a_hand: "Gir' du en hånd med?"
     hero_p1: 'Skal du hjælpe os med at skabe Spejdernes Lejr 2017?'
-    jobintro_h3_html: 'Meld dig som <strong> jobber </strong>  på Spejdernes Lejr 2017'
+    jobintro_h3_html: 'Meld dig så du kan hjælpe os med at lave <strong>Spejdernes Lejr 2017</strong>'
     jobintro_target_h6: 'Målet'
-    jobintro_p1: 'Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele landet - og en pæn sjat fra resten af verden!'
+    jobintro_p1: 'Vi skal, sammen med dig skabe helt enestående oplevelser for mere end 40.000 spejdere fra hele Danmark - og en pæn sjat fra resten af verden!'
     jobintro_task_h6: 'Din opgave'
-    jobintro_p2: 'Her i tiden op til lejren er der masser af udvalg som har brug for hjælp til at planlægge og udvikle lejren. Der er brug for hjælp til alt fra oversættere til hovedudvalgsmedlemmer.'
+    jobintro_p2: 'Her i tiden op til lejren er der masser af udvalg, som har brug for hjælp til at planlægge og udvikle lejren'
     # 								/ Der er nogen som skal stå i iskiosk, andre som skal bygge scener til fælles lejrbål, stille toiletvogne op, fragte, partere, fritere, fremstille, sælge, spule, vaske, koge, ælte, male, råbe, pusle, pensle....
     jobintro_demands_h6: 'Krav'
-    jobintro_p3: 'Masser af godt humør, viljen til at ville og evnen til at bære over når det hele ikke spiller max!'
+    jobintro_p3: 'Masser af godt humør, viljen til at skabe og evnen til at bære over når det hele ikke spiller max!'
 
     submit_jobber_form: "Ja! Jeg gir' en hånd!"
 
@@ -53,7 +53,7 @@ da:
     jobform_info_p5: 'fordi det vil være den måde, vi fortrinsvis vil kommunikere med dig på, før og efter lejren'
 
     vacancies_h3_html: 'Aktuelle <strong>jobs</strong> på Spejdernes Lejr 2017'
-    nojob_list_h4: ' Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig som jobber - bare rolig, der skal nok blive noget at rive i for dig!'
+    nojob_list_h4: ' Vi har ingen ledige jobs lige nu - men det skal ikke afholde dig fra melde dig - bare rolig, der skal nok blive noget at rive i for dig!'
     one_job: 'det ene job'
     some_jobs: 'nogen af de %{jobcount} jobs'
     all_jobs: "de %{jobcount} jobs"
@@ -61,17 +61,17 @@ da:
     # på engelsk/tysk/fransk kunne vi evt. istedet skrive: Use Google Translate to learn about one of the jobs....
 
     what_job: 'Hvad er et job?'
-    jobbing_now: 'Der er allerede x der jobber med SL2017! De planlægger køreveje, spændende aktiviteter, skriver lejrsange, bygger hjemmesider, laver pressemeddelelser, og mange andre spændende (og også nogen enkelte kedelige) ogpaver.'
+    jobbing_now: 'Der er allerede mange der planlægger SL2017! Køreveje, spændende aktiviteter, lejrsang, hjemmesider, pressemeddelelser, forplejning, vartegn, og mange andre spændende ogpaver.'
     job_what_to_do: 'Hvad skal jeg gøre?'
-    job_detail_p1: 'Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for,eller vil du bare rigtig gerne hjælpe?'
+    job_detail_p1: 'Kunne du tænke dig et af de job? Eller kan du noget helt andet, som vi sikkert også har brug for, eller vil du bare rigtig gerne hjælpe?'
     goto_jobber_form: 'Tryk her'
-    no_jobs_msg_html: '<p>Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.</p><p>Det er dit held - for så kan du melde dig som jobber, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)</p><p>Meld dig som jobber alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!</p>'
+    no_jobs_msg_html: '<p>Det lyder helt utroligt, men der er faktisk ikke ét eneste ledigt job lige nu.</p><p>Det er dit held - for så kan du melde dig, uden at risikere at komme til at lave en sk.. - nahh, det tror du vel ikke på, vel? :)</p><p>Meld dig alligevel - vi er temmeligt sikre på at der nok også skal blive en lille tjans til dig!</p>'
     about_hero_h1: 'Spejdernes Lejr 2017 - hvad er det?'
     about_all_h1: ' En lejr for alle danske spejdere'
     about_location: 'Spejdernes Lejr 2017 kommer til at foregå i naturskønne omgivelser i Sønderborg.'
-    about_corpses: 'Det er de fem internationalt anerkendte danske spejderkorps, som arrangerer Spejdernes Lejr i fællesskab: Dansk Spejderkorps Sydslesvig Danske Baptisters Spejderkorps De grønne pigespejdere Det Danske Spejderkorps KFUM-spejderne i Danmark'
+    about_corpses: 'Det er de fem internationalt anerkendte danske spejderkorps, som arrangerer Spejdernes Lejr i fællesskab: Dansk Spejderkorps Sydslesvig - Danske Baptisters Spejderkorps - De Grønne Pigespejdere - Det Danske Spejderkorps - KFUM-spejderne i Danmark'
     about_when: 'Lejren bliver afholdt fra den 22.-30. juli.'
-    about_pioner: "I dage før lejren, under lejren og efter lejren, har du mulighed for at deltage på pionérlejr. Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet."
+    about_pioner: "I dage før lejren, under og efter lejren, har du mulighed for at deltage på pionérlejr. Her kan du blive udfordret på alle de færdigheder, du måske drømmer om at arbejde med i din hverdag - som VVS'er, elektriker, IT specialist, rendegraver, lastbilchauffør, eller noget helt andet."
 
 
   simple_form:
