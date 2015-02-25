@@ -1,0 +1,29 @@
+:css
+  a.sub_delivery_team { text-transform: lowercase !important}
+.container-fluid
+  .row
+    .col-md-12
+      %h1 Oversigt over udvalg
+
+  .row
+    .col-md-12
+      %table.table.table-striped
+        %tr
+          %th Navn
+          %th Hører under
+          %th.hidden-xs Beskrivelse
+          %th
+
+        - @delivery_teams.each do |delivery_team|
+          %tr
+            %td= link_to delivery_team.title, delivery_team
+            %td= link_to delivery_team.parent.title, delivery_team.parent rescue ''
+            %td.hidden-xs= delivery_team.description
+            %td= link_to 'Nyt underudvalg', new_delivery_team_path(parent_id: delivery_team ), class: 'sub_delivery_team btn btn-primary'
+            %td
+              = link_to(delivery_team, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+                %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+
+%br
+
+= link_to 'Nyt hoved udvalg', new_delivery_team_path, class: 'btn btn-success'

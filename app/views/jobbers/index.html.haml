@@ -1,3 +1,6 @@
+:css
+	span.email { text-transform: lowercase !important }
+	
 .container-fluid
 	.row
 		.col-md-12
@@ -7,24 +10,74 @@
 		.col-md-12
 			%table.table.table-striped
 				%tr
-					%th Name
+					%th Navn
 					/ %th Street
 					/ %th Zip city
-					%th Phone number
+					%th Tlf
 					%th Email
-					%th Confirmed at
+					%th Bekræftet
 					%th
-					
+
 				- @jobbers.each do |jobber|
 					%tr
 						%td= link_to jobber.name, jobber
 						/ %td= jobber.street
 						/ %td= jobber.zip_city
-						%td= jobber.phone_number
-						%td= jobber.email
-						%td= jobber.confirmed_at
-						%td= link_to 'Destroy', jobber, :method => :delete, :data => { :confirm => 'Are you sure?' }
+						%td
+							%button.btn.btn-default
+								%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
+								%span.hidden-xs= jobber.phone_number
+
+						%td
+							%button{ title: "#{jobber.email}", type:"button", class:"btn btn-primary btn-small", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
+								%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+								%span.email.visible-md-inline.visible-lg-inline
+									=jobber.email.downcase
+
+						%td
+							- unless jobber.confirmed_at.nil?
+								%button.btn.btn-default
+									%span.glyphicon.glyphicon-ok{}
+									%span.hidden-xs= jobber.confirmed_at.strftime "%d/%m/%Y"
+						%td
+							= link_to(jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+								%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+
+
 
 			%br
 
 			= link_to 'Ny jobber', new_jobber_path, class: 'btn btn-success'
+
+
+			#newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"exampleModalLabel", :"aria-hidden"=>"true" }
+				.modal-dialog
+					.modal-content
+						.modal-header
+							%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+								%span{ :"aria-hidden"=>"true"} &times;
+							%h4.modal-title{ id: "exampleModalLabel"}	Ny besked
+
+						.modal-body
+							%form
+								.form-group
+									%label{ for:"recipient-name", class:"control-label"} Til:
+									%input{ type:"text", class:"form-control", id:"recipient-name"}
+								.form-group
+									%label{ for:"subject", class:"control-label"} Emne:
+									%input{ type:"text", class:"form-control", id:"subject"}
+								.form-group
+									%label{ for:"message-text", class:"control-label"} Besked
+									%textarea{ class:"form-control", id:"message-text"}
+
+						.modal-footer
+							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+							%button.btn.btn-primary{ type:"button"} Send
+
+	:coffeescript
+		$('#newMessage').on 'show.bs.modal', (event) ->
+			button = $(event.relatedTarget)
+			recipient = button.data('recipient')
+			modal = $(this)
+			modal.find('.modal-title').text('Ny besked til ' + recipient)
+			modal.find('.modal-body input').val(recipient)

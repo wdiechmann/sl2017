@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :delivery_teams
+
   resources :assignments
 
   resources :messages

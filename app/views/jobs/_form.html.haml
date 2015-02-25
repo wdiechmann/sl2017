@@ -1,7 +1,7 @@
 
 :css
 	#job_description { min-height: 100px; }
-	
+
 
 %h3
 	- if @job.new_record?
@@ -46,6 +46,9 @@
 		= f.date_field :promote_job_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
 		= f.error :promote_job_at
 
+	.form-group
+		= f.input :delivery_team_id, as: :select, collection: @delivery_teams
+
 	/ .form-group
 	/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
 	/ 	= f.error :vacancies
@@ -72,4 +75,3 @@
 			# 	done=true
 			#
 			# $('[data-toggle="popover"]').popover()
-			

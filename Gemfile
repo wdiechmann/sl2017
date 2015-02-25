@@ -21,6 +21,7 @@ gem 'simple_form'
 gem 'upmin-admin'
 gem 'dotenv-rails'
 gem 'masonry-rails'
+gem 'ancestry'
 group :production do
   gem "unicorn"
 end

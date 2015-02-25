@@ -12,14 +12,17 @@
 					%th Hvornår
 					%th Hvem
 					%th
-					
+
 				- @jobs.each do |job|
 					%tr
 						%td= link_to job.name, job
 						%td= job.location
 						%td= job.schedule
 						%td mgl
-						%td= link_to 'Destroy', job, :method => :delete, :data => { :confirm => 'Are you sure?' }
+						%td
+							/ = link_to 'Destroy', job, :method => :delete, :data => { :confirm => 'Are you sure?' }
+							= link_to(job, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+								%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
 			%br
 

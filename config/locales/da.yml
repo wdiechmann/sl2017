@@ -21,7 +21,7 @@
 
 da:
   visitor:
-    be_a_jobber: 'Sæt dit eget frillige spor'
+    be_a_jobber: 'Sæt dit eget frivillige spor'
     current_jobs: 'Aktuelle jobs'
     jobbers: 'Frivillige'
     jobs: 'Jobs'
@@ -77,6 +77,9 @@ da:
 
   simple_form:
     labels:
+      delivery_team:
+        title: 'Navn'
+        description: 'Beskrivelse'
       jobber:
         job_name: 'Det job jeg er lidt lun på'
         name: 'Navn (for- og efternavn)'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219072458) do
+ActiveRecord::Schema.define(version: 20150222205714) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20150219072458) do
   add_index "assignments", ["job_id"], name: "index_assignments_on_job_id", using: :btree
   add_index "assignments", ["jobber_id"], name: "index_assignments_on_jobber_id", using: :btree
 
+  create_table "delivery_teams", force: true do |t|
+    t.string   "title"
+    t.string   "ancestry"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "jobbers", force: true do |t|
     t.string   "name"
     t.string   "street"
@@ -61,13 +69,14 @@ ActiveRecord::Schema.define(version: 20150219072458) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority",       default: 1
+    t.integer  "priority",         default: 1
     t.datetime "delegated_at"
-    t.integer  "jobbers_min",    default: 1
-    t.integer  "jobbers_wanted", default: 1
-    t.integer  "jobbers_max",    default: 1
-    t.integer  "vacancies",      default: 1
+    t.integer  "jobbers_min",      default: 1
+    t.integer  "jobbers_wanted",   default: 1
+    t.integer  "jobbers_max",      default: 1
+    t.integer  "vacancies",        default: 1
     t.datetime "promote_job_at"
+    t.integer  "delivery_team_id"
   end
 
   create_table "messages", force: true do |t|

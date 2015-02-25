@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, except: :create
+  before_filter :collection_for_parent_select, :except => [:index, :show]
   after_action :verify_authorized
 
   # GET /jobs
@@ -17,6 +18,7 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
+    @delivery_teams = ancestry_options(DeliveryTeam.scoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
     @job = Job.new
     authorize @job
   end
@@ -67,6 +69,23 @@ class JobsController < ApplicationController
   end
 
   private
+
+
+    def collection_for_parent_select
+      @delivery_teams = ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
+    end
+
+
+    def ancestry_options(items)
+      result = []
+      items.map do |item, sub_items|
+        result << [yield(item), item.id]
+        #this is a recursive call:
+        result += ancestry_options(sub_items) {|i| "#{'-' * i.depth} #{i.title}" }
+      end
+      result
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_job
       @job = Job.find(params[:id])
@@ -75,6 +94,6 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at)
+      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at, :delivery_team_id)
     end
 end
