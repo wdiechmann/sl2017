@@ -1,6 +1,6 @@
 :css
 	span.email { text-transform: lowercase !important }
-	
+
 .container-fluid
 	.row
 		.col-md-12
@@ -60,24 +60,68 @@
 
 						.modal-body
 							%form
+								%input{ type: "hidden", name: "message[name]", value: ""}
+								%input{ type: "hidden", name: "message[street]", value: ""}
+								%input{ type: "hidden", name: "message[zip_city]", value: ""}
+								%input{ type: "hidden", name: "message[email]", value: ""}
+
 								.form-group
-									%label{ for:"recipient-name", class:"control-label"} Til:
-									%input{ type:"text", class:"form-control", id:"recipient-name"}
+									%label{ for:"message_msg_to", class:"control-label"} Til:
+									%input{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
 								.form-group
-									%label{ for:"subject", class:"control-label"} Emne:
-									%input{ type:"text", class:"form-control", id:"subject"}
+									%label{ for:"message_title", class:"control-label"} Emne:
+									%input{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
 								.form-group
-									%label{ for:"message-text", class:"control-label"} Besked
-									%textarea{ class:"form-control", id:"message-text"}
+									%label{ for:"message_body", class:"control-label"} Besked
+									%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
 
 						.modal-footer
 							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-							%button.btn.btn-primary{ type:"button"} Send
+							%button.btn.btn-primary{ type:"button", id: "send_message"} Send
 
 	:coffeescript
+		newMessage = () ->
+			$form = $('#newMessage')
+			# let's select and cache all the fields
+			$inputs = $form.find "input, select, button, textarea"
+
+			# serialize the data in the form
+			serializedData = $inputs.serialize()
+
+			# let's disable the inputs for the duration of the ajax request
+			# Note: we disable elements AFTER the form data has been serialized.
+			# Disabled form elements will not be serialized.
+			$inputs.prop("disabled", true)
+
+			# fire off the request to /form.php
+			request = $.ajax
+				url: '/messages.js',
+				type: "post",
+				data: serializedData
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				# log a message to the console
+				swal "Perfekt!", "Der er sendt en besked :)", 'success'
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+			# callback handler that will be called regardless
+			# if the request failed or succeeded
+			request.always () ->
+				#reenable the inputs
+				$inputs.prop "disabled", false
+
 		$('#newMessage').on 'show.bs.modal', (event) ->
 			button = $(event.relatedTarget)
 			recipient = button.data('recipient')
 			modal = $(this)
 			modal.find('.modal-title').text('Ny besked til ' + recipient)
 			modal.find('.modal-body input').val(recipient)
+
+		$('#send_message').on 'click', (e) ->
+			newMessage()
+			$('#newMessage').hide()
