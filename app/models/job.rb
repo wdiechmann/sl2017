@@ -1,4 +1,5 @@
 class Job < ActiveRecord::Base
+	has_paper_trail
 
 	has_many :assignments
 	has_many :current_assignments, -> { where withdrawn_at: nil }, class_name: 'Assignment'

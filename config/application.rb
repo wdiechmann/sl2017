@@ -19,8 +19,12 @@ module SL2017
         request_specs: false
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
-    
+
     config.action_controller.asset_host = Rails.application.secrets.domain_name
+
+    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_name_prefix = Rails.env
+
     # Enable serving of images, stylesheets, and javascripts from an asset server
     # MY_ASSET_HOST = "localhost:3000"
     # config.action_controller.asset_host = Proc.new { |source, request|

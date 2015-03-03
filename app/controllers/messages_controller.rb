@@ -30,10 +30,10 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     authorize @message
-    
+
     respond_to do |format|
       if @message.save
-        MessageMailer.thankyou_email(@message,current_user).deliver
+        MessageMailer.message_email(@message,current_user).deliver_later
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: @message }

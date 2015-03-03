@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_paper_trail
+  
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, :if => :new_record?
   before_create :create_account
@@ -6,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :punch_clocks
   has_many :employees
   belongs_to :account
-  
+
   validates :name, presence: true, :if => :new_record?
 
   def create_account
@@ -18,15 +20,15 @@ class User < ActiveRecord::Base
   def set_default_role
     self.role ||= :user
   end
-  
+
   def has_role? r
     good_roles.keys.include? r.to_s
   end
-  
+
   def good_roles
     User.roles.to_hash.select{ |k,v| v <= User.roles[role] }
   end
-  
+
   def select_roles
     good_roles.keys.map {|r| [r.titleize,r] }
   end
@@ -35,8 +37,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
-         
-         
+
+
   # This is an internal method called every time Devise needs
   # to send a notification/mail. This can be overridden if you
   # need to customize the e-mail delivery logic. For instance,
@@ -83,5 +85,5 @@ class User < ActiveRecord::Base
   # def send_devise_notification(notification, *args)
   #  devise_mailer.send(notification, self, *args).deliver
   # end
-  
+
 end

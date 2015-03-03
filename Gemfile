@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
-gem 'rails', '4.1.5'
+ruby '2.2.0'
+gem 'rails', '4.2.0'
 gem 'rails-i18n', '~> 4.0.0'
 gem 'roadie-rails'
 gem 'bootstrap-material-design'
@@ -22,6 +22,10 @@ gem 'upmin-admin'
 gem 'dotenv-rails'
 gem 'masonry-rails'
 gem 'ancestry'
+gem 'delayed_job_active_record'
+gem 'paper_trail', '~> 4.0.0.beta'
+# Implementations
+gem 'postman', path: '../../gems/postman'
 
 group :production do
   gem "unicorn"

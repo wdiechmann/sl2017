@@ -18,7 +18,7 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
-    @delivery_teams = ancestry_options(DeliveryTeam.scoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
+    @delivery_teams = ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
     @job = Job.new
     authorize @job
   end
@@ -35,6 +35,7 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
+        JobMailer.job_confirm(@job,current_user).deliver_later
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else

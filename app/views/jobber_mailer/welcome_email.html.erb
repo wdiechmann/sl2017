@@ -6,7 +6,7 @@
 @phone_number=@jobber.phone_number
 @id="%05d" % @jobber.id
 @created_at=@jobber.created_at.strftime '%d/%m/%Y'
-@job_name=( Job.find(@jobber.job_id).name || '')
+@job_name=( Job.find(@jobber.job_id).name rescue '')
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -174,7 +174,8 @@
 			  </td>
 			</tr>
       <tr style="">
-        <td background="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png" bgcolor="#8b8284" valign="top" style="background: no-repeat url(http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png); background-color: #8b8284; background-position: center;">
+        <!-- <td background="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png" bgcolor="#8b8284" valign="top" style="background: no-repeat url(http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png); background-color: #8b8284; background-position: center;"> -->
+        <td bgcolor="#8b8284" valign="top" style="background-color: #8b8284; ">
           <!--[if gte mso 9]>
           <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:303px;">
             <v:fill type="tile" src="http://spejderneslejr2017.dk/wp-content/uploads/2013/08/scenen2.png" color="#8b8284" />
@@ -272,7 +273,7 @@
                               </tr>
                               <tr>
                                 <td  style="background-color: #ebebeb; padding: 8px; border-top: 3px solid #ffffff; text-align:left;">
-																	Vi arbejder på højtryk for at skabe en god modtagelse af alle interesserede, og vi forventer at være klar i løbet af februar 2015.
+																	Vi arbejder på højtryk for at skabe en god modtagelse af alle interesserede, og vi forventer at være klar i løbet af marts 2015.
 																	Din henvendelse er noteret, og du bliver kontaktet så snart, vi har nyt om mulighederne for jobbere på SL2017.
 																	<p>
                                   	Husk at bekræfte din tilmelding (så vi er sikre på at det ikke er en af dine venner, der 'leger' med din email adresse)!

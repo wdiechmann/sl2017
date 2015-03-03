@@ -36,7 +36,7 @@ Start by reading through [this 6 part guide on setting up the app and environmen
 		rbenv local 2.1.2
 		rails new . -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb
 		spring rails server
-		mate .env config/production.rb config/sl2017.nginx.conf config/secrets.yml config/unicorn_init.sh config/unicorn.rb 
+		mate .env config/production.rb config/sl2017.nginx.conf config/secrets.yml config/unicorn_init.sh config/unicorn.rb
 		rake secret
 		chmod +x unicorn_init.sh
 
@@ -47,7 +47,7 @@ Start by reading through [this 6 part guide on setting up the app and environmen
 		sudo chmod g+w /etc/init.d
 		sudo service nginx restart
 		sudo update-rc.d unicorn_sl2017 defaults
-		
+
 
 
 
@@ -95,6 +95,7 @@ Important commands are:
 
 Issues
 -------------
+* when building activity feed - check [activity feed](http://www.sitepoint.com/activity-feeds-rails) and [PaperTrail](http://www.sitepoint.com/versioning-papertrail/)
 * when building email - check [email fun with Rails](http://www.sitepoint.com/fun-sending-mail-rails/)
 * when designing forms - remember about [satisficing](http://www.sitepoint.com/satisficing-mean-web-forms)
 
@@ -120,7 +121,7 @@ mate .
 	<edit config/deploy.rb>
 	<edit config/deploy/production.rb>
   <add config/<project>.nginx.conf
-		
+
 <setup GitHub repo>
 <add bookmark to SourceTree>
 

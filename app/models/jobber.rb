@@ -1,4 +1,5 @@
 class Jobber < ActiveRecord::Base
+	has_paper_trail
 
 	has_many :assignments
 
@@ -38,7 +39,10 @@ class Jobber < ActiveRecord::Base
 
 	# find a job attached to the jobber and assign the jobber
 	def assign_job assignee
-		Job.find(self.job_id).assign_jobber(self,assignee) unless self.job_id.nil?
+		return if self.job_id.nil?
+		Job.find(self.job_id).assign_jobber(self,assignee)
+	rescue
+		true
 	end
 
 end
