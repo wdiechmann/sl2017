@@ -23,7 +23,7 @@
   = @message.msg_to
 %p
   %b Body:
-  = @message.body
+  = @message.body.html_safe
 
 = link_to 'Edit', edit_message_path(@message)
 \|

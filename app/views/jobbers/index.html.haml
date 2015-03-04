@@ -1,5 +1,6 @@
 :css
 	span.email { text-transform: lowercase !important }
+	textarea.form-control { height: 200px }
 
 .container-fluid
 	.row
@@ -60,26 +61,41 @@
 
 						.modal-body
 							%form
-								%input{ type: "hidden", name: "message[name]", value: ""}
-								%input{ type: "hidden", name: "message[street]", value: ""}
-								%input{ type: "hidden", name: "message[zip_city]", value: ""}
-								%input{ type: "hidden", name: "message[email]", value: ""}
 
 								.form-group
 									%label{ for:"message_msg_to", class:"control-label"} Til:
-									%input{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
+									%input.msg-to{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
 								.form-group
 									%label{ for:"message_title", class:"control-label"} Emne:
 									%input{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
 								.form-group
-									%label{ for:"message_body", class:"control-label"} Besked
-									%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+									.panel.panel-default
+										.panel-heading
+											%ul.nav.nav-tabs
+												%li.active
+													%a{ href: "#edit-panel", :"data-toggle"=>"tab"} Redigér
+												%li
+													%a.link-format-panel{ href: "#format-panel", :"data-toggle"=>"tab"} Vis formateret
+										.panel-body
+											#edit-panel.tab-pane.fade.active.in
+												%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+											#format-panel.tab-pane.fade
 
 						.modal-footer
 							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
 							%button.btn.btn-primary{ type:"button", id: "send_message"} Send
 
 	:coffeescript
+		$('li a.link-format-panel').on 'click', () ->
+			request = $.ajax
+				url: '/messages/format',
+				type: "get",
+				data: $('#message_body').serialize()
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				$('#format-panel').html(response)
+
 		newMessage = () ->
 			$form = $('#newMessage')
 			# let's select and cache all the fields
@@ -113,6 +129,7 @@
 			# if the request failed or succeeded
 			request.always () ->
 				#reenable the inputs
+				$('#newMessage').hide()
 				$inputs.prop "disabled", false
 
 		$('#newMessage').on 'show.bs.modal', (event) ->
@@ -120,8 +137,7 @@
 			recipient = button.data('recipient')
 			modal = $(this)
 			modal.find('.modal-title').text('Ny besked til ' + recipient)
-			modal.find('.modal-body input').val(recipient)
+			modal.find('.modal-body input.msg-to').val(recipient)
 
 		$('#send_message').on 'click', (e) ->
 			newMessage()
-			$('#newMessage').hide()

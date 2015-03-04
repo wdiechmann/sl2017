@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   resources :assignments
 
-  resources :messages
+  resources :messages do
+    collection do
+      get 'format'
+    end
+  end
 
   resources :jobs
 

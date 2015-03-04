@@ -1,33 +1,161 @@
-%h1 Listing messages
+/ = link_to 'Ny besked', new_message_path, class: 'btn btn-primary'
+- unless params[:all]=='true'
+  %h1 Åbne dialoger
+  = link_to 'Besvarede', messages_path(all: true), class: 'btn btn-primary'
+- else
+  %h1 Besvarede dialoger
+  = link_to 'Åbne', messages_path, class: 'btn btn-primary'
 
-%table
+%table.message-list
   %tr
     %th Title
-    %th Name
-    %th Street
-    %th Zip city
-    %th Email
-    %th Msg from
-    %th Msg to
-    %th Body
-    %th
-    %th
-    %th
+    / %th Name
+    / %th Street
+    / %th Zip city
+    / %th Email
+    %th Fra
+    / %th Msg to
+    %th Modtaget
+    %th Besvaret
 
   - @messages.each do |message|
     %tr
+      / %td= link_to message.title, message
       %td= message.title
-      %td= message.name
-      %td= message.street
-      %td= message.zip_city
-      %td= message.email
-      %td= message.msg_from
-      %td= message.msg_to
-      %td= message.body
-      %td= link_to 'Show', message
-      %td= link_to 'Edit', edit_message_path(message)
-      %td= link_to 'Destroy', message, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td=message.msg_from
+
+      %td{ title: "#{message.created_at.strftime "%d/%m/%Y %H:%M"}"}= message.created_at.strftime "%d/%m/%Y"
+      - if message.answered_at.nil?
+        %td
+          %button{ title: "#{message.msg_from}", type:"button", class:"btn btn-primary btn-small", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "#{message.id}" }
+            %span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+            %span.email.visible-md-inline.visible-lg-inline
+              Besvar
+      - else
+        %td{ title: "#{message.answered_at.strftime "%d/%m/%Y %H:%M" rescue ''}"}= message.answered_at.strftime "%d/%m/%Y" rescue ''
+
+      /%td
+      /  = link_to(message, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+      /    %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
 %br
 
-= link_to 'New Message', new_message_path
+  #newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"exampleModalLabel", :"aria-hidden"=>"true" }
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+            %span{ :"aria-hidden"=>"true"} &times;
+          %h4.modal-title{ id: "exampleModalLabel"}
+          .message-body
+
+        .modal-body
+          %form
+
+            .form-group
+              %input.from{ type:"hidden", class:"form-control", name: "message[msg_from]", id:"message_msg_from"}
+              %input.original_id{ type:"hidden", class:"form-control", name: "message[original_id]", id:"message_original_id"}
+
+            .form-group
+              .checkbox
+                %label{ style: "left: -17px"}
+                  %input.original{ type:"checkbox", class:"form-control", name: "message[original]", id:"message_original"}
+                  Inkludér oprindelig meddelelse
+            .form-group
+              %label{ for:"message_msg_to", class:"control-label"} Til:
+              %input.from-to{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
+            .form-group
+              %label{ for:"message_title", class:"control-label"} Emne:
+              %input.subject{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
+            .form-group
+              %label{ for:"message_body", class:"control-label"} Besked
+              %textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+
+        .modal-footer
+          %button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+          %button.btn.btn-primary{ type:"button", id: "send_message"} Send
+
+  :coffeescript
+
+    $('#send_message').on 'click', (e) ->
+      newMessage()
+
+    updateModal = (form,data) ->
+      modal = $(form)
+      modal.find('.modal-title').text(data.subject)
+      modal.find('.message-body').html(data.body)
+      modal.find('.modal-body input.from').val(data.msg_to)
+      modal.find('.modal-body input.original_id').val(data.id)
+      modal.find('.modal-body input.from-to').val(data.msg_from)
+      modal.find('.modal-body input.subject').val(data.title)
+
+    newMessage = () ->
+      $form = $('#newMessage')
+      # let's select and cache all the fields
+      $body = $form.find('#message_body')
+      $inputs = $form.find "input, select, button, textarea"
+
+      # serialize the data in the form
+      serializedData = $inputs.serialize()
+
+      # let's disable the inputs for the duration of the ajax request
+      # Note: we disable elements AFTER the form data has been serialized.
+      # Disabled form elements will not be serialized.
+      $inputs.prop("disabled", true)
+
+      # fire off the request to /form.php
+      request = $.ajax
+        url: '/messages.js',
+        type: "post",
+        data: serializedData
+
+      # callback handler that will be called on success
+      request.done (response, textStatus, jqXHR) ->
+        # log a message to the console
+        swal "Perfekt!", "Der er sendt en besked :)", 'success'
+
+      # callback handler that will be called on failure
+      request.fail (jqXHR, textStatus, errorThrown) ->
+        # log the error to the console
+        swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+      # callback handler that will be called regardless
+      # if the request failed or succeeded
+      request.always () ->
+        #reenable the inputs
+        $('#newMessage').hide()
+        $inputs.prop "disabled", false
+
+    $('#newMessage').on 'show.bs.modal', (event) ->
+      form=this
+      button = $(event.relatedTarget)
+      messageId = button.data('message-id')
+      url = '/messages/' + messageId + '.json'
+      console.log url
+
+      $table = $('table.message-list')
+      # let's select and cache all the fields
+      $inputs = $table.find "a, button"
+
+      # let's disable the inputs for the duration of the ajax request
+      # Note: we disable elements AFTER the form data has been serialized.
+      # Disabled form elements will not be serialized.
+      $inputs.prop("disabled", true)
+
+      # fire off the request to /form.php
+      request = $.getJSON url
+
+      # callback handler that will be called on success
+      request.done (response, textStatus, jqXHR) ->
+        updateModal form,jqXHR.responseJSON
+
+      # callback handler that will be called on failure
+      request.fail (jqXHR, textStatus, errorThrown) ->
+        # log the error to the console
+        swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+      # callback handler that will be called regardless
+      # if the request failed or succeeded
+      request.always () ->
+        #reenable the inputs
+        $inputs.prop "disabled", false

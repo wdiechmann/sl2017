@@ -24,8 +24,7 @@ gem 'masonry-rails'
 gem 'ancestry'
 gem 'delayed_job_active_record'
 gem 'paper_trail', '~> 4.0.0.beta'
-# Implementations
-gem 'postman', path: '../../gems/postman'
+gem 'rdiscount'
 
 group :production do
   gem "unicorn"

@@ -6,6 +6,10 @@ class MessagePolicy < ApplicationPolicy
     @record = record
   end
 
+  def format?
+    true
+  end
+  
   def create?
     true
   end

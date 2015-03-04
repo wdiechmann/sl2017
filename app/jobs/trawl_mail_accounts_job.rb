@@ -1,23 +1,41 @@
+require 'net/imap'
+#
+# the trawler will collect all emails (via IMAP)
+# store them in the messages table
+# and move them from INBOX to ARCHIVE in the mailbox
+#
 class TrawlMailAccountsJob < ActiveJob::Base
   queue_as :default
 
-  SERVER='pbox.dk'
-  USER='sl2017@alco.dk'
-  PASSWORD='sl2017!job'
   ROUNDTRIP=3.minutes
 
   def perform(*args)
-    mbox = Postman::Imap.new server:SERVER, user:USER, password:PASSWORD
-    mbox.each_message do |msg|
-      Message.create  title: msg.subject,
-        name: '',
-        street: '',
-        zip_city: '',
-        email: '',
-        msg_from: msg.from.join(","),
-        msg_to: msg.to.join(","),
-        body: msg.body
+
+    imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server)
+    imap.authenticate('LOGIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
+    imap.select(Rails.application.secrets.imap_source_mailbox)
+
+    imap.search(["ALL"]).each do |message_id|
+      msg = imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+      mail = Mail.read_from_string(msg)
+      next if mail.html_part.nil? || mail.text_part.nil?
+      parse mail
+      imap.copy(message_id, Rails.application.secrets.imap_archive_mailbox)
+      imap.store(message_id, "+FLAGS", [:Deleted])
     end
+
+    imap.expunge
+    imap.logout
+    imap.disconnect
+
     TrawlMailAccountsJob.set(wait: ROUNDTRIP).perform_later
+  end
+
+  def parse email
+    body = email.html_part.body || email.text_part.body
+    Message.create(  title: email.subject,
+      msg_from: email.from.join(","),
+      msg_to: email.to.join(","),
+      body: body.to_s)
   end
 end

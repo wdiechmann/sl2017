@@ -1,12 +1,17 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, except: :create
+  before_filter :authenticate_user!, except: [:create,:format]
   after_action :verify_authorized
+
+  def format
+    render inline: RDiscount.new( params[:message][:body]).to_html
+    authorize Message
+  end
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = params[:all]=='true' ? Message.answered.order( created_at: :desc) : Message.unseen.order( created_at: :desc)
     authorize Message
   end
 
@@ -28,12 +33,21 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
+    original = params[:message].delete(:original)
+    unless original.nil?
+      original_id=params[:message].delete(:original_id)
+      msg = Message.find(original_id)
+      params[:message][:body] = (RDiscount.new(params[:message][:body]).to_html + '<br/><br/>' + msg.body).html_safe
+      msg.update_attributes answered_at: Time.now
+    else
+      params[:message][:body] = RDiscount.new(params[:message][:body]).to_html
+    end
     @message = Message.new(message_params)
     authorize @message
 
     respond_to do |format|
       if @message.save
-        MessageMailer.message_email(@message,current_user).deliver_later
+        MessageMailer.message_email(@message,current_user).deliver
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: @message }
@@ -92,6 +106,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:title, :name, :street, :zip_city, :email, :msg_from, :msg_to, :body)
+      params.require(:message).permit(:title, :msg_from, :msg_to, :body, :answered_at)
     end
 end
