@@ -1,92 +1,194 @@
 :css
+	span.small { font-size: 0.8em }
 	span.email { text-transform: lowercase !important }
-	textarea.form-control { height: 200px }
+	textarea.form-control { height: 200px; max-height: 200px }
+	#edit-panel, #format-panel { height: 240px; max-height: 240px; overflow: scroll }
+	.jobber-link, .phone-link, .email-link {cursor: pointer }
+	a.email-link { display: block; }
+	@media (max-width: 700px) {
+		.glyphicon-envelope, .glyphicon-phone-alt { font-size: 2em;}
+		.phone, span.email { position: relative; top: -5px}
+	}
+	@media (max-width: 480px){
+		.ellipsis {
+		  text-overflow: ellipsis;
+
+		  /* Required for text-overflow to do anything */
+		  white-space: nowrap;
+		  overflow: hidden;
+		}
+	}
+
+	.tt-dropdown-menu {
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		background-color: white;
+		width: 170px;
+		min-height: 75px;
+		max-height: 150px;
+		overflow-y: auto;
+	}
+	.tt-dataset-jobs {
+	}
+	span.tt-suggestions {
+	}
+	.tt-suggestion {
+		padding: 0 3px 3px 3px;
+	}
+	.tt-cursor {
+		background-color: #ED834E;
+		color: #595643;
+	}
 
 .container-fluid
 	.row
-		.col-md-12
-			%h1 Oversigt over jobbere
-
-	.row
-		.col-md-12
-			%table.table.table-striped
-				%tr
-					%th Navn
-					/ %th Street
-					/ %th Zip city
-					%th Tlf
-					%th Email
-					%th Bekræftet
-					%th
-
-				- @jobbers.each do |jobber|
-					%tr
-						%td= link_to jobber.name, jobber
-						/ %td= jobber.street
-						/ %td= jobber.zip_city
-						%td
-							%button.btn.btn-default
-								%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
-								%span.hidden-xs= jobber.phone_number
-
-						%td
-							%button{ title: "#{jobber.email}", type:"button", class:"btn btn-primary btn-small", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
-								%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
-								%span.email.visible-md-inline.visible-lg-inline
-									=jobber.email.downcase
-
-						%td
-							- unless jobber.confirmed_at.nil?
-								%button.btn.btn-default
-									%span.glyphicon.glyphicon-ok{}
-									%span.hidden-xs= jobber.confirmed_at.strftime "%d/%m/%Y"
-						%td
-							= link_to(jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
-								%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
-
-
-
-			%br
+		.col-lg-12
+			%h3 Oversigt over jobbere
 
 			= link_to 'Ny jobber', new_jobber_path, class: 'btn btn-success'
 
 
-			#newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"exampleModalLabel", :"aria-hidden"=>"true" }
-				.modal-dialog
-					.modal-content
-						.modal-header
-							%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
-								%span{ :"aria-hidden"=>"true"} &times;
-							%h4.modal-title{ id: "exampleModalLabel"}	Ny besked
+			.row-action-primary.checkbox
+				%label
+					%input{ type:"checkbox"}
+				Jobbere med en checkbox i stedet for en 'avatar' har ikke bekræftet deres interesse tilkendegivelse. Du kan bekræfte den ved at klikke i checkboxen - men vær nu sikker på at jobberens email virker!
 
-						.modal-body
-							%form
+			%h3
+				&nbsp;
 
-								.form-group
-									%label{ for:"message_msg_to", class:"control-label"} Til:
-									%input.msg-to{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
-								.form-group
-									%label{ for:"message_title", class:"control-label"} Emne:
-									%input{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
-								.form-group
-									.panel.panel-default
-										.panel-heading
-											%ul.nav.nav-tabs
-												%li.active
-													%a{ href: "#edit-panel", :"data-toggle"=>"tab"} Redigér
-												%li
-													%a.link-format-panel{ href: "#format-panel", :"data-toggle"=>"tab"} Vis formateret
-										.panel-body
-											#edit-panel.tab-pane.fade.active.in
-												%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
-											#format-panel.tab-pane.fade
+	.row
+		- count = 0; jobstacks=[[],[],[]]; @jobbers.each{ |j| jobstacks[ (count += 1) % 3 ] << j  }
+		- jobstacks.each do |jobstack|
+			.col-lg-4
+				.list-group
+					- jobstack.each do |jobber|
+						.list-group-item{ id: "jobber_item_#{jobber.id}"}
+							- unless jobber.confirmed_at.nil?
+								.row-picture
+									%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+										%img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{jobber.confirmed_at.strftime "%d/%m/%Y"}"}
+							- else
+								.row-action-primary.checkbox.confirmation{ id: "jobber_col1_#{jobber.id}"}
+									%label
+										%input{ type:"checkbox", value: "#{jobber.id}"}
 
-						.modal-footer
-							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-							%button.btn.btn-primary{ type:"button", id: "send_message"} Send
+							.row-content
+								%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+									%h4.list-group-item-heading= jobber.name
+								%p.list-group-item-text
+									%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
+										%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
+										%span.phone
+											= jobber.phone_number
+
+									%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
+										%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+										%span.email
+											=jobber.email.downcase
+
+						.list-group-separator
+
+
+
+	#jobberCard.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"jobberTitle", :"aria-hidden"=>"true" }
+		.modal-dialog
+			.modal-content
+				.modal-header
+					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+						%span{ :"aria-hidden"=>"true"} &times;
+					%h4.modal-title{ id: "jobberTitle"}	Jobber
+
+				.modal-body
+					.well
+
+				.modal-footer
+					= link_to(@jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+						%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+
+					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+					%button.btn.btn-primary{ type:"button", id: "save_jobber"} Luk
+
+
+	#newCall.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"callTitle", :"aria-hidden"=>"true" }
+		.modal-dialog
+			.modal-content
+				.modal-header
+					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+						%span{ :"aria-hidden"=>"true"} &times;
+					%h4.modal-title{ id: "callTitle"}	Ny tlf samtale
+
+				.modal-body
+					%form
+
+						.form-group
+							%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+
+				.modal-footer
+					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+					%button.btn.btn-primary{ type:"button", id: "save_comment"} Gem
+
+
+
+	#newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"messageTitle", :"aria-hidden"=>"true" }
+		.modal-dialog
+			.modal-content
+				.modal-header
+					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+						%span{ :"aria-hidden"=>"true"} &times;
+					%h4.modal-title{ id: "messageTitle"}	Ny besked
+
+				.modal-body
+					%form
+						%input{ type:"hidden", id:"message_job_offer_id", name: "message[job_offer_id]"}
+						.form-group
+							%label{ for:"message_msg_to", class:"control-label"} Til:
+							%input.msg-to{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
+						.form-group
+							%label{ for:"message_title", class:"control-label"} Emne:
+							%input{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
+						#job_offer.form-group
+							%label{ for:"message_title", class:"control-label"} Jobforslag:
+							%input{ placeholder: "søg...", type:"text", class:"form-control typeahead", autocomplete: 'off', :"data-items"=>"3", id:"message_job_offer", name: "message[job_offer]"}
+						.form-group
+							%a.link-edit-panel.btn.btn-default{ href: "#"} Redigér
+							%a.link-format-panel.btn.btn-primary{ href: "#" } Vis formateret
+							#edit-panel.well{ style: "margin-top: 10px"}
+								%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+								%span.small
+									skriv {{jobbet}} hvis du vil nævne jobbet, og brug
+									%a{ href: "https://en.wikipedia.org/wiki/Markdown", target: "_blank"} Markdown
+									til at formatere teksten
+
+							#format-panel.well{ style: "margin-top: 10px"}
+
+				.modal-footer
+					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+					%button.btn.btn-primary{ type:"button", id: "send_message"} Send
+
 
 	:coffeescript
-		$('li a.link-format-panel').on 'click', () ->
+
+		$('.checkbox.confirmation input').on 'click', () ->
+			jobber_id=$(this).val()
+			url = '/jobbers/' + jobber_id + '/confirmation'
+			confirmation_request = $.ajax
+				url: url,
+				type: "get"
+
+			# callback handler that will be called on success
+			confirmation_request.done (response, textStatus, jqXHR) ->
+				$('#jobber_col1_'+jobber_id).removeClass('checkbox.').removeClass('confirmation').removeClass('row-action-primary')
+				$('#jobber_col1_'+jobber_id).addClass('row-picture').html(response)
+
+			confirmation_request.always () ->
+				console.log 'done'
+
+		$('a.link-edit-panel').on 'click', () ->
+			$('#edit-panel').show()
+			$('#format-panel').hide()
+
+		$('a.link-format-panel').on 'click', () ->
+			$('#edit-panel').hide()
+			$('#format-panel').show()
 			request = $.ajax
 				url: '/messages/format',
 				type: "get",
@@ -109,7 +211,7 @@
 			# Disabled form elements will not be serialized.
 			$inputs.prop("disabled", true)
 
-			# fire off the request to /form.php
+			# fire off the request to the server
 			request = $.ajax
 				url: '/messages.js',
 				type: "post",
@@ -133,6 +235,7 @@
 				$inputs.prop "disabled", false
 
 		$('#newMessage').on 'show.bs.modal', (event) ->
+			$('#format-panel').hide()
 			button = $(event.relatedTarget)
 			recipient = button.data('recipient')
 			modal = $(this)
@@ -141,3 +244,66 @@
 
 		$('#send_message').on 'click', (e) ->
 			newMessage()
+
+
+		$('#jobberCard').on 'show.bs.modal', (event) ->
+			button = $(event.relatedTarget)
+			jobber_id = button.data('jobber-id')
+
+			# fire off the request to the server
+			request = $.ajax
+				url: '/jobbers/' + jobber_id,
+				type: "get",
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				$('#jobberCard').find('.modal-body .well').html(response)
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+		$('#newCall').on 'show.bs.modal', (event) ->
+			$('#format-panel').hide()
+			button = $(event.relatedTarget)
+			recipient = button.data('recipient')
+			modal = $(this)
+			modal.find('.modal-title').text('Ny besked til ' + recipient)
+			modal.find('.modal-body input.msg-to').val(recipient)
+
+
+
+:javascript
+	var jobs = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  limit: 25,
+	  prefetch: '/jobs.json',
+	  remote: '/jobs.json?q=%QUERY'
+	});
+
+	// kicks off the loading/processing of `local` and `prefetch`
+	jobs.initialize();
+
+	// passing in `null` for the `options` arguments will result in the default
+	// options being used
+	$('.typeahead').typeahead(null, {
+	  name: 'jobs',
+	  displayKey: 'name',
+		templates: {
+		    empty: [
+		      '<div class="empty-message">',
+		      'Der var ingen jobs, der matcher det indtastede!',
+		      '</div>'
+		    ].join('\n'),
+		    suggestion: Handlebars.compile('<p><strong>{{name}}</strong> – {{id}}</p>')
+		  },
+	  // `ttAdapter` wraps the suggestion engine in an adapter that
+	  // is compatible with the typeahead jQuery plugin
+	  source: jobs.ttAdapter()
+	});
+
+	$('.typeahead').on('typeahead:selected', function(event, selection) {
+		$('#message_job_offer_id').val(selection.id);
+	});

@@ -37,6 +37,10 @@ class Jobber < ActiveRecord::Base
     end
   end
 
+	def confirm!
+		self.update_attributes confirmed_at: Time.now
+	end
+
 	# find a job attached to the jobber and assign the jobber
 	def assign_job assignee
 		return if self.job_id.nil?

@@ -115,7 +115,7 @@
 
 						.col-sm-6
 							%img{src: asset_url("jobbere.jpg")}
-							= simple_form_for(@jobber) do |f|
+							= simple_form_for(@jobber, remote: false) do |f|
 								= f.error_notification
 
 

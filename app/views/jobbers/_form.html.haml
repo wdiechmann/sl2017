@@ -1,16 +1,8 @@
 :css
 	input.date.empty~.floating-label { padding-left: 125px;}
-	
-%h3
-	- if @jobber.new_record?
-		Opret en ny jobber
-	- else
-		Ret en jobber
-
 
 = simple_form_for(@jobber) do |f|
 	= f.error_notification
-
 	.form-group
 		= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')
 		= f.error :name
@@ -46,6 +38,3 @@
 	.form-group
 		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.description')
 		= f.error :description
-
-	.form-actions
-		= f.button :submit

@@ -26,6 +26,11 @@ gem 'delayed_job_active_record'
 gem 'paper_trail', '~> 4.0.0.beta'
 gem 'rdiscount'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-typeahead.js'
+  gem 'rails-assets-handlebars'
+end
+
 group :production do
   gem "unicorn"
 end

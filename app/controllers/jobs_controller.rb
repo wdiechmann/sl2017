@@ -7,7 +7,13 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.all
+    unless params[:q].nil?
+      jobs = Job.arel_table
+      query_string = "%#{params[:q]}%"
+      @jobs = Job.where(jobs[:name].matches(query_string).or(jobs[:schedule].matches(query_string)).or(jobs[:description].matches(query_string)))
+    else
+      @jobs = Job.all
+    end
     authorize Job
   end
 

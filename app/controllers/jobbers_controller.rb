@@ -12,15 +12,25 @@ class JobbersController < ApplicationController
   end
 
   def confirmation
-    notice = @jobber.confirmed?(params) ?  'Din tilmelding er nu bekræftet - og vi vil kontakte dig hurtigst muligt' : 'Din tilmelding er ikke bekræftet'
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: notice}
+    if current_user
+      @jobber.confirm!
+      respond_to do |format|
+        format.html { render layout: false }
+      end
+    else
+      notice = @jobber.confirmed?(params) ?  'Din tilmelding er nu bekræftet - og vi vil kontakte dig hurtigst muligt' : 'Din tilmelding er ikke bekræftet'
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: notice}
+      end
     end
   end
 
   # GET /jobbers/1
   # GET /jobbers/1.json
   def show
+    respond_to do |format|
+      format.html { render layout: false }
+    end
   end
 
   # GET /jobbers/new

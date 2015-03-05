@@ -24,6 +24,7 @@
     "jquery": "2.1.1",
     "jquery-ujs": "1.0.1",
     "sweetalert": "0.2.0",
-    "bootstrap-material-design": "~0.1.1"
+    "bootstrap-material-design": "~0.1.1",
+    "arrive": "~2.1.0"
   }
 }

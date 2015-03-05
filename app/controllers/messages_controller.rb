@@ -33,28 +33,50 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
+    #
+    # did we suggest a job?
+    unless params[:message][:job_offer_id].nil?
+      params[:message].delete(:job_offer)
+      job = Job.find params[:message].delete(:job_offer_id)
+    end
+    #
+    # keep the original in the reply?
     original = params[:message].delete(:original)
+    original_id=params[:message].delete(:original_id)
+    #
+    # mark the original as answered
+    msg = Message.find(original_id) rescue nil
+    msg.update_attributes( answered_at: Time.now) unless msg.nil?
+    #
+    # format the message
     unless original.nil?
-      original_id=params[:message].delete(:original_id)
-      msg = Message.find(original_id)
       params[:message][:body] = (RDiscount.new(params[:message][:body]).to_html + '<br/><br/>' + msg.body).html_safe
-      msg.update_attributes answered_at: Time.now
     else
       params[:message][:body] = RDiscount.new(params[:message][:body]).to_html
     end
-    @message = Message.new(message_params)
-    authorize @message
+
+    params[:message][:msg_from] = Rails.application.secrets.imap_user_name
+    message = Message.new(message_params)
+    authorize message
 
     respond_to do |format|
-      if @message.save
-        MessageMailer.message_email(@message,current_user).deliver
+      if message.save
+        #
+        # attach it all to the jobber
+        jobber = Jobber.find_by_email(params[:message][:msg_to].strip)
+        if jobber && job
+          Assignment.create( job: job, jobber: jobber, assignee: current_user, assigned_at: Time.now)
+        end
+        #
+        # tell the jobber all about it
+        MessageMailer.message_email(message,jobber,job).deliver_later
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
-        format.json { render :show, status: :created, location: @message }
+        format.json { render :show, status: :created, location: message }
       else
         format.html { render :new }
-        format.js { render json: @message.errors, status: :unprocessable_entity }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.js { render json: message.errors, status: :unprocessable_entity }
+        format.json { render json: message.errors, status: :unprocessable_entity }
       end
     end
   end

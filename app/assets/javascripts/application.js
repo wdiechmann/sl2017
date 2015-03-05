@@ -12,10 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require handlebars
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require arrive
 //= require bootstrap-material-design
 //= require sweetalert
+//= require typeahead
 //= require masonry/jquery.masonry
 //= require masonry/jquery.event-drag
 //= require masonry/jquery.imagesloaded.min
