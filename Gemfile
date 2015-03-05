@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.0'
+ruby '2.1.2'
 gem 'rails', '4.2.0'
 gem 'rails-i18n', '~> 4.0.0'
 gem 'roadie-rails'
@@ -39,7 +39,7 @@ group :development do
   gem 'binding_of_caller', :platforms=>[:mri_21]
   gem 'tzinfo-data'
   gem 'bcrypt-ruby', :require => 'bcrypt'
-  gem 'capistrano', '~> 3.1.0'
+  gem 'capistrano', '~> 3.3.5'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
   gem 'capistrano-rails-console'
