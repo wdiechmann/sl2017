@@ -369,8 +369,8 @@ DEPENDENCIES
   pundit
   quiet_assets
   rails (= 4.2.0)
-  rails-assets-handlebars!
-  rails-assets-typeahead.js!
+  rails-assets-handlebars
+  rails-assets-typeahead.js
   rails-i18n (~> 4.0.0)
   rails_layout
   rdiscount

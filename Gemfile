@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby '2.1.2'
 gem 'rails', '4.2.0'
 gem 'rails-i18n', '~> 4.0.0'
@@ -26,10 +27,8 @@ gem 'delayed_job_active_record'
 gem 'paper_trail', '~> 4.0.0.beta'
 gem 'rdiscount'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-typeahead.js'
-  gem 'rails-assets-handlebars'
-end
+gem 'rails-assets-typeahead.js'
+gem 'rails-assets-handlebars'
 
 group :production do
   gem "unicorn"
