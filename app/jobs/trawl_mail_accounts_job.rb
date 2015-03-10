@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'net/imap'
 #
 # the trawler will collect all emails (via IMAP)
@@ -32,10 +33,15 @@ class TrawlMailAccountsJob < ActiveJob::Base
   end
 
   def parse email
-    body = email.html_part.body || email.text_part.body
-    Message.create(  title: email.subject,
-      msg_from: email.from.join(","),
-      msg_to: email.to.join(","),
-      body: body.to_s)
+    begin
+      body = email.html_part.body || email.text_part.body
+      body = body.force_encoding("UTF-8")
+      Message.create(  title: email.subject,
+        msg_from: email.from.join(","),
+        msg_to: email.to.join(","),
+        body: body.to_s)
+    rescue
+      logger.info 'missed a message %s' % email.subject
+    end
   end
 end

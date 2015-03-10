@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "job@sl2017.dk"
+  default from: Rails.application.secrets.imap_reply_email
   layout 'mailer'
 end

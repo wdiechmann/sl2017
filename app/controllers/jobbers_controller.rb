@@ -7,7 +7,7 @@ class JobbersController < ApplicationController
   # GET /jobbers
   # GET /jobbers.json
   def index
-    @jobbers = Jobber.all
+    @jobbers = params[:job_id].blank? ? Jobber.all : Job.find(params[:job_id]).jobbers
     authorize Jobber
   end
 

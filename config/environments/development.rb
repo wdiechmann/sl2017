@@ -18,6 +18,7 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
+  config.active_record.raise_in_transactional_callbacks = true
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
@@ -30,13 +31,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
-    address:              Rails.application.secrets.smtp_host,       
-    port:                 Rails.application.secrets.smtp_port,       
+    address:              Rails.application.secrets.smtp_host,
+    port:                 Rails.application.secrets.smtp_port,
     domain:               Rails.application.secrets.smtp_domain_name,
-    user_name:            Rails.application.secrets.smtp_user,    
+    user_name:            Rails.application.secrets.smtp_user,
     password:             Rails.application.secrets.smtp_password,
     authentication:       'login',
-    enable_starttls_auto: false  
+    enable_starttls_auto: false
   }
 
   # ActionMailer Config
@@ -45,7 +46,7 @@ Rails.application.configure do
       :only_path => false
   }
   config.action_mailer.asset_host = 'http://localhost:3000'
-  
+
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.

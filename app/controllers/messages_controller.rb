@@ -11,6 +11,13 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
+    #
+    # A big hack - but we have to make sure that there is a job that will process mails
+    #
+    if Delayed::Job.all.where( 'handler like "%Trawl%"').count < 1
+      TrawlMailAccountsJob.new.perform
+    end
+    #
     @messages = params[:all]=='true' ? Message.answered.order( created_at: :desc) : Message.unseen.order( created_at: :desc)
     authorize Message
   end
@@ -35,7 +42,7 @@ class MessagesController < ApplicationController
   def create
     #
     # did we suggest a job?
-    unless params[:message][:job_offer_id].nil?
+    unless params[:message][:job_offer_id].blank?
       params[:message].delete(:job_offer)
       job = Job.find params[:message].delete(:job_offer_id)
     end

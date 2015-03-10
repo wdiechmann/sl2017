@@ -64,4 +64,8 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
+  #TODO - chmod +x config/unicorn_init.sh
+  #TODO - chmod +x bin/delayed_job
+  #TODO - system 'bin/delayed_job start'
+
 end

@@ -2,7 +2,7 @@ class JobMailer < ApplicationMailer
   include Roadie::Rails::Automatic
 
   # Default Mail Values
-  default from: Rails.application.secrets.admin_email
+  default from: Rails.application.secrets.imap_reply_email
   layout 'job_confirm'
 
   def job_confirm(job,user)

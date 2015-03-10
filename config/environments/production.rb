@@ -77,13 +77,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
-    address:              Rails.application.secrets.smtp_host,       
+    address:              Rails.application.secrets.smtp_host,
     port:                 Rails.application.secrets.smtp_port,
     domain:               Rails.application.secrets.smtp_domain_name,
-    user_name:            Rails.application.secrets.smtp_user,    
+    user_name:            Rails.application.secrets.smtp_user,
     password:             Rails.application.secrets.smtp_password,
     authentication:       'login',
-    enable_starttls_auto: false  
+    enable_starttls_auto: false
   }
 
   # ActionMailer Config
@@ -91,7 +91,7 @@ Rails.application.configure do
       :host => "http://" + Rails.application.secrets.domain_name,
       :only_path => false
   }
-  config.action_mailer.asset_host = "http://" + Rails.application.secrets.domain_name 
+  config.action_mailer.asset_host = "http://" + Rails.application.secrets.domain_name
 
 
   # Disable automatic flushing of the log to improve performance.
@@ -102,4 +102,5 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.active_record.raise_in_transactional_callbacks = true
 end

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :jobs
+  resources :jobs do
+    resources :jobbers
+  end
 
   resources :accounts
 

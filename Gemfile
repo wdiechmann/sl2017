@@ -30,6 +30,8 @@ gem 'rdiscount'
 gem 'rails-assets-typeahead.js'
 gem 'rails-assets-handlebars'
 
+gem 'daemons'
+
 group :production do
   gem "unicorn"
 end

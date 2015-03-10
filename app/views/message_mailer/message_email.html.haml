@@ -1,4 +1,4 @@
-- @message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?
+- (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
 
 :css
 
@@ -160,7 +160,7 @@
                               %h1
                                 &nbsp;
                               /   Kære
-                              /   = @name
+                              /   name
                               / %br
                               / %h2
                               /   For at bekræfte din interesse for at være jobber på SL2017, vil vi gerne om du trykker på knappen 'bekræft' lige her nedenfor:
@@ -187,8 +187,8 @@
                               %tr
                                 %td{style:"text-align: left;"}
                                   Hej
-                                  = @jobber.name
+                                  = @jobber.name rescue 'du'
                                   %hr
                                   %br
-                                  
+
                                   = @message.body.html_safe

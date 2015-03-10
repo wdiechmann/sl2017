@@ -10,7 +10,7 @@ class JobsController < ApplicationController
     unless params[:q].nil?
       jobs = Job.arel_table
       query_string = "%#{params[:q]}%"
-      @jobs = Job.where(jobs[:name].matches(query_string).or(jobs[:schedule].matches(query_string)).or(jobs[:description].matches(query_string)))
+      @jobs = Job.include(:current_jobbers).where(jobs[:name].matches(query_string).or(jobs[:schedule].matches(query_string)).or(jobs[:description].matches(query_string)))
     else
       @jobs = Job.all
     end
