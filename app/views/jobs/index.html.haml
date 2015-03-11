@@ -5,6 +5,16 @@
 
 	.row
 		.col-md-12
+			%form.form-inline{ action: "/jobs", method: "get"}
+				.form-group
+					%label{ for: "q" }
+					%input.form-control{ type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
+				%button.btn.btn-primary{ type: "submit"} Søg
+	.row
+		.col-md-12
+			&nbsp;
+	.row
+		.col-md-12
 			%table.table.table-striped
 				%tr
 					%th Hvad
@@ -15,7 +25,7 @@
 					%th
 
 				- @jobs.each do |job|
-					%tr
+					%tr{ class: "#{aged_class job}"}
 						%td= link_to job.name, job
 						%td= job.location
 						%td= job.schedule

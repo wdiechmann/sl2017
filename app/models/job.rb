@@ -6,6 +6,7 @@ class Job < ActiveRecord::Base
 	has_many :jobbers, through: :assignments
 	has_many :current_jobbers, through: :current_assignments, class_name: 'Jobber', source: :jobber
 	belongs_to :delivery_team
+	belongs_to :user
 
 	validates :name, presence: true
 	validates :location, presence: true

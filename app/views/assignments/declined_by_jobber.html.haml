@@ -1,0 +1,168 @@
+!!!
+%html
+  %head
+    :css
+
+      @import url(http://fonts.googleapis.com/css?family=Lato:400);
+
+      /* Take care of image borders and formatting */
+
+      img {
+        max-width: 600px;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+
+      a {
+        text-decoration: none;
+        border: 0;
+        outline: none;
+      }
+
+      a img {
+        border: none;
+      }
+
+      /* General styling */
+
+      td, h1, h2, h3  {
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: 400;
+      }
+
+      body {
+        -webkit-font-smoothing:antialiased;
+        -webkit-text-size-adjust:none;
+        width: 100%;
+        height: 100%;
+        color: #37302d;
+        background: #ffffff;
+      }
+
+       table {
+        border-collapse: collapse !important;
+      }
+
+
+      h1, h2, h3 {
+        padding: 0;
+        margin: 0;
+        color: #0f9d58;
+        font-weight: 400;
+      }
+
+      h1, h2 { color: #ffffff; opacity: 1.0}
+
+      h3 {
+        color: #777777;
+        font-size: 24px;
+      }
+
+      .important-font {
+        color: #f44336;
+        font-weight: bold;
+      }
+
+      .hide {
+        display: none !important;
+      }
+
+      .force-full-width {
+        width: 100% !important;
+      }
+
+
+      @media screen {
+        /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+        td, h1, h2, h3 {
+          font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+        }
+      }
+
+      /* Mobile styles */
+      @media only screen and (max-width: 480px) {
+        table[class="w320"] {
+          width: 320px !important;
+        }
+
+        table[class="w300"] {
+          width: 300px !important;
+        }
+
+        table[class="w290"] {
+          width: 290px !important;
+        }
+
+        td[class="w320"] {
+          width: 320px !important;
+        }
+
+        td[class="mobile-center"] {
+          text-align: center !important;
+        }
+
+        td[class*="mobile-padding"] {
+          padding-left: 20px !important;
+          padding-right: 20px !important;
+          padding-bottom: 20px !important;
+        }
+
+        td[class*="mobile-block"] {
+          display: block !important;
+          width: 100% !important;
+          text-align: left !important;
+          padding-bottom: 20px !important;
+        }
+
+        td[class*="mobile-border"] {
+          border: 0 !important;
+        }
+
+        td[class*="reveal"] {
+          display: block !important;
+        }
+      }
+
+%body{ class:"body", style:"padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none", bgcolor:"#ffffff"}
+  %table{ align: "center", cellpadding:"0", cellspacing:"0", width:"100%", height:"100%" }
+    %tr
+      %td{ align: "center", valign:"top",  bgcolor:"#ffffff", width:"100%"}
+        %table{ cellpadding:"0", cellspacing:"0", width:"100%" }
+
+          %tr{ background:"http://spejderneslejr2017.dk/wp-content/uploads/2013/08/copy-banner1.jpg", bgcolor:"#8b8284", valign:"top", style:"background: no-repeat url(http://spejderneslejr2017.dk/wp-content/uploads/2013/08/copy-banner1.jpg); background-color: #8b8284; background-position: center;" }
+            %td{ style:"border-bottom: 3px solid #fcfcfc;", width:"100%"}
+              %center
+                %table{cellpadding:"0", cellspacing:"0", width:"500", class: "w320" }
+                  %tr
+                    %td{ valign:"top", style:"height: 55px; padding:10px 0; text-align:left;", class: "mobile-center" }
+                  %tr
+                    %td
+
+          %tr
+            %td{ style:"border-bottom: 3px solid #fcfcfc;", width:"100%" }
+              %center
+                %table{  cellspacing:"0", cellpadding:"0", width:"500", class:"w320" }
+                  %tr
+                    %td{  valign:"top", style:"height: 55px; padding:10px 0; text-align:left;", class:"mobile-center",  bgcolor:"#ffffff" }
+                      %h3 Spejdernes Lejr 2017
+                      %p Jobber tilmelding
+
+          %tr{ style:""}
+            %td{ bgcolor:"#8b8284", valign:"top", style:"background-color: #8b8284; " }
+              %div
+                %center
+                  %table{  cellspacing:"0", cellpadding:"0", width:"530", height:"50", class:"w320" }
+                    %tr
+                      %td{  valign:"middle", style:"vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:left;", height:"50" }
+                        %table{ cellspacing:"0", cellpadding:"0", width:"100%" }
+                          %tr
+                            %td
+
+                              %h1 ØV! Det var ærgerligt at du ikke kunne bruge jobbet!
+                              %p Vi håber at vi må trækkepå dig til andre opgaver! Nedenfor har du mulighed for at skrive hvorfor jobbet ikke duede!
+                              %p
+                              %p
+                                = simple_form_for(@assignment) do |f|
+                                  =f.input :withdrawn_reason
+                                  =f.submit 'Gem'

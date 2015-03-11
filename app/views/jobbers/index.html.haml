@@ -38,6 +38,10 @@
 		background-color: #ED834E;
 		color: #595643;
 	}
+	.list-group-item-danger {
+		color: #a94442 !important;
+		background-color: #f2dede !important;
+	}
 
 .container-fluid
 	.row
@@ -55,13 +59,25 @@
 			%h3
 				&nbsp;
 
+
+	.row
+		.col-md-12
+			%form.form-inline{ action: "/jobbers", method: "get"}
+				.form-group
+					%label{ for: "q" }
+					%input.form-control{ type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
+				%button.btn.btn-primary{ type: "submit"} Søg
+	.row
+		.col-md-12
+			&nbsp;
+
 	.row
 		- count = 0; jobstacks=[[],[],[]]; @jobbers.each{ |j| jobstacks[ (count += 1) % 3 ] << j  }
 		- jobstacks.each do |jobstack|
 			.col-lg-4
-				.list-group
+				%ul.list-group
 					- jobstack.each do |jobber|
-						.list-group-item{ id: "jobber_item_#{jobber.id}"}
+						%li{ id: "jobber_item_#{jobber.id}", class: "#{aged_class jobber} list-group-item"}
 							- unless jobber.confirmed_at.nil?
 								.row-picture
 									%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
@@ -83,7 +99,7 @@
 									%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
 										%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
 										%span.email
-											=jobber.email.downcase
+											=jobber.email.downcase.gsub(/@/,' at ')
 
 						.list-group-separator
 

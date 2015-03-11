@@ -49,4 +49,10 @@ class Jobber < ActiveRecord::Base
 		true
 	end
 
+
+  def list_title
+    self.name
+  end
+
+
 end

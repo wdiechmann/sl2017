@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
   resources :delivery_teams
 
-  resources :assignments
+  resources :assignments do
+    member do
+      get 'accepted_by_jobber'
+      get 'accepted_by_dt'
+      get 'declined_by_jobber'
+      get 'declined_by_dt'
+    end
+  end
 
   resources :messages do
     collection do

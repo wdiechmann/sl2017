@@ -71,12 +71,13 @@ class MessagesController < ApplicationController
         #
         # attach it all to the jobber
         jobber = Jobber.find_by_email(params[:message][:msg_to].strip)
+        assignment = nil
         if jobber && job
-          Assignment.create( job: job, jobber: jobber, assignee: current_user, assigned_at: Time.now)
+          assignment = Assignment.create( job: job, jobber: jobber, assignee: current_user, assigned_at: Time.now)
         end
         #
         # tell the jobber all about it
-        MessageMailer.message_email(message,jobber,job).deliver_later
+        MessageMailer.message_email(message,jobber,job, assignment).deliver_later
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: message }

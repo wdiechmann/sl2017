@@ -41,6 +41,16 @@
 			%b Hvordan
 		.col-md-10
 			= @job.description
+	.row
+		.col-md-2
+			%b Udvalg
+		.col-md-10
+			= @job.delivery_team.title rescue ''
+	.row
+		.col-md-2
+			%b Hvem har oprettet jobbet
+		.col-md-10
+			= @job.user.name rescue ''
 
 	.row
 		.col-md-2

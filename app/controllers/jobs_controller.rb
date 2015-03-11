@@ -10,9 +10,9 @@ class JobsController < ApplicationController
     unless params[:q].nil?
       jobs = Job.arel_table
       query_string = "%#{params[:q]}%"
-      @jobs = Job.include(:current_jobbers).where(jobs[:name].matches(query_string).or(jobs[:schedule].matches(query_string)).or(jobs[:description].matches(query_string)))
+      @jobs = Job.all.where(jobs[:name].matches(query_string).or(jobs[:schedule].matches(query_string)).or(jobs[:location].matches(query_string)).or(jobs[:description].matches(query_string))).order(created_at: :asc)
     else
-      @jobs = Job.all
+      @jobs = Job.all.order(created_at: :asc)
     end
     authorize Job
   end
@@ -36,6 +36,7 @@ class JobsController < ApplicationController
   # POST /jobs
   # POST /jobs.json
   def create
+    params[:job][:user_id] = current_user.id
     @job = Job.new(job_params)
     authorize @job
 
@@ -101,6 +102,6 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at, :delivery_team_id)
+      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at, :delivery_team_id, :user_id)
     end
 end

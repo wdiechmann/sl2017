@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_paper_trail
-  
+
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, :if => :new_record?
   before_create :create_account
@@ -10,6 +10,14 @@ class User < ActiveRecord::Base
   belongs_to :account
 
   validates :name, presence: true, :if => :new_record?
+
+  def list_name
+    self.name
+  end
+
+  def list_title
+    self.name
+  end
 
   def create_account
     if self.account.nil?

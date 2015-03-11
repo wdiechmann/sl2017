@@ -7,11 +7,18 @@ class JobbersController < ApplicationController
   # GET /jobbers
   # GET /jobbers.json
   def index
-    @jobbers = params[:job_id].blank? ? Jobber.all : Job.find(params[:job_id]).jobbers
+    unless params[:q].nil?
+      jobbers = Jobber.arel_table
+      query_string = "%#{params[:q]}%"
+      @jobbers = Jobber.all.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).order(created_at: :desc)
+    else
+      @jobbers = params[:job_id].blank? ? Jobber.all.order(created_at: :desc) : Job.find(params[:job_id]).jobbers.order(created_at: :desc)
+    end
     authorize Jobber
   end
 
   def confirmation
+    Message.create( title: 'Velkommen!', msg_from: @jobber.email, msg_to: Rails.application.secrets.imap_reply_email, body: 'Du har lige registreret dig - det er super!')
     if current_user
       @jobber.confirm!
       respond_to do |format|

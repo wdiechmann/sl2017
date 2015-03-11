@@ -6,8 +6,24 @@ class JobberPolicy < ApplicationPolicy
     @record = record
   end
 
+  def index?
+    current_user.vip?
+  end
+
+  def show?
+    current_user.vip?
+  end
+
   def create?
     true
+  end
+
+  def update?
+    current_user.vip?
+  end
+
+  def destroy?
+    current_user.vip?
   end
 
   def confirmation?

@@ -2,28 +2,30 @@
 
 %p
   %b Job:
-  = @assignment.job
+  = @assignment.job.name rescue ''
 %p
   %b Jobber:
-  = @assignment.jobber
+  = @assignment.jobber.name rescue ''
 %p
-  %b Assigned at:
-  = @assignment.assigned_at
+  %b Tildelt den:
+  = @assignment.assigned_at.strftime % "%d/%m/%Y" rescue ''
 %p
-  %b Assigned:
-  = @assignment.assigned_id
+  %b Tildelt af:
+  = @assignment.assignee.list_name rescue ''
 %p
-  %b Assigned type:
-  = @assignment.assigned_type
+  %b Afvist/trukket tilbage den:
+  = @assignment.withdrawn_at.strftime % "%d/%m/%Y" rescue ''
 %p
-  %b Withdrawn at:
-  = @assignment.withdrawn_at
+  %b Afvist/trukket tilbage af:
+  = @assignment.withdrawner.list_name rescue ''
+
 %p
-  %b Withdrawn:
-  = @assignment.withdrawn_id
+  %b Status:
+  = show_assignment_status @assignment
 %p
-  %b Withdrawn type:
-  = @assignment.withdrawn_type
+  %b Årsag:
+  = @assignment.withdrawn_reason
+
 
 = link_to 'Edit', edit_assignment_path(@assignment)
 \|

@@ -9,9 +9,25 @@ class MessagePolicy < ApplicationPolicy
   def format?
     true
   end
-  
+
   def create?
     true
+  end
+
+  def index?
+    current_user.vip?
+  end
+
+  def show?
+    current_user.vip?
+  end
+
+  def update?
+    current_user.vip?
+  end
+
+  def destroy?
+    current_user.vip?
   end
 
 end

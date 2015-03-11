@@ -8,6 +8,11 @@ module JobsHelper
   end
 
   def badge job
-    link_to 'jobbers', job_jobbers_url(job)
+    txt = "<span class='badge'>%i / %i</span>" % [ job.current_jobbers.count, job.jobbers_wanted]
+    link_to txt.html_safe, job_jobbers_url(job)
+  end
+
+  def aged_class cls
+    return "danger list-group-item-danger" if cls.created_at < 4.weeks.ago
   end
 end

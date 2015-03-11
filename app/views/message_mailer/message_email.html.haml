@@ -192,3 +192,21 @@
                                   %br
 
                                   = @message.body.html_safe
+
+                              - unless @assignment.nil?
+                                %tr
+                                  %td{style:"text-align: left;"}
+                                    Det vil hjælpe os meget, hvis du vil have ulejlighed med
+                                    at bekræfte det job, vi har fundet til dig - hvis jobbet
+                                    altså passer dig.
+                                    <br/>
+                                    <br/>
+                                    På forhånd tak!
+
+                                %tr
+                                  %td{style:"text-align: left;"}
+                                    = link_to 'jobbet passer mig fint', accepted_by_jobber_assignment_url(@assignment)
+
+                                %tr
+                                  %td{style:"text-align: left;"}
+                                    = link_to 'det er et skod job! Nej tak!', declined_by_jobber_assignment_url(@assignment)

@@ -12,10 +12,11 @@ class MessageMailer < ActionMailer::Base
     mail(to: @message.email, subject: t('message_mailer.thankyou'))
   end
 
-  def message_email(message,jobber,job)
+  def message_email(message,jobber,job,assignment)
     @message=message
     @jobber=jobber
     @job=job
+    @assignment=assignment
     # user ||= User.first
     # I am overriding the 'to' default
     mail(to: @message.msg_to, subject: @message.title)

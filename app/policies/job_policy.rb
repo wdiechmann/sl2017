@@ -6,8 +6,8 @@ class JobPolicy < ApplicationPolicy
     @record = record
   end
 
-  def create?
-    true
-  end
+  # def create?
+  #   true
+  # end
 
 end

@@ -4,29 +4,26 @@
   %tr
     %th Job
     %th Jobber
-    %th Assigned at
-    %th Assigned
-    %th Assigned type
-    %th Withdrawn at
-    %th Withdrawn
-    %th Withdrawn type
+    %th Tildelt den
+    %th Af
+    %th Afvist den
+    %th Afvist af
     %th
     %th
     %th
 
   - @assignments.each do |assignment|
     %tr
-      %td= assignment.job
-      %td= assignment.jobber
-      %td= assignment.assigned_at
-      %td= assignment.assigned_id
-      %td= assignment.assigned_type
-      %td= assignment.withdrawn_at
-      %td= assignment.withdrawn_id
-      %td= assignment.withdrawn_type
-      %td= link_to 'Show', assignment
-      %td= link_to 'Edit', edit_assignment_path(assignment)
-      %td= link_to 'Destroy', assignment, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td= link_to assignment.job.name, assignment.job rescue ''
+      %td= link_to assignment.jobber.list_title, assignment.jobber rescue ''
+      %td= assignment.assigned_at.strftime "%d/%m/%Y"  rescue ''
+      %td= link_to assignment.assignee.list_title, assignment.assignee rescue ''
+      %td= assignment.withdrawn_at.strftime "%d/%m/%Y"  rescue ''
+      %td= link_to assignment.withdrawer.list_title, assignment.withdrawer rescue ''
+      %td
+        /= #link_to 'Destroy', assignment, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        = link_to(assignment, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+          %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
 %br
 
