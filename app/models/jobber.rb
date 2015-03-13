@@ -9,6 +9,8 @@ class Jobber < ActiveRecord::Base
 	validates :phone_number,  presence: true
 	validates :email,  presence: true
 
+	scope :vacant, ->() { where( ["jobber_assigned is null and (next_contact_at is null or next_contact_at < ? )",Time.now]) }
+
   # validates :jobber_assigned, :next_contact_at, :description, :jobbers_controlled
   #
   # advanced validates example:

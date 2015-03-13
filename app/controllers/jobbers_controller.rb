@@ -1,5 +1,5 @@
 class JobbersController < ApplicationController
-  before_action :set_jobber, only: [:show, :edit, :update, :destroy, :confirmation]
+  before_action :set_jobber, only: [:show, :edit, :update, :destroy, :confirmation, :park]
   before_filter :authenticate_user!, except: [:create, :confirmation]
   after_action :verify_authorized
 
@@ -10,11 +10,20 @@ class JobbersController < ApplicationController
     unless params[:q].nil?
       jobbers = Jobber.arel_table
       query_string = "%#{params[:q]}%"
-      @jobbers = Jobber.all.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).order(created_at: :desc)
+      @jobbers = Jobber.vacant.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).order(created_at: :desc)
     else
-      @jobbers = params[:job_id].blank? ? Jobber.all.order(created_at: :desc) : Job.find(params[:job_id]).jobbers.order(created_at: :desc)
+      @jobbers = params[:job_id].blank? ? Jobber.vacant.order(created_at: :desc) : Job.find(params[:job_id]).jobbers.order(created_at: :desc)
     end
     authorize Jobber
+  end
+
+  def park
+    if @jobber && current_user
+      @jobber.update_attributes( next_contact_at: params[:until_at])
+      respond_to do |format|
+        format.html { head 200 }
+      end
+    end
   end
 
   def confirmation
@@ -37,6 +46,7 @@ class JobbersController < ApplicationController
   def show
     respond_to do |format|
       format.html { render layout: false }
+      format.json
     end
   end
 
@@ -83,9 +93,11 @@ class JobbersController < ApplicationController
     respond_to do |format|
       if @jobber.update(jobber_params)
         format.html { redirect_to @jobber, notice: 'Jobber was successfully updated.' }
+        format.js   { head 220 }
         format.json { render :show, status: :ok, location: @jobber }
       else
         format.html { render :edit }
+        format.js   { render layout: false }
         format.json { render json: @jobber.errors, status: :unprocessable_entity }
       end
     end

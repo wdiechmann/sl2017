@@ -17,6 +17,9 @@ class MessagesController < ApplicationController
     if Delayed::Job.all.where( 'handler like "%Trawl%"').count < 1
       TrawlMailAccountsJob.new.perform
     end
+    if Delayed::Job.all.where( 'handler like "%Watch%"').count < 1
+      WatchJobbersJob.new.perform
+    end
     #
     @messages = params[:all]=='true' ? Message.answered.order( created_at: :desc) : Message.unseen.order( created_at: :desc)
     authorize Message

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :jobbers do
     member do
       get 'confirmation'
+      get "park"
     end
   end
 

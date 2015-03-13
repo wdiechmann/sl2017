@@ -17,6 +17,9 @@
 		  white-space: nowrap;
 		  overflow: hidden;
 		}
+		button.cancel_park {
+			margin-bottom: 10px;
+		}
 	}
 
 	.tt-dropdown-menu {
@@ -37,10 +40,6 @@
 	.tt-cursor {
 		background-color: #ED834E;
 		color: #595643;
-	}
-	.list-group-item-danger {
-		color: #a94442 !important;
-		background-color: #f2dede !important;
 	}
 
 .container-fluid
@@ -88,8 +87,12 @@
 										%input{ type:"checkbox", value: "#{jobber.id}"}
 
 							.row-content
-								%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
-									%h4.list-group-item-heading= jobber.name
+								%h4.list-group-item-heading
+									%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+										= jobber.name
+									%a.park_jobber{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", style: "float: right", :"data-jobber-id"=>"#{jobber.id}"}
+										%span.glyphicon.glyphicon-time{style: "float: right"}
+
 								%p.list-group-item-text
 									%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
 										%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
@@ -117,8 +120,8 @@
 					.well
 
 				.modal-footer
-					= link_to(@jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
-						%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+					/= link_to(@jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+					/	%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
 					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
 					%button.btn.btn-primary{ type:"button", id: "save_jobber"} Luk
@@ -142,6 +145,26 @@
 					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
 					%button.btn.btn-primary{ type:"button", id: "save_comment"} Gem
 
+	#parkModal.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"parkTitle", :"aria-hidden"=>"true" }
+		.modal-dialog
+			.modal-content
+				.modal-header
+					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+						%span{ :"aria-hidden"=>"true"} &times;
+					%h4.modal-title{ id: "parkTitle"}	Parkér jobberen
+
+				.modal-body
+					%form
+
+						.form-group
+							%label{ for:"jobber_next_contact_at", class:"control-label"} Parkér indtil:
+							%input.park-until{ type:"text", class:"form-control", name: "jobber[next_contact_at]", id:"jobber_next_contact_at", placeholder: 'dd-mm-åååå'}
+
+				.modal-footer{ style: 'padding-top: 5px;'}
+					.buttons{ style: 'width: 50%; float: right'}
+						%button.cancel_park.btn.btn-default{ type:"button", :"data-dismiss"=>"modal" } Fortryd
+						%button.btn.btn-primary{ type:"button", id: "set_parkometer"} Parkér
+					.note{ style: 'width:50%; float: right'} campOS lægger en frisk dialog frem når tid er - lige til at bide i for dig ;)
 
 
 	#newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"messageTitle", :"aria-hidden"=>"true" }
@@ -182,6 +205,31 @@
 
 
 	:coffeescript
+
+		jobber_id = null
+
+		$('a.park_jobber').on 'click', (e) ->
+			jobber_id= $(this).data('jobber-id')
+			elem = e.target
+			$('parkModal').modal()
+			name = $(elem).closest('h4').text()
+			$('#parkModal').find('.modal-title').text('Parkér ' + name)
+
+		$('#set_parkometer').on 'click', (e) ->
+			url = '/jobbers/' + jobber_id + '/park'
+			data = { until_at: $('input.park-until').val() }
+
+			park_request = $.ajax
+				url: url,
+				data: data,
+				type: "get"
+
+			# callback handler that will be called on success
+			park_request.done (response, textStatus, jqXHR) ->
+				$("li#jobber_item_"+jobber_id).next('.list-group-separator').remove()
+				$("li#jobber_item_"+jobber_id).remove()
+				$('#parkModal').modal('hide')
+
 
 		$('.checkbox.confirmation input').on 'click', () ->
 			jobber_id=$(this).val()
@@ -261,7 +309,6 @@
 		$('#send_message').on 'click', (e) ->
 			newMessage()
 
-
 		$('#jobberCard').on 'show.bs.modal', (event) ->
 			button = $(event.relatedTarget)
 			jobber_id = button.data('jobber-id')
@@ -280,6 +327,49 @@
 				# log the error to the console
 				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
 
+		#
+		# respond to a form submit on the jobber card
+		#
+		$('#save_jobber').on 'click', () ->
+			$form = $('#jobberCard')
+			# let's select and cache all the fields
+			$inputs = $form.find "input, select, button, textarea"
+
+			# serialize the data in the form
+			serializedData = $inputs.serialize()
+
+			# let's disable the inputs for the duration of the ajax request
+			# Note: we disable elements AFTER the form data has been serialized.
+			# Disabled form elements will not be serialized.
+			$inputs.prop("disabled", true)
+
+			# fire off the request to the server
+			request = $.ajax
+				url: '/jobbers/'+jobber_id+'.js',
+				type: "patch",
+				data: serializedData
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				# log a message to the console
+				# swal "Perfekt!", "Der er sendt en besked :)", 'success'
+				$('#jobberCard').modal('hide')
+				show_updated_jobber()
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				# swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+				$('#jobberCard').find('.modal-body .well').html(jqXHR.responseText)
+
+			# callback handler that will be called regardless
+			# if the request failed or succeeded
+			request.always () ->
+				#reenable the inputs
+				$('#newMessage').hide()
+				$inputs.prop "disabled", false
+
+
 		$('#newCall').on 'show.bs.modal', (event) ->
 			$('#format-panel').hide()
 			button = $(event.relatedTarget)
@@ -288,6 +378,25 @@
 			modal.find('.modal-title').text('Ny besked til ' + recipient)
 			modal.find('.modal-body input.msg-to').val(recipient)
 
+		refreshJobber = (data) ->
+			$elem = $('#jobber_item_' + jobber_id)
+			$elem.find('h4').text(data.name)
+			$elem.find('span.phone').text(data.phone_number)
+			$elem.find('span.email').text(data.email)
+
+		show_updated_jobber = () ->
+			# fire off the request to the server
+			url = '/jobbers/' + jobber_id + '.json'
+			request = $.getJSON url
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				refreshJobber(jqXHR.responseJSON)
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
 
 
 :javascript

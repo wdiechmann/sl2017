@@ -10,6 +10,10 @@ class JobberPolicy < ApplicationPolicy
     current_user.vip?
   end
 
+  def park?
+    current_user.vip?
+  end
+
   def show?
     current_user.vip?
   end
