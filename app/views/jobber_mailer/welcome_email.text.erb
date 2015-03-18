@@ -1,0 +1,53 @@
+<%-
+  @name=@jobber.name
+  @street=@jobber.street
+  @zip_city=@jobber.zip_city
+  @email=@jobber.email
+  @phone_number=@jobber.phone_number
+  @id="%05d" % @jobber.id
+  @created_at=@jobber.created_at.strftime '%d/%m/%Y'
+  @job_name=( Job.find(@jobber.job_id).name rescue '')
+%>
+
+                     Spejdernes Lejr 2017
+          ============================================
+                      Jobber tilmelding
+
+
+Kære <%= @name %>
+
+For at bekræfte din interesse for at være jobber på SL2017, vil vi gerne om du trykker på link'et "bekræft" lige her nedenfor:
+
+<%= confirmation_jobber_url(@jobber, confirmed_token: @jobber.confirmed_token) %>
+
+
+<%= @name %>
+<%= @street %>
+<%= @zip_city %>
+
+email: <%= @email %>
+tlfnr: <%= @phone_number %>
+
+
+Jobber nr: <%= @id %>                                Dato: <%= @created_at %>
+
+Hvad sker der så herefter?
+--------------------------
+
+Vi arbejder på højtryk for at skabe en god modtagelse af alle interesserede, og vi forventer at være klar i løbet af marts 2015.
+Din henvendelse er noteret, og du bliver kontaktet så snart, vi har nyt om mulighederne for jobbere på SL2017.
+
+Husk at bekræfte din tilmelding (så vi er sikre på at det ikke er en af dine venner, der 'leger' med din email adresse)!
+
+<%- if @job_name != '' %>
+  Vi har noteret at du gerne vil kontaktes ommkring jobbet med titlen: <%= @job_name %>
+<%- end %>
+
+Endnu en gang tak for din interesse!
+
+
+
+Spejderhilsen
+
+------------------------------------------------------------
+Spejdernes Lejr 2017

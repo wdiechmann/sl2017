@@ -76,7 +76,7 @@ class JobbersController < ApplicationController
       if @jobber.save
         @jobber.assign_job (current_user||@jobber)
         JobberMailer.welcome_email(@jobber,current_user).deliver_later
-        format.html { redirect_to @jobber, notice: 'Jobber was successfully created.' }
+        format.html { redirect_to jobbers_url, notice: 'Jobber was successfully created.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: @jobber }
       else

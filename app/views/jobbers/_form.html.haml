@@ -38,3 +38,6 @@
 	.form-group
 		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.description')
 		= f.error :description
+
+	.form-action
+		= f.button :submit
