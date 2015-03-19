@@ -41,6 +41,12 @@
 		background-color: #ED834E;
 		color: #595643;
 	}
+	.w70 { width: 69%; margin: 0 }
+	.w30 { width: 29%; float: right; v-align: top; margin: 0 }
+	.w100 { width: 99% }
+	span.glyphicon.glyphicon-time, span.glyphicon.glyphicon-trash { color: white }
+	a.park_jobber, a.kill_jobber { margin-top: 5px; margin-right: 5px; float: right }
+	.searchbox { width: 100% !important;}
 
 .container-fluid
 	.row
@@ -60,12 +66,15 @@
 
 
 	.row
-		.col-md-12
+		.col-sm-12.col-xs-12.col-md-12.col-lg-12
 			%form.form-inline{ action: "/jobbers", method: "get"}
-				.form-group
-					%label{ for: "q" }
-					%input.form-control{ type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
-				%button.btn.btn-primary{ type: "submit"} Søg
+				.row
+					.col-sm-10.col-xs-10.col-md-10.col-lg-10
+						.form-group.col-sm-12.col-xs-12.col-md-12.col-lg-12
+							%label{ for: "q" }
+							%input.form-control.searchbox{ type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
+					.col-sm-2.col-xs-2.col-md-2.col-lg-2
+						%button.btn.btn-primary{ type: "submit"} Søg
 	.row
 		.col-md-12
 			&nbsp;
@@ -87,22 +96,29 @@
 										%input{ type:"checkbox", value: "#{jobber.id}"}
 
 							.row-content
-								%h4.list-group-item-heading
-									%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
-										= jobber.name
-									%a.park_jobber{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", style: "float: right", :"data-jobber-id"=>"#{jobber.id}"}
-										%span.glyphicon.glyphicon-time{style: "float: right"}
+								.w100
+									.w30
+										%a.park_jobber.btn.btn-small.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", :"data-jobber-id"=>"#{jobber.id}"}
+											%span.glyphicon.glyphicon-time
+										= link_to(jobber, :method => :delete, class: 'kill_jobber btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+											%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+									.w70
+										%h4.list-group-item-heading
+											%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+												= jobber.name
 
-								%p.list-group-item-text
-									%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
-										%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
-										%span.phone
-											= jobber.phone_number
 
-									%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
-										%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
-										%span.email
-											=jobber.email.downcase.gsub(/@/,' at ')
+								.w100
+									%p.list-group-item-text
+										%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
+											%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
+											%span.phone
+												= jobber.phone_number
+
+										%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
+											%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+											%span.email
+												=jobber.email.downcase.gsub(/@/,' at ')
 
 						.list-group-separator
 
