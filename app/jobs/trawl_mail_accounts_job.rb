@@ -46,6 +46,20 @@ class TrawlMailAccountsJob < ActiveJob::Base
 
   ROUNDTRIP=3.minutes
 
+  def cached_addresses
+    @addresses = {}
+    Jobber.pluck(:id,:name,:email).map {|j| j[3]='Jobber';@addresses["#{j[2] rescue ''}"] = j  }
+    User.pluck(:id,:name,:email).map {|j| j[3]='User';@addresses["#{j[2] rescue ''}"] = j  }
+    @addresses
+  end
+
+  def from_addressee email
+    @addresses[email]
+  rescue
+    nil
+  end
+
+
   def perform(*args)
 
     # imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server)
@@ -53,6 +67,8 @@ class TrawlMailAccountsJob < ActiveJob::Base
     imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server, "imaps", usessl=true)  # Exchange requires this
     imap.authenticate('PLAIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
     imap.select(Rails.application.secrets.imap_source_mailbox)
+
+    cached_addresses
 
     imap.search(["ALL"]).each do |message_id|
       msg = imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
@@ -74,10 +90,14 @@ class TrawlMailAccountsJob < ActiveJob::Base
     begin
       body = email.html_part.body || email.text_part.body
       #body = body.force_encoding("UTF-8")
+      messenger = [ jobber[ email.from ][0], jobber[ email.from ][3]  ]
       Message.create(  title: email.subject,
         msg_from: email.from.join(","),
-        msg_to: email.to.join(","), 
-        body: body.raw_source)
+        msg_to: email.to.join(","),
+        body: body.raw_source,
+        messenger_id: messenger[0],
+        messenger_type: messenger[1]
+      )
     rescue
       logger.info 'missed a message %s' % email.subject
     end

@@ -43,6 +43,20 @@
 
 
 .container-fluid
+
+  .row
+    .col-sm-12.col-xs-12.col-md-12.col-lg-12
+      %form.form-inline{ action: "/messages", method: "get"}
+        .row
+          .col-sm-10.col-xs-10.col-md-10.col-lg-10
+            .form-group.col-sm-12.col-xs-12.col-md-12.col-lg-12
+              %label{ for: "q" }
+              %input.form-control.searchbox{style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i emne, afsender (email), modtager (email) og indhold" }
+          .col-sm-2.col-xs-2.col-md-2.col-lg-2
+            %button.btn.btn-primary{ type: "submit"} Søg
+
+
+
   .row
     .col-lg-12
 
@@ -68,13 +82,14 @@
               .row-content
                 %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
                   %h5.list-group-item-heading= message.title
+                  %h6= message.jobbers.first.name rescue ''
                 %p.list-group-item-text
                   = message.created_at.strftime "%d/%m/%Y"
 
                   %a.ellipsis.email-link{ title: "#{message.msg_from}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "#{message.id}" }
                     %span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
                     %span.email
-                      =message.msg_from.downcase
+                      =message.msg_from.downcase rescue ''
 
               .list-group-separator
 

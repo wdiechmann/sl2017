@@ -1,0 +1,49 @@
+
+                     Spejdernes Lejr 2017
+          ============================================
+                        Job tilmelding
+
+
+Kære <%= @name %>
+
+Tak fordi du har oprettet et job! Vi lover at vi skal gøre vort bedste for at finde de arbejdskræfter, I beder om i udvalget: <%= @job.delivery_team.name %>
+
+Job nr: <%= @id %>                                Dato: <%= @created_at %>
+
+Hvad sker der så herefter?
+--------------------------
+
+Vi arbejder på højtryk for at skabe en god modtagelse af alle interesserede, og vi forventer at være klar i løbet af marts 2015.
+Din henvendelse er noteret, og du bliver kontaktet så snart, vi har nyt om mulighederne for jobbere på SL2017.
+
+Husk at bekræfte din tilmelding (så vi er sikre på at det ikke er en af dine venner, der 'leger' med din email adresse)!
+
+<%- if @job_name != '' %>
+  Vi har noteret at du gerne vil kontaktes ommkring jobbet med titlen: <%= @job_name %>
+<%- end %>
+
+Endnu en gang tak for din interesse!
+
+
+
+Spejderhilsen
+
+------------------------------------------------------------
+Spejdernes Lejr 2017
+
+
+
+= @job.name
+= @job.location
+= @job.schedule
+= @job.description
+= @job.created_at
+= @job.updated_at
+= @job.priority
+= @job.delegated_at
+= @job.jobbers_min
+= @job.jobbers_wanted
+= @job.jobbers_max
+= @job.vacancies
+= @job.promote_job_at
+= @job.delivery_team_id

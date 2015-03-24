@@ -21,7 +21,19 @@ class MessagesController < ApplicationController
       WatchJobbersJob.new.perform
     end
     #
-    @messages = params[:all]=='true' ? Message.answered.order( created_at: :desc) : Message.unseen.order( created_at: :desc)
+    messages = Message.arel_table
+    jobbers = Jobber.arel_table
+    jobber_exp = messages.join(jobbers).on(messages[:msg_from].eq(jobbers[:email]).or(messages[:msg_to].eq(jobbers[:email])))
+    unless params[:q].blank?
+      query_string = "%#{params[:q]}%"
+      @messages = Message.joins(jobber_exp.join_sources).where(messages[:title].matches(query_string).or(messages[:msg_from].matches(query_string)).or(messages[:msg_to].matches(query_string)).or(messages[:body].matches(query_string)).or(jobbers[:name].matches(query_string))).uniq.order(created_at: :desc)
+    else
+      @messages = params[:all]=='true' ? Message.answered.joins(jobber_exp.join_sources).uniq.order( created_at: :desc) : Message.unseen.joins(jobber_exp.join_sources).uniq.order( created_at: :desc)
+    end
+
+
+
+
     authorize Message
   end
 
@@ -53,20 +65,23 @@ class MessagesController < ApplicationController
     # keep the original in the reply?
     original = params[:message].delete(:original)
     original_id=params[:message].delete(:original_id)
+
     #
     # mark the original as answered
     msg = Message.find(original_id) rescue nil
-    msg.update_attributes( answered_at: Time.now) unless msg.nil?
+
+    body = msg.body rescue ""
     #
     # format the message
-    unless original.nil?
-      params[:message][:body] = (RDiscount.new(params[:message][:body]).to_html + '<br/><br/>' + msg.body).html_safe
-    else
-      params[:message][:body] = RDiscount.new(params[:message][:body]).to_html
-    end
+    #
+    params[:message][:body] = (RDiscount.new(params[:message][:body]).to_html + '<br/><br/>' + body).html_safe
+    msg.update_attributes( answered_at: Time.now, body: body) unless msg.nil?
 
     params[:message][:msg_from] = Rails.application.secrets.imap_user_name
+    #
+    # attach the message to the current_user
     message = Message.new(message_params)
+    message.messenger = current_user
     authorize message
 
     respond_to do |format|
@@ -139,6 +154,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:title, :msg_from, :msg_to, :body, :answered_at)
+      params.require(:message).permit(:title, :msg_from, :msg_to, :body, :answered_at, :messenger_id, :messenger_type)
     end
 end

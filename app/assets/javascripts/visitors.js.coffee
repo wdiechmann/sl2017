@@ -1,22 +1,22 @@
 #
-# 3..padLeft() => '03' 
-# 3..padLeft(100,'-') => '--3' 
+# 3..padLeft() => '03'
+# 3..padLeft(100,'-') => '--3'
 Number.prototype.padLeft = (base,chr) ->
 	len = (String(base || 10).length - String(this).length)+1
 	if len > 0
-		return new Array(len).join(chr || '0')+this 
+		return new Array(len).join(chr || '0')+this
 	else
 		return this
 
 
-initializeSweetAlert = () ->
+@initializeSweetAlert = () ->
 	sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><button class="cancel" tabIndex="2">Cancel</button><button class="confirm" tabIndex="1">OK</button></div>'
 	sweetWrap = document.createElement('div')
 	sweetWrap.innerHTML = sweetHTML;
 	document.body.appendChild(sweetWrap);
 
 @Employee =
-  
+
   log: (msg) ->
     console.log msg
 
@@ -43,30 +43,28 @@ initializeSweetAlert = () ->
           #             confirmButtonColor: "#0f9d58"
   			.fail ->
   				swal '#€%&%/§$', 'Der er ingen forbindelse til serveren - kontakt ALCO på tlf 9791 1470! Din ankomst er desværre ikke blevet registreret :(', 'error'
-	
+
   setEmployees: (data) ->
     $('#employees').html data
 
   reloadEmployees: () ->
-  	jqhxr = $.ajax 
+  	jqhxr = $.ajax
   		url: '/employees.js',
-  		dataType: 'html'			
+  		dataType: 'html'
   	.done (data,textStatus,jqHXR) ->
   		$.when Employee.setEmployees(data)
   		.done () ->
         if $('#employees').size() > 0
           Employee.attachEvent()
-          if $('.sweet-alert').size() < 1
-            initializeSweetAlert()
+          # if $('.sweet-alert').size() < 1
+          #   initializeSweetAlert()
           setTimeout Employee.reloadEmployees, (1000 * 60 * 5)  # hver 5 minutter
-    
+
 
     	.fail (jqHXR,textStatus,errorThrown) ->
     		$('#employees').html('')
-		
+
   timeIsNow: () ->
   	d = new Date
   	$('span.time').html d.getHours().padLeft() + ':' + d.getMinutes().padLeft()
   	setTimeout( Employee.timeIsNow, 750)
-
-
