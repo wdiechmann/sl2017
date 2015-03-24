@@ -4,12 +4,13 @@
 			%h1 Oversigt over jobs
 
 	.row
-		.col-md-12
+		.col-md-12.col-sm-12.col-lg-12
 			%form.form-inline{ action: "/jobs", method: "get"}
-				.form-group
+				.form-group.col-md-10.col-sm-10.col-lg-10
 					%label{ for: "q" }
-					%input.form-control{ type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
-				%button.btn.btn-primary{ type: "submit"} Søg
+					%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
+				.col-md-2.col-sm-2.col-lg-2
+					%button.btn.btn-primary{ type: "submit"} Søg
 	.row
 		.col-md-12
 			&nbsp;

@@ -4,6 +4,17 @@ class MessagesController < ApplicationController
   after_action :verify_authorized
 
   def format
+
+    # - (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
+    # {{navn}}
+    # {{bruger}}
+    # {{udvalg}}
+    # {{parkeret_dato}}
+    # {{jobnavn}}
+    # {{kontaktperson}}
+    #
+    #
+
     render inline: RDiscount.new( params[:message][:body]).to_html
     authorize Message
   end

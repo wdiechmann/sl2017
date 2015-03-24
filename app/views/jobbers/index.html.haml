@@ -50,11 +50,22 @@
 
 .container-fluid
 	.row
-		.col-lg-12
-			%h3 Oversigt over jobbere
+		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+			%h1 Oversigt over jobber
 
-			= link_to 'Ny jobber', new_jobber_path, class: 'btn btn-success'
+	.row
+		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+			%form.form-inline{ action: "/jobbers", method: "get"}
+				.form-group.col-sm-9.col-xs-9.col-md-9.col-lg-9
+					%label{ for: "q" }
+					%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
+				.col-sm-3.col-xs-3.col-md-3.col-lg-3
+					%button.btn.btn-primary{ type: "submit"} Søg
+					= link_to 'Ny jobber', new_jobber_path, class: 'btn btn-success'
 
+	.row
+		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+			&nbsp;
 
 			.row-action-primary.checkbox
 				%label
@@ -64,19 +75,8 @@
 			%h3
 				&nbsp;
 
-
 	.row
 		.col-sm-12.col-xs-12.col-md-12.col-lg-12
-			%form.form-inline{ action: "/jobbers", method: "get"}
-				.row
-					.col-sm-10.col-xs-10.col-md-10.col-lg-10
-						.form-group.col-sm-12.col-xs-12.col-md-12.col-lg-12
-							%label{ for: "q" }
-							%input.form-control.searchbox{ type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
-					.col-sm-2.col-xs-2.col-md-2.col-lg-2
-						%button.btn.btn-primary{ type: "submit"} Søg
-	.row
-		.col-md-12
 			&nbsp;
 
 	.row
