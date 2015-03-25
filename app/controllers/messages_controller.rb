@@ -5,17 +5,7 @@ class MessagesController < ApplicationController
 
   def format
 
-    # - (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
-    # {{navn}}
-    # {{bruger}}
-    # {{udvalg}}
-    # {{parkeret_dato}}
-    # {{jobnavn}}
-    # {{kontaktperson}}
-    #
-    #
-
-    render inline: RDiscount.new( params[:message][:body]).to_html
+    render inline: RDiscount.new( format_message_body ).to_html
     authorize Message
   end
 
@@ -85,7 +75,8 @@ class MessagesController < ApplicationController
     #
     # format the message
     #
-    params[:message][:body] = (RDiscount.new(params[:message][:body]).to_html + '<br/><br/>' + body).html_safe
+    text_body = format_message_body
+    params[:message][:body] = (RDiscount.new( text_body ).to_html + '<br/><br/>' + body).html_safe
     msg.update_attributes( answered_at: Time.now, body: body) unless msg.nil?
 
     params[:message][:msg_from] = Rails.application.secrets.imap_user_name
@@ -106,7 +97,7 @@ class MessagesController < ApplicationController
         end
         #
         # tell the jobber all about it
-        MessageMailer.message_email(message,jobber,job, assignment).deliver_later
+        MessageMailer.message_email(message,text_body).deliver_later
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: message }
@@ -149,11 +140,17 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    @message.destroy
-    respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
-      format.json { head :no_content }
+
+    result = true if @message.destroy
+    result ? (flash.now[:info] = "Dialogen blev slettet korrekt!") : (flash.now[:error] = "Dialogen blev ikke slettet korrekt!" )
+    if result==true
+      render layout:false, status: 200, locals: { result: true }
+    else
+      render layout:false, status: 301, locals: { result: true }
     end
+  rescue
+    (flash.now[:error] = "Der opstod en fejl - og dialogen blev ikke slettet!")
+    render layout:false, status: 401, locals: { result: false }
   end
 
   private
@@ -167,4 +164,44 @@ class MessagesController < ApplicationController
     def message_params
       params.require(:message).permit(:title, :msg_from, :msg_to, :body, :answered_at, :messenger_id, :messenger_type)
     end
+
+    class MessageVars
+      attr_accessor :navn, :bruger, :udvalg, :parkeret_dato, :jobnavn, :kontaktperson
+    end
+    #
+    # - (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
+    # {{navn}}
+    # {{bruger}}
+    # {{udvalg}}
+    # {{parkeret_dato}}
+    # {{jobnavn}}
+    # {{kontaktperson}}
+    #
+    #
+    def format_message_body
+
+      unless params[:message][:job_offer_id].blank?
+        job = Job.find params[:message].delete(:job_offer_id) rescue nil
+      end
+      jobber = Jobber.find_by_email(params[:message][:msg_to].strip) rescue nil
+
+      vars = MessageVars.new
+      vars.navn = jobber.name rescue '- dit navn mangler -'
+      vars.bruger = current_user.name rescue '- brugerens navn mangler -'
+      vars.udvalg = job.delivery_team.title rescue '- udvalgets navn mangler -'
+      vars.parkeret_dato = jobber.next_contact_at.strftime( "%d/%m/%Y") rescue '- datoen blev ikke fundet -'
+      vars.jobnavn = job.name rescue '- navnet på jobbet mangler -'
+      vars.kontaktperson = job.user.name rescue '- navnet på kontaktpersonen mangler -'
+
+      body = params[:message][:body]
+      ['navn', 'bruger', 'udvalg', 'parkeret_dato', 'jobnavn', 'kontaktperson'].each do |key|
+        value = vars.send( key.to_s) rescue '--'
+        body.gsub! /{{#{key}}}/, value
+      end
+
+      body
+
+    end
+
+
 end

@@ -3,6 +3,7 @@ class MessageMailer < ActionMailer::Base
 
   # Default Mail Values
   default from: Rails.application.secrets.imap_reply_email
+  layout 'mail_layout'
 
   def thankyou_email(message,user)
     @message=message
@@ -12,14 +13,12 @@ class MessageMailer < ActionMailer::Base
     mail(to: @message.email, subject: t('message_mailer.thankyou'))
   end
 
-  def message_email(message,jobber,job,assignment)
-    @message=message
-    @jobber=jobber
-    @job=job
-    @assignment=assignment
-    # user ||= User.first
-    # I am overriding the 'to' default
-    mail(to: @message.msg_to, subject: @message.title)
+  def message_email(message,text_body)
+    @message= message
+    @text_body= text_body
+    mail(from: @message.msg_from, to: @message.msg_to, subject: @message.title)
   end
+
+
 
 end

@@ -6,7 +6,7 @@
   @phone_number=@jobber.phone_number
   @id="%05d" % @jobber.id
   @created_at=@jobber.created_at.strftime '%d/%m/%Y'
-  @job_name=( Job.find(@jobber.job_id).name rescue '')
+  @job_name=( @jobber.assignments.last.job.name rescue '')
 %>
 
                      Spejdernes Lejr 2017

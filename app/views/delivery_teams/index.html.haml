@@ -15,14 +15,15 @@
           %th
 
         - @delivery_teams.each do |delivery_team|
-          %tr
+          %tr{ id: "delivery_team_#{delivery_team.id}"}
             %td= link_to delivery_team.title, delivery_team
             %td= link_to delivery_team.parent.title, delivery_team.parent rescue ''
             %td.hidden-xs= delivery_team.description
             %td= link_to 'Nyt underudvalg', new_delivery_team_path(parent_id: delivery_team ), class: 'sub_delivery_team btn btn-primary'
             %td
-              = link_to(delivery_team, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+              = link_to delivery_team, class: 'delete_link btn btn-small btn-danger pull-right', data: { url: '/delivery_teams', name: "#{delivery_team.title}", id: "#{delivery_team.id}", remove: "#delivery_team_#{delivery_team.id}" } do
                 %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+              / = link_to(delivery_team, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
 
 %br
 

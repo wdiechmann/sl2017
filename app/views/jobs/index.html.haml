@@ -11,6 +11,9 @@
 					%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
 				.col-md-2.col-sm-2.col-lg-2
 					%button.btn.btn-primary{ type: "submit"} Søg
+
+					= link_to 'Nyt job', new_job_path, class: 'btn btn-success'
+
 	.row
 		.col-md-12
 			&nbsp;
@@ -26,7 +29,7 @@
 					%th
 
 				- @jobs.each do |job|
-					%tr{ class: "#{aged_class job}"}
+					%tr{ class: "#{aged_class job}", id: "job_#{job.id}"}
 						%td= link_to job.name, job
 						%td= job.location
 						%td= job.schedule
@@ -34,10 +37,7 @@
 						/ %td= display_job_jobbers(job).join(",").html_safe
 						%td= badge(job)
 						%td
-							/ = link_to 'Destroy', job, :method => :delete, :data => { :confirm => 'Are you sure?' }
-							= link_to(job, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+							= link_to job, class: 'delete_link btn btn-danger pull-right', data: { url: '/jobs', name: "#{job.name}", id: "#{job.id}", remove: "#job_#{job.id}" } do
 								%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
 			%br
-
-			= link_to 'Nyt job', new_job_path, class: 'btn btn-success'

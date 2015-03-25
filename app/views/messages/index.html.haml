@@ -56,11 +56,10 @@
           %input.form-control.searchbox{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i emne, afsender (email), modtager (email) og indhold" }
         .col-sm-3.col-xs-3.col-md-3.col-lg-3
           %button.btn.btn-primary{ type: "submit"} Søg
-
+      %button.new_message.btn.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "0" } Ny dialog
 
   .row
     .col-sm-12.col-xs-12.col-md-12.col-lg-12
-      %button.new_message.btn.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "0" } Start ny dialog
       - unless params[:all]=='true'
         %h3 Åbne dialoger
         = link_to 'Besvarede', messages_path(all: true), class: 'btn btn-primary'
@@ -80,7 +79,7 @@
                   %img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{message.created_at.strftime "%d/%m/%Y"}"}
 
               .row-content
-                = link_to(message, :method => :delete, class: 'kill_message btn btn-danger btn-small pull-right', :data => { :confirm => 'Er du sikker?' }) do
+                = link_to message, class: 'delete_link btn btn-danger pull-right', data: { url: '/messages', name: "#{message.title}", id: "#{message.id}", remove: "#message_item_#{message.id}" } do
                   %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
                 %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
                   %h5.list-group-item-heading= message.title
@@ -216,16 +215,20 @@
     	$('#format-panel').hide()
 
     $('a.link-format-panel').on 'click', () ->
-    	$('#edit-panel').hide()
-    	$('#format-panel').show()
-    	request = $.ajax
-    		url: '/messages/format',
-    		type: "get",
-    		data: $('#message_body').serialize()
+      $('#edit-panel').hide()
+      $('#format-panel').show()
 
-    	# callback handler that will be called on success
-    	request.done (response, textStatus, jqXHR) ->
-    		$('#format-panel').html(response)
+      $form = $('#newMessage')
+      $inputs = $form.find "input, select, button, textarea"
+      serializedData = $inputs.serialize()
+      request = $.ajax
+        url: '/messages/format',
+        type: "get",
+        data: serializedData
+
+      # callback handler that will be called on success
+      request.done (response, textStatus, jqXHR) ->
+        $('#format-panel').html(response)
 
     newMessage = () ->
     	$form = $('#newMessage')
@@ -316,22 +319,27 @@
 
 
     m2_message = "
-      Super fedt at du gerne vil hjælpe os, med at planlægge Spejdernes Lejr 2017! Ud fra dine fantastiske kompetencer, har vi videregivet dine kontaktoplysninger til {{udvalg}}. Hvis du ikke hører fra {{udvalg}}, eller hvis I ikke fandt noget du var interesseret i, så er du mere end velkommen til at kontakte os på job@sl2017.dk. Så hjælper vi dig videre til et andet spændende lejrjob!
-
+      Super fedt at du gerne vil hjælpe os, med at planlægge Spejdernes Lejr 2017!
+      \n\n
+      Ud fra dine fantastiske kompetencer, har vi videregivet dine kontaktoplysninger til {{udvalg}}. Hvis du ikke hører fra {{udvalg}}, eller hvis I ikke fandt noget du var interesseret i, så er du mere end velkommen til at kontakte os på job@sl2017.dk. Så hjælper vi dig videre til et andet spændende lejrjob!
       \n\n
       _De fedeste Spejdernes Lejr 2017 hilsener_  \n
       {{bruger}}, Jobcenteret SL2017"
 
 
     m3_message = "
-      Det er rigtig lækkert at du allerede nu har vist interesse for Spejdernes Lejr 2017. Vi får brug for rigtig mange frivillige på lejren og vi sætter stor pris på din interesse. Vi er dog ikke på nuværende tidspunkt klar til at matche denne type jobs. Men… vi gemmer dine oplysninger, og så kontakter vi dig igen ca. {{parkeret_dato}}, hvor vi forventer, at planlægningen er kommet så langt, at vi har et fantastisk jobmatch til dig. Du er i mellemtiden velkommen til at holde øje med job.sl2017.dk, hvor der løbende vil blive lagt nye jobs op -  måske kommer der noget som netop passer til dine interesser.
+      Det er rigtig lækkert at du allerede nu har vist interesse for Spejdernes Lejr 2017. Vi får brug for rigtig mange frivillige på lejren og vi sætter stor pris på din interesse.
+      \n\n
+      Vi er dog ikke på nuværende tidspunkt klar til at matche denne type jobs. Men… vi gemmer dine oplysninger, og så kontakter vi dig igen ca. {{parkeret_dato}}, hvor vi forventer, at planlægningen er kommet så langt, at vi har et fantastisk jobmatch til dig. Du er i mellemtiden velkommen til at holde øje med job.sl2017.dk, hvor der løbende vil blive lagt nye jobs op -  måske kommer der noget som netop passer til dine interesser.
       \n\n
       _De fedeste Spejdernes Lejr 2017 hilsener_  \n
       {{bruger}}, Jobcenteret SL2017"
 
 
     m4_message = "
-      Tak for din interesse for at være  {{jobnavn}} på Spejdernes Lejr 2017. Vi har sendt dine kontaktoplysninger videre til {{kontaktperson}}, som er kontaktperson for denne opgave. Hvis du ikke hører fra {{kontaktperson}}, eller hvis jobbet ikke passede til dig alligevel, så er du velkommen til at kontakte os på job@sl2017.dk, så hjælper vi dig med at finde et andet fantastisk lejrjob!
+      Tak for din interesse for at være **{{jobnavn}}** på Spejdernes Lejr 2017.
+      \n\n
+      Vi har sendt dine kontaktoplysninger videre til {{kontaktperson}}, som er kontaktperson for denne opgave. Hvis du ikke hører fra {{kontaktperson}}, eller hvis jobbet ikke passede til dig alligevel, så er du velkommen til at kontakte os på job@sl2017.dk, så hjælper vi dig med at finde et andet fantastisk lejrjob!
       \n\n
       _De fedeste Spejdernes Lejr 2017 hilsener_  \n
       {{bruger}}, Jobcenteret SL2017"

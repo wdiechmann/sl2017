@@ -3,13 +3,11 @@ class JobMailer < ApplicationMailer
 
   # Default Mail Values
   default from: Rails.application.secrets.imap_reply_email
-  layout 'job_confirm'
+  layout 'mail_layout'
 
-  def job_confirm(job,user)
-    @job=job
-    @token= "asdf"
-    user ||= User.first
-    # I am overriding the 'to' default
-    mail(to: user.email, subject: t('job_mailer.thankyou'))
+  def job_confirm(message,text_body)
+    @message= message
+    @text_body= text_body
+    mail(from: @message.msg_from, to: @message.msg_to, subject: @message.title)
   end
 end

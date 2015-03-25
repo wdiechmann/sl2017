@@ -13,9 +13,63 @@
 		%header{ style: "padding-top: 0px;"}
 			= render 'layouts/navigation'
 		%main{:role => "main"}
-			= render 'layouts/messages'
+			.message_container
+				= render 'layouts/messages'
 			= yield
 
 			:coffeescript
-				$ ->
+
+				pageOnLoad = () ->
+
 					initializeSweetAlert()
+					unless $('.sweet-alert')
+						alert "fejl"
+
+				  #
+				  # Initialize the 'hamburger'
+					# TODO - once Materialize implemented!!
+				  #
+				  # $(".button-collapse").sideNav();
+
+				  #
+				  # Initialize collapsible (uncomment the line below if you use the dropdown variation)
+					# TODO - once Materialize implemented!!
+				  #
+				  # $('.collapsible').collapsible
+				  #   accordion : true                  # A setting that changes the collapsible behavior to expandable instead of the default accordion style
+
+				  #
+				  # Initialize SELECT's
+					# TODO - once Materialize implemented!!
+				  #
+				  # $('select').material_select();
+
+				  #
+				  # Initialize INPUT TYPE='DATE'
+				  #
+				  #   %input.datepicker{ type:"date" }
+				  #
+					# TODO - once Materialize implemented!!
+				  # $('.datepicker').pickadate
+				  #   selectMonths: true, # Creates a dropdown to control month
+				  #   selectYears: 15     # Creates a dropdown of 15 years to control year
+
+				  #
+				  # Prepare delete_link's for acting on clicks to delete posts
+				  #
+					initializeDeleteLinks()
+
+				  #
+				  # Prepare close-notice's for acting on clicks to remove div
+				  #
+					$('.message_container').delegate 'a.close-notice', 'click', () ->
+						$(this).closest('.alert').remove()
+
+				  # here to test whether pageOnLoad runs - -
+					# swal( 'Super!', 'Du er en knaldperle', 'success')
+
+				$(document).on 'ready page:load', ->
+					pageOnLoad()
+
+					#msg = $('#flash_notice').html()
+					#if msg

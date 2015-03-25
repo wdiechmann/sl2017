@@ -1,7 +1,7 @@
 class DeliveryTeamsController < ApplicationController
   before_action :set_delivery_team, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :js
 
   def index
     @delivery_teams = DeliveryTeam.all
@@ -32,8 +32,16 @@ class DeliveryTeamsController < ApplicationController
   end
 
   def destroy
-    @delivery_team.destroy
-    respond_with(@delivery_team)
+    result = true if @delivery_team.destroy
+    result ? (flash.now[:info] = "Udvalget blev slettet korrekt") : (flash.now[:error] = "Udvalget blev ikke slettet korrekt" )
+    if result==true
+      render layout:false, status: 200, locals: { result: true }
+    else
+      render layout:false, status: 301, locals: { result: true }
+    end
+  rescue
+    (flash.now[:error] = "Der opstod en andenfejl - og udvalget blev ikke slettet korrekt")
+    render layout:false, status: 401, locals: { result: false }
   end
 
   private

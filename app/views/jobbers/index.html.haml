@@ -86,41 +86,42 @@
 				%ul.list-group
 					- jobstack.each do |jobber|
 						%li{ id: "jobber_item_#{jobber.id}", class: "#{aged_class jobber} list-group-item"}
-							- unless jobber.confirmed_at.nil?
-								.row-picture
-									%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
-										%img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{jobber.confirmed_at.strftime "%d/%m/%Y"}"}
-							- else
-								.row-action-primary.checkbox.confirmation{ id: "jobber_col1_#{jobber.id}"}
-									%label
-										%input{ type:"checkbox", value: "#{jobber.id}"}
+							.jobber_item
+								- unless jobber.confirmed_at.nil?
+									.row-picture
+										%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+											%img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{jobber.confirmed_at.strftime "%d/%m/%Y"}"}
+								- else
+									.row-action-primary.checkbox.confirmation{ id: "jobber_col1_#{jobber.id}"}
+										%label
+											%input{ type:"checkbox", value: "#{jobber.id}"}
 
-							.row-content
-								.w100
-									.w30
-										%a.park_jobber.btn.btn-small.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", :"data-jobber-id"=>"#{jobber.id}"}
-											%span.glyphicon.glyphicon-time
-										= link_to(jobber, :method => :delete, class: 'kill_jobber btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
-											%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
-									.w70
-										%h4.list-group-item-heading
-											%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
-												= jobber.name
+								.row-content
+									.w100
+										.w30
+											%a.park_jobber.btn.btn-small.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", :"data-jobber-id"=>"#{jobber.id}"}
+												%span.glyphicon.glyphicon-time
+											= link_to jobber, class: 'kill_jobber delete_link btn btn-danger pull-right', data: { url: '/jobbers', name: "#{jobber.name}", id: "#{jobber.id}", remove: "#jobber_item_#{jobber.id}" } do
+												%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+										.w70
+											%h4.list-group-item-heading
+												%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
+													= jobber.name
 
 
-								.w100
-									%p.list-group-item-text
-										%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
-											%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
-											%span.phone
-												= jobber.phone_number
+									.w100
+										%p.list-group-item-text
+											%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
+												%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
+												%span.phone
+													= jobber.phone_number
 
-										%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
-											%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
-											%span.email
-												=jobber.email.downcase.gsub(/@/,' at ')
+											%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
+												%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+												%span.email
+													=jobber.email.downcase.gsub(/@/,' at ')
 
-						.list-group-separator
+							.list-group-separator
 
 
 
@@ -206,23 +207,79 @@
 						.form-group
 							%a.link-edit-panel.btn.btn-default{ href: "#"} Redigér
 							%a.link-format-panel.btn.btn-primary{ href: "#" } Vis formateret
+							%a.m1.btn.btn-warning{ href: "#", alt: "Første kontakt", title: "Første kontakt" }
+								%span.glyphicon.glyphicon-heart{ :"aria-hidden"=>"true"}
+
+							%a.m2.btn.btn-warning{ href: "#", alt: "Forslag til job", title: "Forslag til job" }
+								%span.glyphicon.glyphicon-gift{ :"aria-hidden"=>"true"}
+
+							%a.m3.btn.btn-warning{ href: "#", alt: "Parkér jobber", title: "Parkér jobber" }
+								%span.glyphicon.glyphicon-piggy-bank{ :"aria-hidden"=>"true"}
+
+							%a.m4.btn.btn-warning{ href: "#", alt: "Jobber med jobønske", title: "Jobber med jobønske" }
+								%span.glyphicon.glyphicon-screenshot{ :"aria-hidden"=>"true"}
+
 							#edit-panel.well{ style: "margin-top: 10px"}
 								%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
-								%span.small
-									skriv {{jobbet}} hvis du vil nævne jobbet, og brug
-									%a{ href: "https://en.wikipedia.org/wiki/Markdown", target: "_blank"} Markdown
-									til at formatere teksten
 
 							#format-panel.well{ style: "margin-top: 10px"}
 
 				.modal-footer
-					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-					%button.btn.btn-primary{ type:"button", id: "send_message"} Send
+					.row
+						.col-sm-9.col-xs-9.col-md-9.col-lg-9{ style: "height: 100px; max-height: 100px; overflow: scroll; text-align: left !important"}
+							%span.small{ style: ""}
+								Brug formateringskommandoer fra
+								%a{ href: "https://en.wikipedia.org/wiki/Markdown", target: "_blank"} Markdown
+								til at formatere teksten med - samt følgende liste af 'variable', som skrives som de er vist med fremhævet tekst
+								%br
+								%br
+								%b {{navn}}
+								%br
+								Navn på jobber
+								%br
+								%b {{bruger}}
+								%br
+								Hvilken sl2017 bruger der besvarer henvendelsen
+								%br
+								%b {{udvalg}}
+								%br
+								Hvilket udvalg vi har sendt personen til
+								%br
+								%b {{parkeret_dato}}
+								%br
+								Datoen for hvornår, jobberen er parkeret til(dukker op i 'dialog')
+								%br
+								%b {{jobnavn}}
+								%br
+								Navnet på jobopslaget
+								%br
+								%b {{kontaktperson}}
+								%br
+								Navnet på kontaktpersonen for jobopslaget
+
+						.col-sm-3.col-xs-3.col-md-3.col-lg-3
+							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+							%br
+							%br
+							%button.btn.btn-primary{ type:"button", id: "send_message"} Send
 
 
 	:coffeescript
 
 		jobber_id = null
+
+		$('a.m1').on 'click', () ->
+			$('#edit-panel textarea').val(m1_message)
+
+		$('a.m2').on 'click', () ->
+			$('#edit-panel textarea').val(m2_message)
+
+		$('a.m3').on 'click', () ->
+			$('#edit-panel textarea').val(m3_message)
+
+		$('a.m4').on 'click', () ->
+			$('#edit-panel textarea').val(m4_message)
+
 
 		$('a.park_jobber').on 'click', (e) ->
 			jobber_id= $(this).data('jobber-id')
@@ -269,10 +326,14 @@
 		$('a.link-format-panel').on 'click', () ->
 			$('#edit-panel').hide()
 			$('#format-panel').show()
+
+			$form = $('#newMessage')
+			$inputs = $form.find "input, select, button, textarea"
+			serializedData = $inputs.serialize()
 			request = $.ajax
 				url: '/messages/format',
 				type: "get",
-				data: $('#message_body').serialize()
+				data: serializedData
 
 			# callback handler that will be called on success
 			request.done (response, textStatus, jqXHR) ->
@@ -413,6 +474,50 @@
 			request.fail (jqXHR, textStatus, errorThrown) ->
 				# log the error to the console
 				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+
+		m1_message = "
+			Vi er rigtig glade for, at du har vist interesse i Spejdernes Lejr 2017. Vi har brug for rigtig mange frivillige hænder, som allerede nu har mulighed for at være med til at lægge grundstenene til Spejdernes Lejr 2017 i Sønderborg.
+			\n\n
+			**Vil du planlægge nu?**\n\n
+			\n\n
+			Hvis du allerede nu brænder for, at være med til at planlægge lejren, så er nu det rigtige tidspunkt at melde sig på. Mange hovedudvalg er lige nu ved, at finde personer til de forskellige underudvalg, og står måske lige nu og mangler netop dig!
+			\n\n
+			Hvis du gerne vil være med til at planlægge lejren allerede nu, men der ikke er et specifikt job på netop dit ønske, så vil vi rigtig gerne høre lidt mere om dig.  Så vil vi nemlig prøve, at matche dig med et udvalg som har behov for netop dine kompetencer.
+			\n\n
+			**Vil du hjælpe på lejren?**\n\n
+			\n\n
+			Vi er ikke begyndt, at slå jobs op på selve lejren endnu. Så hvis du først ønsker, at hjælpe med noget på selve lejren i Sønderborg i 2017, så gemmer vi dine oplysninger og kontakter dig når vi kommer lidt nærmere lejren. Her får vi helt sikkert behov for netop din kompetencer!
+			\n\n
+			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
+			{{bruger}}, Jobcenteret SL2017"
+
+
+		m2_message = "
+			Super fedt at du gerne vil hjælpe os, med at planlægge Spejdernes Lejr 2017!
+			\n\n
+			Ud fra dine fantastiske kompetencer, har vi videregivet dine kontaktoplysninger til {{udvalg}}. Hvis du ikke hører fra {{udvalg}}, eller hvis I ikke fandt noget du var interesseret i, så er du mere end velkommen til at kontakte os på job@sl2017.dk. Så hjælper vi dig videre til et andet spændende lejrjob!
+			\n\n
+			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
+			{{bruger}}, Jobcenteret SL2017"
+
+
+		m3_message = "
+			Det er rigtig lækkert at du allerede nu har vist interesse for Spejdernes Lejr 2017. Vi får brug for rigtig mange frivillige på lejren og vi sætter stor pris på din interesse.
+			\n\n
+			Vi er dog ikke på nuværende tidspunkt klar til at matche denne type jobs. Men… vi gemmer dine oplysninger, og så kontakter vi dig igen ca. {{parkeret_dato}}, hvor vi forventer, at planlægningen er kommet så langt, at vi har et fantastisk jobmatch til dig. Du er i mellemtiden velkommen til at holde øje med job.sl2017.dk, hvor der løbende vil blive lagt nye jobs op -  måske kommer der noget som netop passer til dine interesser.
+			\n\n
+			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
+			{{bruger}}, Jobcenteret SL2017"
+
+
+		m4_message = "
+			Tak for din interesse for at være **{{jobnavn}}** på Spejdernes Lejr 2017.
+			\n\n
+			Vi har sendt dine kontaktoplysninger videre til {{kontaktperson}}, som er kontaktperson for denne opgave. Hvis du ikke hører fra {{kontaktperson}}, eller hvis jobbet ikke passede til dig alligevel, så er du velkommen til at kontakte os på job@sl2017.dk, så hjælper vi dig med at finde et andet fantastisk lejrjob!
+			\n\n
+			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
+			{{bruger}}, Jobcenteret SL2017"
 
 
 :javascript
