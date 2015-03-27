@@ -1,0 +1,29 @@
+#newCall.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"callTitle", :"aria-hidden"=>"true" }
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+					%span{ :"aria-hidden"=>"true"} &times;
+				%h4.modal-title{ id: "callTitle"}	Ny tlf samtale
+
+			.modal-body
+				%form
+
+					.form-group
+						%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
+
+			.modal-footer
+				%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+				%button.btn.btn-primary{ type:"button", id: "save_comment"} Gem
+
+:coffeescript
+
+	$ ->
+
+		$('#newCall').on 'show.bs.modal', (event) ->
+			$('#format-panel').hide()
+			button = $(event.relatedTarget)
+			recipient = button.data('recipient')
+			modal = $(this)
+			modal.find('.modal-title').text('Ny besked til ' + recipient)
+			modal.find('.modal-body input.msg-to').val(recipient)

@@ -4,8 +4,16 @@ class MessagesController < ApplicationController
   after_action :verify_authorized
 
   def format
-
-    render inline: RDiscount.new( format_message_body ).to_html
+    options = { subject: params[:message][:title],
+      who: params[:message][:msg_to],
+      what: params[:message][:body],
+      jobber: (Jobber.find_by_email(params[:message][:msg_to].strip) rescue nil),
+      job: (Job.find( params[:message].delete(:job_offer_id)) rescue nil),
+      delivery_team: (DeliveryTeam.find( params[:message].delete(:delivery_team_offer_id)) rescue nil),
+      confirm_link: ' ',
+      messenger: current_user
+    }
+    render inline: RDiscount.new( Message.format_message_body options ).to_html
     authorize Message
   end
 
@@ -62,6 +70,23 @@ class MessagesController < ApplicationController
       params[:message].delete(:job_offer)
       job = Job.find params[:message].delete(:job_offer_id)
     end
+
+    #
+    # did we suggest a delivery team
+    unless params[:message][:delivery_team_offer_id].blank?
+      params[:message].delete(:delivery_team_offer)
+      delivery_team = DeliveryTeam.find( params[:message].delete(:delivery_team_offer_id) )
+    end
+
+    jobber = Jobber.find_by_email(params[:message][:msg_to].strip)
+    #
+    # attach it all to the jobber
+    assignment = nil
+    if jobber
+      assignment = Assignment.create( job: job, jobber: jobber, assignee: current_user, assigned_at: Time.now) if job
+      jobber.update_attributes( delivery_team: delivery_team) if delivery_team
+    end
+
     #
     # keep the original in the reply?
     original = params[:message].delete(:original)
@@ -70,34 +95,24 @@ class MessagesController < ApplicationController
     #
     # mark the original as answered
     msg = Message.find(original_id) rescue nil
+    msg.update_attributes( answered_at: Time.now) unless msg.nil?
 
     body = msg.body rescue ""
-    #
-    # format the message
-    #
-    text_body = format_message_body
-    params[:message][:body] = (RDiscount.new( text_body ).to_html + '<br/><br/>' + body).html_safe
-    msg.update_attributes( answered_at: Time.now, body: body) unless msg.nil?
 
-    params[:message][:msg_from] = Rails.application.secrets.imap_user_name
-    #
-    # attach the message to the current_user
-    message = Message.new(message_params)
-    message.messenger = current_user
-    authorize message
+    authorize Message.new
+
+    message = Message.mail subject: params[:message][:title],
+      who: params[:message][:msg_to],
+      what: params[:message][:body],
+      # what: "%s ||| %s" % [ params[:message][:body],body ],
+      jobber:jobber,
+      job: job,
+      delivery_team: delivery_team,
+      confirm_link: ' ',
+      messenger: current_user
 
     respond_to do |format|
-      if message.save
-        #
-        # attach it all to the jobber
-        jobber = Jobber.find_by_email(params[:message][:msg_to].strip)
-        assignment = nil
-        if jobber && job
-          assignment = Assignment.create( job: job, jobber: jobber, assignee: current_user, assigned_at: Time.now)
-        end
-        #
-        # tell the jobber all about it
-        MessageMailer.message_email(message,text_body).deliver_later
+      if message
         format.html { redirect_to root_path, notice: 'Message was successfully created, and sent.' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: message }
@@ -164,44 +179,5 @@ class MessagesController < ApplicationController
     def message_params
       params.require(:message).permit(:title, :msg_from, :msg_to, :body, :answered_at, :messenger_id, :messenger_type)
     end
-
-    class MessageVars
-      attr_accessor :navn, :bruger, :udvalg, :parkeret_dato, :jobnavn, :kontaktperson
-    end
-    #
-    # - (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
-    # {{navn}}
-    # {{bruger}}
-    # {{udvalg}}
-    # {{parkeret_dato}}
-    # {{jobnavn}}
-    # {{kontaktperson}}
-    #
-    #
-    def format_message_body
-
-      unless params[:message][:job_offer_id].blank?
-        job = Job.find params[:message].delete(:job_offer_id) rescue nil
-      end
-      jobber = Jobber.find_by_email(params[:message][:msg_to].strip) rescue nil
-
-      vars = MessageVars.new
-      vars.navn = jobber.name rescue '- dit navn mangler -'
-      vars.bruger = current_user.name rescue '- brugerens navn mangler -'
-      vars.udvalg = job.delivery_team.title rescue '- udvalgets navn mangler -'
-      vars.parkeret_dato = jobber.next_contact_at.strftime( "%d/%m/%Y") rescue '- datoen blev ikke fundet -'
-      vars.jobnavn = job.name rescue '- navnet på jobbet mangler -'
-      vars.kontaktperson = job.user.name rescue '- navnet på kontaktpersonen mangler -'
-
-      body = params[:message][:body]
-      ['navn', 'bruger', 'udvalg', 'parkeret_dato', 'jobnavn', 'kontaktperson'].each do |key|
-        value = vars.send( key.to_s) rescue '--'
-        body.gsub! /{{#{key}}}/, value
-      end
-
-      body
-
-    end
-
 
 end

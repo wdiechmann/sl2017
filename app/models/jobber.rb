@@ -1,7 +1,11 @@
 class Jobber < ActiveRecord::Base
 	has_paper_trail
 
+	belongs_to :delivery_team
 	has_many :assignments
+	has_many :jobs, through: :assignments
+	has_many :received_messages, class_name: "Message", foreign_key: :msg_to, primary_key: :email
+	has_many :sent_messages, class_name: "Message", foreign_key: :msg_from, primary_key: :email
 
 	validates :name, presence: true
 	validates :street, presence: true
@@ -29,6 +33,12 @@ class Jobber < ActiveRecord::Base
 
 	attr_accessor :job_id, :job_name
 
+	def messages
+		msg = Message.arel_table
+		sent = msg[:msg_from].eq(email)
+		received = msg[:msg_to].eq(email)
+		Message.where(sent.or(received))
+	end
 
   def confirmed? params
     if self.confirmed_token == params[:confirmed_token]

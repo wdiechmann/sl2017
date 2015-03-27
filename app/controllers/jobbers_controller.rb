@@ -20,9 +20,15 @@ class JobbersController < ApplicationController
   def park
     if @jobber && current_user
       @jobber.update_attributes( next_contact_at: params[:until_at])
-      # RDiscount.new( format_message_body ).to_html
-      # message = Message.create( title: 'Velkommen!', msg_from: @jobber.email, msg_to: Rails.application.secrets.imap_reply_email, body: 'Du har lige registreret dig - det er super!')
-      # MessageMailer.message_email(message,jobber,job, assignment).deliver_later
+      Message.mail subject: 'Vi har gemt din registrering!',
+        who: @jobber.email,
+        what: m3_message,
+        jobber: @jobber,
+        job: @jobber.assignments.first,
+        delivery_team: nil,
+        confirm_link: '',
+        messenger: current_user
+
       respond_to do |format|
         format.html { head 200 }
       end
@@ -37,7 +43,56 @@ class JobbersController < ApplicationController
   # otherwise - introduce a message on the VJC dialogue dashboard
   #
   def confirmation
-    Message.create( title: 'Velkommen!', msg_from: @jobber.email, msg_to: Rails.application.secrets.imap_reply_email, body: 'Du har lige registreret dig - det er super!')
+    begin
+      if @jobber.jobs.count > 0
+        # match jobber with job
+        @jobber.update_attributes( next_contact_at: 4.weeks.since)
+        Message.mail subject: 'Tak for din bekræftelse!',
+          who: @jobber.email,
+          what: m4_message,
+          jobber: @jobber,
+          job: @jobber.jobs.first,
+          confirm_link: (confirmation_jobber_url(jobber, confirmed_token: jobber.confirmed_token) rescue '- bekræftelseslink mangler -'),
+          messenger: current_user
+
+        Message.mail subject: 'Vi har et match!',
+          who: @jobber.jobs.first.user.email,
+          what: 'Vi har et match - jobberen hedder {{jobber_name}}. Skriv på adressen {{jobber_email}}.  \n\nStor spejder hilsen  \nJobcenteret Spejdernes Lejr 2017',
+          jobber: @jobber,
+          job: @jobber.jobs.first,
+          confirm_link: '',#(confirmation_jobber_url(jobber, confirmed_token: jobber.confirmed_token) rescue '- bekræftelseslink mangler -'),
+          messenger: current_user
+
+      else
+        unless @jobber.delivery_team.nil?
+          # match jobber with delivery_team
+          @jobber.update_attributes( next_contact_at: 4.weeks.since)
+          Message.mail subject: 'Tak for din bekræftelse!',
+            who:@jobber.email,
+            what: m2_message,
+            jobber: @jobber,
+            job: @jobber.jobs.first,
+            delivery_team: @jobber.delivery_team,
+            confirm_link: (confirmation_jobber_url(jobber, confirmed_token: jobber.confirmed_token) rescue '- bekræftelseslink mangler -'),
+            messenger: current_user
+
+
+          # Message.mail subject: 'Vi har et match!',
+          #   who: @jobber.delivery_team.user.email,
+          #   what: 'Vi har et match - jobberen hedder {{jobber_name}}. Skriv på adressen {{jobber_email}}',
+          #   jobber: @jobber,
+          #   job: @jobber.assignments.first,
+          #   confirm_link: '',#(confirmation_jobber_url(jobber, confirmed_token: jobber.confirmed_token) rescue '- bekræftelseslink mangler -'),
+          #   messenger: current_user
+
+
+        else
+          Message.create( title: 'Ny bekræftelse!', msg_from: @jobber.email, msg_to: Rails.application.secrets.imap_reply_email, body: '_', messenger: @jobber)
+        end
+      end
+    rescue
+      Rails.logger.info "Under bekræftelsen fejlede noget?!? jobber: %s" % @jobber.to_json
+    end
     if current_user
       @jobber.confirm!
       respond_to do |format|
@@ -54,9 +109,6 @@ class JobbersController < ApplicationController
   # GET /jobbers/1
   # GET /jobbers/1.json
   def show
-    body = RDiscount.new( m1_message ).to_html
-    message=Message.create( title: 'Velkommen!', msg_to: @jobber.email, msg_from: Rails.application.secrets.imap_reply_email, body: body)
-    JobberMailer.first_email(message,m1_message).deliver
     respond_to do |format|
       format.html { render layout: false }
       format.json
@@ -88,8 +140,16 @@ class JobbersController < ApplicationController
     respond_to do |format|
       if @jobber.save
         @jobber.assign_job (current_user||@jobber)
-        JobberMailer.welcome_email(@jobber,current_user).deliver_later
-        format.html { redirect_to jobbers_url, notice: 'Jobber was successfully created.' }
+        Message.mail subject: 'Tak for din registrering!',
+          who: @jobber.email,
+          what: invite_message,
+          jobber: @jobber,
+          job: @jobber.assignments.first,
+          delivery_team: @jobber.delivery_team,
+          confirm_link: (confirmation_jobber_url(@jobber, confirmed_token: @jobber.confirmed_token) rescue '- bekræftelseslink mangler -'),
+          current_user: current_user || User.first
+
+        format.html { redirect_to jobbers_url, notice: 'Jobberen blev oprettet korrekt' }
         format.js { head 220 }
         format.json { render :show, status: :created, location: @jobber }
       else
@@ -105,7 +165,7 @@ class JobbersController < ApplicationController
   def update
     respond_to do |format|
       if @jobber.update(jobber_params)
-        format.html { redirect_to @jobber, notice: 'Jobber was successfully updated.' }
+        format.html { redirect_to @jobber, notice: 'Jobberen blev opdateret korrekt' }
         format.js   { head 220 }
         format.json { render :show, status: :ok, location: @jobber }
       else
@@ -132,9 +192,27 @@ class JobbersController < ApplicationController
   end
 
 
+  # jobber invited
+  def invite_message
+    [
+      "Vi er rigtig glade for, at du har vist interesse i Spejdernes Lejr 2017. Vi har brug for rigtig mange frivillige hænder, som allerede nu har mulighed for at være med til at lægge grundstenene til Spejdernes Lejr 2017 i Sønderborg.",
+      "\n\n**Husk at bekræfte din registrering**\n\n",
+      "\n\nJob-sitet er en åben tilmelding - og derfor er vi nødt til at sikre os, at alle tilmeldinger er _af egen vilje_ (og ikke f.eks. en robot, der står og spytter registreringer i hovedet på os)!",
+      "\n\nTryk derfor venligst [på dette link]({{confirm_link}}) - som vil lede dig tilbage til job.sl2017.dk. På forhånd tak for ulejligheden!",
+      "\n\nDato: {{jobber_created_at}}  \n",
+      "\n\nJobber nr.: {{jobber_id}}\n\n",
+      "\n\n{{jobber_name}}  \n{{jobber_street}}  \n{{jobber_city}}",
+      "\n\nemail: {{jobber_email}}  \ntlfnr.: {{jobber_phone}}\n",
+      "{{job_name_select}}  ",
+      "{{delivery_team_select}}  ",
+      "\n\n**Hvad sker der så?**\n\n",
+      "\n\nVi er i fuld gang med at behandle registreringer - og når du har bekræftet din, vil din registrering også blive behandlet, så hurtigt som vi kan!",
+      "\n\n_De fedeste Spejdernes Lejr 2017 hilsener_  \n",
+      "{{bruger}}, Jobcenteret SL2017"
+    ].join()
+  end
 
-
-
+  # jobber questioned
   def m1_message
     [
       "Vi er rigtig glade for, at du har vist interesse i Spejdernes Lejr 2017. Vi har brug for rigtig mange frivillige hænder, som allerede nu har mulighed for at være med til at lægge grundstenene til Spejdernes Lejr 2017 i Sønderborg.",
@@ -143,6 +221,36 @@ class JobbersController < ApplicationController
       "\n\nHvis du gerne vil være med til at planlægge lejren allerede nu, men der ikke er et specifikt job på netop dit ønske, så vil vi rigtig gerne høre lidt mere om dig.  Så vil vi nemlig prøve, at matche dig med et udvalg som har behov for netop dine kompetencer.",
       "\n\n**Vil du hjælpe på lejren?**\n\n",
       "\n\nVi er ikke begyndt, at slå jobs op på selve lejren endnu. Så hvis du først ønsker, at hjælpe med noget på selve lejren i Sønderborg i 2017, så gemmer vi dine oplysninger og kontakter dig når vi kommer lidt nærmere lejren. Her får vi helt sikkert behov for netop din kompetencer!",
+      "\n\n_De fedeste Spejdernes Lejr 2017 hilsener_  \n",
+      "{{bruger}}, Jobcenteret SL2017"
+    ].join()
+  end
+
+  # jobber rerouted to delivery team
+  def m2_message
+    [
+      "Super fedt at du gerne vil hjælpe os, med at planlægge Spejdernes Lejr 2017!",
+      "\n\nUd fra dine fantastiske kompetencer, har vi videregivet dine kontaktoplysninger til {{udvalg}}. Hvis du ikke hører fra {{udvalg}}, eller hvis I ikke fandt noget du var interesseret i, så er du mere end velkommen til at kontakte os på job@sl2017.dk. Så hjælper vi dig videre til et andet spændende lejrjob!",
+      "\n\n_De fedeste Spejdernes Lejr 2017 hilsener_  \n",
+      "{{bruger}}, Jobcenteret SL2017"
+    ].join()
+  end
+
+  # jobber parked
+  def m3_message
+    [
+      "Det er rigtig lækkert at du allerede nu har vist interesse for Spejdernes Lejr 2017. Vi får brug for rigtig mange frivillige på lejren og vi sætter stor pris på din interesse.",
+      "\n\nVi er dog ikke på nuværende tidspunkt klar til at matche denne type jobs. Men… vi gemmer dine oplysninger, og så kontakter vi dig igen ca. {{parkeret_dato}}, hvor vi forventer, at planlægningen er kommet så langt, at vi har et fantastisk jobmatch til dig. Du er i mellemtiden velkommen til at holde øje med job.sl2017.dk, hvor der løbende vil blive lagt nye jobs op -  måske kommer der noget som netop passer til dine interesser.",
+      "\n\n_De fedeste Spejdernes Lejr 2017 hilsener_  \n",
+      "{{bruger}}, Jobcenteret SL2017"
+    ].join()
+  end
+
+  # jobber picked a job
+  def m4_message
+    [
+      "Tak for din interesse for at være **{{jobnavn}}** på Spejdernes Lejr 2017.",
+      "\n\nVi har sendt dine kontaktoplysninger videre til {{kontaktperson}}, som er kontaktperson for denne opgave. Hvis du ikke hører fra {{kontaktperson}}, eller hvis jobbet ikke passede til dig alligevel, så er du velkommen til at kontakte os på job@sl2017.dk, så hjælper vi dig med at finde et andet fantastisk lejrjob!",
       "\n\n_De fedeste Spejdernes Lejr 2017 hilsener_  \n",
       "{{bruger}}, Jobcenteret SL2017"
     ].join()
@@ -158,46 +266,7 @@ class JobbersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # "name"=>"navn", "street"=>"adresse", "zip_city"=>"postnr by", "phone_number"=>"12345678", "email"=>"e@a.dk
     def jobber_params
-      params.require(:jobber).permit(:job_name, :job_id, :name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at, :jobber_assigned, :next_contact_at, :description, :jobbers_controlled)
+      params.require(:jobber).permit( :delivery_team_id, :job_name, :job_id, :name, :street, :zip_city, :phone_number, :email, :confirmed_token, :confirmed_at, :jobber_assigned, :next_contact_at, :description, :jobbers_controlled)
     end
-
-    #
-    # - (@message.body.gsub!(/{{jobbet}}/,@job.name) unless @job.nil?) rescue nil
-    # {{navn}}
-    # {{bruger}}
-    # {{udvalg}}
-    # {{parkeret_dato}}
-    # {{jobnavn}}
-    # {{kontaktperson}}
-    #
-    #
-    def format_message_body
-
-      unless params[:message][:job_offer_id].blank?
-        job = Job.find params[:message].delete(:job_offer_id) rescue nil
-      end
-      jobber = Jobber.find_by_email(params[:message][:msg_to].strip) rescue nil
-
-      vars = MessageVars.new
-      vars.navn = jobber.name rescue '- dit navn mangler -'
-      vars.bruger = current_user.name rescue '- brugerens navn mangler -'
-      vars.udvalg = job.delivery_team.title rescue '- udvalgets navn mangler -'
-      vars.parkeret_dato = jobber.next_contact_at.strftime( "%d/%m/%Y") rescue '- datoen blev ikke fundet -'
-      vars.jobnavn = job.name rescue '- navnet på jobbet mangler -'
-      vars.kontaktperson = job.user.name rescue '- navnet på kontaktpersonen mangler -'
-
-      body = params[:message][:body]
-      ['navn', 'bruger', 'udvalg', 'parkeret_dato', 'jobnavn', 'kontaktperson'].each do |key|
-        value = vars.send( key.to_s) rescue '--'
-        body.gsub! /{{#{key}}}/, value
-      end
-
-      body
-
-    end
-
-
-
-
 
 end

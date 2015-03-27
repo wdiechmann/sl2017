@@ -1,0 +1,105 @@
+#jobberCard.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"jobberTitle", :"aria-hidden"=>"true" }
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
+					%span{ :"aria-hidden"=>"true"} &times;
+				%h4.modal-title{ id: "jobberTitle"}	Jobber
+
+			.modal-body
+				.well
+
+			.modal-footer
+				/= link_to(@jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
+				/	%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+
+				%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
+				%button.btn.btn-primary{ type:"button", id: "save_jobber"} Luk
+
+:coffeescript
+
+	$ ->
+
+		jobber_id = null
+
+		refreshJobber = (data) ->
+			$elem = $('#jobber_item_' + jobber_id)
+			$elem.find('h4 a').text(data.name)
+			$elem.find('span.phone').text(data.phone_number)
+			$elem.find('span.email').text(data.email)
+
+		show_updated_jobber = () ->
+			# fire off the request to the server
+			url = '/jobbers/' + jobber_id + '.json'
+			request = $.getJSON url
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				refreshJobber(jqXHR.responseJSON)
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+
+
+		$('#jobberCard').on 'show.bs.modal', (event) ->
+			button = $(event.relatedTarget)
+			jobber_id = button.data('jobber-id')
+
+			# fire off the request to the server
+			request = $.ajax
+				url: '/jobbers/' + jobber_id,
+				type: "get",
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				$('#jobberCard').find('.modal-body .well').html(response)
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+
+		#
+		# respond to a form submit on the jobber card
+		#
+		$('#save_jobber').on 'click', () ->
+			$form = $('#jobberCard')
+			# let's select and cache all the fields
+			$inputs = $form.find "input, select, button, textarea"
+
+			# serialize the data in the form
+			serializedData = $inputs.serialize()
+
+			# let's disable the inputs for the duration of the ajax request
+			# Note: we disable elements AFTER the form data has been serialized.
+			# Disabled form elements will not be serialized.
+			$inputs.prop("disabled", true)
+
+			# fire off the request to the server
+			request = $.ajax
+				url: '/jobbers/'+jobber_id+'.js',
+				type: "patch",
+				data: serializedData
+
+			# callback handler that will be called on success
+			request.done (response, textStatus, jqXHR) ->
+				# log a message to the console
+				# swal "Perfekt!", "Der er sendt en besked :)", 'success'
+				$('#jobberCard').modal('hide')
+				show_updated_jobber()
+
+			# callback handler that will be called on failure
+			request.fail (jqXHR, textStatus, errorThrown) ->
+				# log the error to the console
+				# swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
+				$('#jobberCard').find('.modal-body .well').html(jqXHR.responseText)
+
+			# callback handler that will be called regardless
+			# if the request failed or succeeded
+			request.always () ->
+				#reenable the inputs
+				$('#newMessage').hide()
+				$inputs.prop "disabled", false

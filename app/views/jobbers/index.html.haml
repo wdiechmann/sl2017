@@ -48,6 +48,8 @@
 	a.park_jobber, a.kill_jobber { margin-top: 5px; margin-right: 5px; float: right }
 	.searchbox { width: 100% !important;}
 
+	.message-body { height: 200px; max-height: 200px; overflow: scroll; margin-top: 10px }
+
 .container-fluid
 	.row
 		.col-sm-12.col-xs-12.col-md-12.col-lg-12
@@ -80,7 +82,7 @@
 			&nbsp;
 
 	.row
-		- count = 0; jobstacks=[[],[],[]]; @jobbers.each{ |j| jobstacks[ (count += 1) % 3 ] << j  }
+		- count = 0; jobstacks=[ [],[] ]; @jobbers.each{ |j| jobstacks[ (count += 1) % 2 ] << j  }
 		- jobstacks.each do |jobstack|
 			.col-lg-4
 				%ul.list-group
@@ -125,43 +127,6 @@
 
 
 
-	#jobberCard.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"jobberTitle", :"aria-hidden"=>"true" }
-		.modal-dialog
-			.modal-content
-				.modal-header
-					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
-						%span{ :"aria-hidden"=>"true"} &times;
-					%h4.modal-title{ id: "jobberTitle"}	Jobber
-
-				.modal-body
-					.well
-
-				.modal-footer
-					/= link_to(@jobber, :method => :delete, class: ' btn btn-danger btn-small', :data => { :confirm => 'Er du sikker?' }) do
-					/	%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
-
-					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-					%button.btn.btn-primary{ type:"button", id: "save_jobber"} Luk
-
-
-	#newCall.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"callTitle", :"aria-hidden"=>"true" }
-		.modal-dialog
-			.modal-content
-				.modal-header
-					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
-						%span{ :"aria-hidden"=>"true"} &times;
-					%h4.modal-title{ id: "callTitle"}	Ny tlf samtale
-
-				.modal-body
-					%form
-
-						.form-group
-							%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
-
-				.modal-footer
-					%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-					%button.btn.btn-primary{ type:"button", id: "save_comment"} Gem
-
 	#parkModal.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"parkTitle", :"aria-hidden"=>"true" }
 		.modal-dialog
 			.modal-content
@@ -183,102 +148,13 @@
 						%button.btn.btn-primary{ type:"button", id: "set_parkometer"} Parkér
 					.note{ style: 'width:50%; float: right'} campOS lægger en frisk dialog frem når tid er - lige til at bide i for dig ;)
 
-
-	#newMessage.modal.fade{ tabindex:"-1", role:"dialog", :"aria-labelledby"=>"messageTitle", :"aria-hidden"=>"true" }
-		.modal-dialog
-			.modal-content
-				.modal-header
-					%button{ type:"button", class:"close", :"data-dismiss"=>"modal", :"aria-label"=>"Close"}
-						%span{ :"aria-hidden"=>"true"} &times;
-					%h4.modal-title{ id: "messageTitle"}	Ny besked
-
-				.modal-body
-					%form
-						%input{ type:"hidden", id:"message_job_offer_id", name: "message[job_offer_id]"}
-						.form-group
-							%label{ for:"message_msg_to", class:"control-label"} Til:
-							%input.msg-to{ type:"text", class:"form-control", name: "message[msg_to]", id:"message_msg_to"}
-						.form-group
-							%label{ for:"message_title", class:"control-label"} Emne:
-							%input{ type:"text", class:"form-control", id:"message_title", name: "message[title]"}
-						#job_offer.form-group
-							%label{ for:"message_title", class:"control-label"} Jobforslag:
-							%input{ placeholder: "søg...", type:"text", class:"form-control typeahead", autocomplete: 'off', :"data-items"=>"3", id:"message_job_offer", name: "message[job_offer]"}
-						.form-group
-							%a.link-edit-panel.btn.btn-default{ href: "#"} Redigér
-							%a.link-format-panel.btn.btn-primary{ href: "#" } Vis formateret
-							%a.m1.btn.btn-warning{ href: "#", alt: "Første kontakt", title: "Første kontakt" }
-								%span.glyphicon.glyphicon-heart{ :"aria-hidden"=>"true"}
-
-							%a.m2.btn.btn-warning{ href: "#", alt: "Forslag til job", title: "Forslag til job" }
-								%span.glyphicon.glyphicon-gift{ :"aria-hidden"=>"true"}
-
-							%a.m3.btn.btn-warning{ href: "#", alt: "Parkér jobber", title: "Parkér jobber" }
-								%span.glyphicon.glyphicon-piggy-bank{ :"aria-hidden"=>"true"}
-
-							%a.m4.btn.btn-warning{ href: "#", alt: "Jobber med jobønske", title: "Jobber med jobønske" }
-								%span.glyphicon.glyphicon-screenshot{ :"aria-hidden"=>"true"}
-
-							#edit-panel.well{ style: "margin-top: 10px"}
-								%textarea{ class:"form-control", id:"message_body", name: "message[body]"}
-
-							#format-panel.well{ style: "margin-top: 10px"}
-
-				.modal-footer
-					.row
-						.col-sm-9.col-xs-9.col-md-9.col-lg-9{ style: "height: 100px; max-height: 100px; overflow: scroll; text-align: left !important"}
-							%span.small{ style: ""}
-								Brug formateringskommandoer fra
-								%a{ href: "https://en.wikipedia.org/wiki/Markdown", target: "_blank"} Markdown
-								til at formatere teksten med - samt følgende liste af 'variable', som skrives som de er vist med fremhævet tekst
-								%br
-								%br
-								%b {{navn}}
-								%br
-								Navn på jobber
-								%br
-								%b {{bruger}}
-								%br
-								Hvilken sl2017 bruger der besvarer henvendelsen
-								%br
-								%b {{udvalg}}
-								%br
-								Hvilket udvalg vi har sendt personen til
-								%br
-								%b {{parkeret_dato}}
-								%br
-								Datoen for hvornår, jobberen er parkeret til(dukker op i 'dialog')
-								%br
-								%b {{jobnavn}}
-								%br
-								Navnet på jobopslaget
-								%br
-								%b {{kontaktperson}}
-								%br
-								Navnet på kontaktpersonen for jobopslaget
-
-						.col-sm-3.col-xs-3.col-md-3.col-lg-3
-							%button.btn.btn-default{ type:"button", :"data-dismiss"=>"modal"} Fortryd
-							%br
-							%br
-							%button.btn.btn-primary{ type:"button", id: "send_message"} Send
-
+	= render 'layouts/modal_jobber'
+	= render 'layouts/modal_comment'
+	= render 'layouts/modal_message'
 
 	:coffeescript
 
 		jobber_id = null
-
-		$('a.m1').on 'click', () ->
-			$('#edit-panel textarea').val(m1_message)
-
-		$('a.m2').on 'click', () ->
-			$('#edit-panel textarea').val(m2_message)
-
-		$('a.m3').on 'click', () ->
-			$('#edit-panel textarea').val(m3_message)
-
-		$('a.m4').on 'click', () ->
-			$('#edit-panel textarea').val(m4_message)
 
 
 		$('a.park_jobber').on 'click', (e) ->
@@ -318,238 +194,3 @@
 
 			confirmation_request.always () ->
 				console.log 'done'
-
-		$('a.link-edit-panel').on 'click', () ->
-			$('#edit-panel').show()
-			$('#format-panel').hide()
-
-		$('a.link-format-panel').on 'click', () ->
-			$('#edit-panel').hide()
-			$('#format-panel').show()
-
-			$form = $('#newMessage')
-			$inputs = $form.find "input, select, button, textarea"
-			serializedData = $inputs.serialize()
-			request = $.ajax
-				url: '/messages/format',
-				type: "get",
-				data: serializedData
-
-			# callback handler that will be called on success
-			request.done (response, textStatus, jqXHR) ->
-				$('#format-panel').html(response)
-
-		newMessage = () ->
-			$form = $('#newMessage')
-			# let's select and cache all the fields
-			$inputs = $form.find "input, select, button, textarea"
-
-			# serialize the data in the form
-			serializedData = $inputs.serialize()
-
-			# let's disable the inputs for the duration of the ajax request
-			# Note: we disable elements AFTER the form data has been serialized.
-			# Disabled form elements will not be serialized.
-			$inputs.prop("disabled", true)
-
-			# fire off the request to the server
-			request = $.ajax
-				url: '/messages.js',
-				type: "post",
-				data: serializedData
-
-			# callback handler that will be called on success
-			request.done (response, textStatus, jqXHR) ->
-				# log a message to the console
-				swal "Perfekt!", "Der er sendt en besked :)", 'success'
-
-			# callback handler that will be called on failure
-			request.fail (jqXHR, textStatus, errorThrown) ->
-				# log the error to the console
-				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
-
-			# callback handler that will be called regardless
-			# if the request failed or succeeded
-			request.always () ->
-				#reenable the inputs
-				$('#newMessage').hide()
-				$inputs.prop "disabled", false
-
-		$('#newMessage').on 'show.bs.modal', (event) ->
-			$('#format-panel').hide()
-			button = $(event.relatedTarget)
-			recipient = button.data('recipient')
-			modal = $(this)
-			modal.find('.modal-title').text('Ny besked til ' + recipient)
-			modal.find('.modal-body input.msg-to').val(recipient)
-
-		$('#send_message').on 'click', (e) ->
-			newMessage()
-
-		$('#jobberCard').on 'show.bs.modal', (event) ->
-			button = $(event.relatedTarget)
-			jobber_id = button.data('jobber-id')
-
-			# fire off the request to the server
-			request = $.ajax
-				url: '/jobbers/' + jobber_id,
-				type: "get",
-
-			# callback handler that will be called on success
-			request.done (response, textStatus, jqXHR) ->
-				$('#jobberCard').find('.modal-body .well').html(response)
-
-			# callback handler that will be called on failure
-			request.fail (jqXHR, textStatus, errorThrown) ->
-				# log the error to the console
-				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
-
-		#
-		# respond to a form submit on the jobber card
-		#
-		$('#save_jobber').on 'click', () ->
-			$form = $('#jobberCard')
-			# let's select and cache all the fields
-			$inputs = $form.find "input, select, button, textarea"
-
-			# serialize the data in the form
-			serializedData = $inputs.serialize()
-
-			# let's disable the inputs for the duration of the ajax request
-			# Note: we disable elements AFTER the form data has been serialized.
-			# Disabled form elements will not be serialized.
-			$inputs.prop("disabled", true)
-
-			# fire off the request to the server
-			request = $.ajax
-				url: '/jobbers/'+jobber_id+'.js',
-				type: "patch",
-				data: serializedData
-
-			# callback handler that will be called on success
-			request.done (response, textStatus, jqXHR) ->
-				# log a message to the console
-				# swal "Perfekt!", "Der er sendt en besked :)", 'success'
-				$('#jobberCard').modal('hide')
-				show_updated_jobber()
-
-			# callback handler that will be called on failure
-			request.fail (jqXHR, textStatus, errorThrown) ->
-				# log the error to the console
-				# swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
-				$('#jobberCard').find('.modal-body .well').html(jqXHR.responseText)
-
-			# callback handler that will be called regardless
-			# if the request failed or succeeded
-			request.always () ->
-				#reenable the inputs
-				$('#newMessage').hide()
-				$inputs.prop "disabled", false
-
-
-		$('#newCall').on 'show.bs.modal', (event) ->
-			$('#format-panel').hide()
-			button = $(event.relatedTarget)
-			recipient = button.data('recipient')
-			modal = $(this)
-			modal.find('.modal-title').text('Ny besked til ' + recipient)
-			modal.find('.modal-body input.msg-to').val(recipient)
-
-		refreshJobber = (data) ->
-			$elem = $('#jobber_item_' + jobber_id)
-			$elem.find('h4').text(data.name)
-			$elem.find('span.phone').text(data.phone_number)
-			$elem.find('span.email').text(data.email)
-
-		show_updated_jobber = () ->
-			# fire off the request to the server
-			url = '/jobbers/' + jobber_id + '.json'
-			request = $.getJSON url
-
-			# callback handler that will be called on success
-			request.done (response, textStatus, jqXHR) ->
-				refreshJobber(jqXHR.responseJSON)
-
-			# callback handler that will be called on failure
-			request.fail (jqXHR, textStatus, errorThrown) ->
-				# log the error to the console
-				swal "ØV!", "Noget er gået galt \n Fejlen: " + jqXHR.responseText + ' ' + errorThrown, 'error'
-
-
-		m1_message = "
-			Vi er rigtig glade for, at du har vist interesse i Spejdernes Lejr 2017. Vi har brug for rigtig mange frivillige hænder, som allerede nu har mulighed for at være med til at lægge grundstenene til Spejdernes Lejr 2017 i Sønderborg.
-			\n\n
-			**Vil du planlægge nu?**\n\n
-			\n\n
-			Hvis du allerede nu brænder for, at være med til at planlægge lejren, så er nu det rigtige tidspunkt at melde sig på. Mange hovedudvalg er lige nu ved, at finde personer til de forskellige underudvalg, og står måske lige nu og mangler netop dig!
-			\n\n
-			Hvis du gerne vil være med til at planlægge lejren allerede nu, men der ikke er et specifikt job på netop dit ønske, så vil vi rigtig gerne høre lidt mere om dig.  Så vil vi nemlig prøve, at matche dig med et udvalg som har behov for netop dine kompetencer.
-			\n\n
-			**Vil du hjælpe på lejren?**\n\n
-			\n\n
-			Vi er ikke begyndt, at slå jobs op på selve lejren endnu. Så hvis du først ønsker, at hjælpe med noget på selve lejren i Sønderborg i 2017, så gemmer vi dine oplysninger og kontakter dig når vi kommer lidt nærmere lejren. Her får vi helt sikkert behov for netop din kompetencer!
-			\n\n
-			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
-			{{bruger}}, Jobcenteret SL2017"
-
-
-		m2_message = "
-			Super fedt at du gerne vil hjælpe os, med at planlægge Spejdernes Lejr 2017!
-			\n\n
-			Ud fra dine fantastiske kompetencer, har vi videregivet dine kontaktoplysninger til {{udvalg}}. Hvis du ikke hører fra {{udvalg}}, eller hvis I ikke fandt noget du var interesseret i, så er du mere end velkommen til at kontakte os på job@sl2017.dk. Så hjælper vi dig videre til et andet spændende lejrjob!
-			\n\n
-			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
-			{{bruger}}, Jobcenteret SL2017"
-
-
-		m3_message = "
-			Det er rigtig lækkert at du allerede nu har vist interesse for Spejdernes Lejr 2017. Vi får brug for rigtig mange frivillige på lejren og vi sætter stor pris på din interesse.
-			\n\n
-			Vi er dog ikke på nuværende tidspunkt klar til at matche denne type jobs. Men… vi gemmer dine oplysninger, og så kontakter vi dig igen ca. {{parkeret_dato}}, hvor vi forventer, at planlægningen er kommet så langt, at vi har et fantastisk jobmatch til dig. Du er i mellemtiden velkommen til at holde øje med job.sl2017.dk, hvor der løbende vil blive lagt nye jobs op -  måske kommer der noget som netop passer til dine interesser.
-			\n\n
-			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
-			{{bruger}}, Jobcenteret SL2017"
-
-
-		m4_message = "
-			Tak for din interesse for at være **{{jobnavn}}** på Spejdernes Lejr 2017.
-			\n\n
-			Vi har sendt dine kontaktoplysninger videre til {{kontaktperson}}, som er kontaktperson for denne opgave. Hvis du ikke hører fra {{kontaktperson}}, eller hvis jobbet ikke passede til dig alligevel, så er du velkommen til at kontakte os på job@sl2017.dk, så hjælper vi dig med at finde et andet fantastisk lejrjob!
-			\n\n
-			_De fedeste Spejdernes Lejr 2017 hilsener_  \n
-			{{bruger}}, Jobcenteret SL2017"
-
-
-:javascript
-	var jobs = new Bloodhound({
-	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-	  queryTokenizer: Bloodhound.tokenizers.whitespace,
-	  limit: 25,
-	  prefetch: '/jobs.json',
-	  remote: '/jobs.json?q=%QUERY'
-	});
-
-	// kicks off the loading/processing of `local` and `prefetch`
-	jobs.initialize();
-
-	// passing in `null` for the `options` arguments will result in the default
-	// options being used
-	$('.typeahead').typeahead(null, {
-	  name: 'jobs',
-	  displayKey: 'name',
-		templates: {
-		    empty: [
-		      '<div class="empty-message">',
-		      'Der var ingen jobs, der matcher det indtastede!',
-		      '</div>'
-		    ].join('\n'),
-		    suggestion: Handlebars.compile('<p><strong>{{name}}</strong> – {{id}}</p>')
-		  },
-	  // `ttAdapter` wraps the suggestion engine in an adapter that
-	  // is compatible with the typeahead jQuery plugin
-	  source: jobs.ttAdapter()
-	});
-
-	$('.typeahead').on('typeahead:selected', function(event, selection) {
-		$('#message_job_offer_id').val(selection.id);
-	});

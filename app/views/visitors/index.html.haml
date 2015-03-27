@@ -151,6 +151,10 @@
 										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
 										= f.error :email
 
+									.form-group
+										= f.input :delivery_team_id, collection: DeliveryTeam.ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }, label: 'Jeg vil gerne arbejde i udvalget:'
+										= f.error :delivery_team_id
+
 
 								.form-actions
 									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' }= t('visitor.submit_jobber_form')

@@ -1,10 +1,19 @@
 class DeliveryTeamsController < ApplicationController
   before_action :set_delivery_team, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html, :js
+  respond_to :html, :js, :json
 
   def index
-    @delivery_teams = DeliveryTeam.all
+    unless params[:q].nil?
+      dts = DeliveryTeam.arel_table
+      query_string = "%#{params[:q]}%"
+      @delivery_teams = DeliveryTeam.all.where(dts[:title].matches(query_string)).order(:title)
+    else
+      @delivery_teams = DeliveryTeam.all.order(:title)
+    end
+
+    authorize DeliveryTeam
+
     respond_with(@delivery_teams)
   end
 

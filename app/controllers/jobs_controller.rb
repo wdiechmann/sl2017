@@ -24,7 +24,7 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
-    @delivery_teams = ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
+    @delivery_teams = DeliveryTeam.ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
     @job = Job.new
     authorize @job
   end
@@ -42,7 +42,14 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
-        JobMailer.job_confirm(message,text_body).deliver_later
+        Message.mail subject: ('Tak fordi du slog jobbet %s op!' % @job.name),
+          who: current_user.email,
+          what: job_message,
+          jobber: nil,
+          job: @job,
+          confirm_link: (confirmation_job_url(@job, confirmed_token: '1qaz2wsx3edc') rescue '- bekræftelseslink mangler -'),
+          messenger: current_user || User.first
+
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
@@ -85,19 +92,9 @@ class JobsController < ApplicationController
 
 
     def collection_for_parent_select
-      @delivery_teams = ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
+      @delivery_teams = DeliveryTeam.ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
     end
 
-
-    def ancestry_options(items)
-      result = []
-      items.map do |item, sub_items|
-        result << [yield(item), item.id]
-        #this is a recursive call:
-        result += ancestry_options(sub_items) {|i| "#{'-' * i.depth} #{i.title}" }
-      end
-      result
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_job
@@ -112,33 +109,19 @@ class JobsController < ApplicationController
 
 
 
-    def m1_message
+    def job_message
       [
-        "Tak fordi du har oprettet et job! Vi lover at vi skal gøre vort bedste for at finde de arbejdskræfter, I beder om i udvalget: <%= @job.delivery_team.name %>
-
-        Job nr: <%= @id %>                                Dato: <%= @created_at %>
-
-        Hvad sker der så herefter?
-        --------------------------
-
-        Vi arbejder på højtryk for at skabe en god kontakt mellem de, der har lyst at give en hånd med, og dit udvalg, og vi forventer at være klar i løbet af marts 2015.
-        Din henvendelse er noteret, og når en frivillig henviser til dit job opslag, eller udtrykker ønske om at arbejde med noget, der står omtalt i dit jobopslag,
-        sender vi dig en email med den frivilliges kontakt oplysninger.
-
-        Bemærk - det vil lette arbejdet meget for os, hvis du vil have ulejlighed med at acceptere de emails, vi sender med kontaktoplysninger.
-        Der vil være en knap, der vil sende dig til job.sl2017.dk (job sitet) - så vi kan holde styr på, hvilke frivillige der bliver match'et med et job.
-
-
-        Spejderhilsen
-
-        ------------------------------------------------------------
-        Spejdernes Lejr 2017
-"
+        "Tak fordi du har oprettet et job!\n\n",
+        "Vi lover at vi skal gøre vort bedste for at finde de arbejdskræfter, I beder om i\n\n",
+        "Hvad sker der så herefter?\n\n",
+        "Vi arbejder på højtryk for at skabe en god kontakt mellem de, der har lyst at give en hånd med, og dit udvalg.",
+        "Din henvendelse er noteret, og når en frivillig henviser til dit job opslag, eller udtrykker ønske om at arbejde med noget, der står omtalt i dit jobopslag,",
+        "sender vi dig en email med den frivilliges kontakt oplysninger.\n\n",
+        #"Bemærk - det vil lette arbejdet meget for os, hvis du vil have ulejlighed med at acceptere de emails, vi sender med kontaktoplysninger."
+        #"Der vil være en knap, der vil sende dig til job.sl2017.dk (job sitet) - så vi kan holde styr på, hvilke frivillige der bliver match'et med et job."
+        "Spejderhilsen  \n",
+        "Jobcenteret, Spejdernes Lejr 2017\n"
       ].join()
-
-
-
-
-
+    end
 
 end

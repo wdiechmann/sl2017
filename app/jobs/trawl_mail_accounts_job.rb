@@ -90,13 +90,13 @@ class TrawlMailAccountsJob < ActiveJob::Base
     begin
       body = email.html_part.body || email.text_part.body
       #body = body.force_encoding("UTF-8")
-      messenger = [ jobber[ email.from ][0], jobber[ email.from ][3]  ]
+      messenger = from_addressee email.from[0]
       Message.create(  title: email.subject,
         msg_from: email.from.join(","),
         msg_to: email.to.join(","),
-        body: body.raw_source,
+        body: (body.raw_source.gsub( /http\:\/mandrillapp.com\/track\/open.php/, '') rescue ' indholdet kunne ikke læses - kontakt venligst afsender på anden vis!'),
         messenger_id: messenger[0],
-        messenger_type: messenger[1]
+        messenger_type: messenger[3]
       )
     rescue
       logger.info 'missed a message %s' % email.subject

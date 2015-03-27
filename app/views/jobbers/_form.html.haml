@@ -1,43 +1,88 @@
 :css
 	input.date.empty~.floating-label { padding-left: 125px;}
 
-= simple_form_for(@jobber) do |f|
-	= f.error_notification
-	.form-group
-		= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')
-		= f.error :name
+%div{ role: "tabpanel"}
+	/ Nav tabs
+	%ul.nav.nav-tabs{ role:"tablist" }
+		%li.active{ role: "presentation"}
+			%a{ href:"#jobber_info", :"aria-controls"=>"jobber_info", role:"tab", :"data-toggle"=>"tab"} Jobberen
+		/%li{ role: "presentation"}
+		/	%a{ href:"#info" , :"aria-controls"=>"profile", role: "tab", :"data-toggle"=>"tab"} Oplysninger
+		/
+		%li{ role: "presentation"}
+			%a{ href:"#message_list", :"aria-controls"=>"messages", role: "tab", :"data-toggle"=>"tab"} Dialog
 
-	.form-group
-		= f.text_field :street, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.street')
-		= f.error :street
+		%li{ role: "presentation"}
+			%a{ href:"#job_list", :"aria-controls"=>"settings", role: "tab", :"data-toggle"=>"tab"} Jobs
 
-	.form-group
-		= f.text_field :zip_city, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.zip_city')
-		= f.error :zip_city
+	.tab-content
+		.tab-pane.active{role: "tabpanel", id:"jobber_info" }
 
-	.form-group
-		= f.text_field :phone_number, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.phone_number')
-		= f.error :phone_number
+			%h3
 
-	.form-group
-		= f.text_field :email, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.email')
-		= f.error :email
+				= simple_form_for(@jobber) do |f|
+					= f.error_notification
+					.form-group
+						= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')
+						= f.error :name
 
-	.form-group
-		= f.number_field :jobbers_controlled, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.jobbers_controlled')
-		= f.error :jobbers_controlled
+					.form-group
+						= f.text_field :street, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.street')
+						= f.error :street
 
-	.form-group
-		= f.date_field :jobber_assigned, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.jobber_assigned')
-		= f.error :jobber_assigned
+					.form-group
+						= f.text_field :zip_city, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.zip_city')
+						= f.error :zip_city
 
-	.form-group
-		= f.date_field :next_contact_at, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.next_contact_at')
-		= f.error :next_contact_at
+					.form-group
+						= f.text_field :phone_number, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.phone_number')
+						= f.error :phone_number
 
-	.form-group
-		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.description')
-		= f.error :description
+					.form-group
+						= f.text_field :email, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.email')
+						= f.error :email
 
-	.form-action
-		= f.button :submit
+					.form-group
+						= f.number_field :jobbers_controlled, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.jobbers_controlled')
+						= f.error :jobbers_controlled
+
+					.form-group
+						= f.date_field :jobber_assigned, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.jobber_assigned')
+						= f.error :jobber_assigned
+
+					.form-group
+						= f.date_field :next_contact_at, :autofocus => true, class: 'date form-control floating-label', placeholder: t('jobbers.form.next_contact_at')
+						= f.error :next_contact_at
+
+					.form-group
+						= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.description')
+						= f.error :description
+
+					.form-action
+						= f.button :submit
+
+		.tab-pane{role: "tabpanel", id:"info" }
+
+		.tab-pane{role: "tabpanel", id:"message_list" }
+
+			- if params[:action]=='show'
+				.panel.panel-default
+					.panel-heading
+						.row
+							.col-sm-8.col-xs-8.col-md-8.col-lg-8
+								Emne
+							.col-sm-4.col-xs-4.col-md-4.col-lg-4.ellipsis
+								Modtaget
+
+					/ List group
+					%ul.list-group
+						- @jobber.messages.order('created_at DESC').each do |message|
+							%li.list-group-item.message
+								.row
+									.col-sm-8.col-xs-8.col-md-8.col-lg-8
+										%a.ellipsis.email-link{ title: "#{message.msg_from}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "#{message.id}" }
+											=message.title
+									.col-sm-4.col-xs-4.col-md-4.col-lg-4.ellipsis
+										=message.created_at.strftime("%d/%m/%Y_%H:%M")
+
+		.tab-pane{role: "tabpanel", id:"job_list" }
