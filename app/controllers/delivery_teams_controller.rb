@@ -12,6 +12,8 @@ class DeliveryTeamsController < ApplicationController
       @delivery_teams = DeliveryTeam.all.order(:title)
     end
 
+    @delivery_teams = DeliveryTeam.sort_by_ancestry( @delivery_teams )
+
     authorize DeliveryTeam
 
     respond_with(@delivery_teams)

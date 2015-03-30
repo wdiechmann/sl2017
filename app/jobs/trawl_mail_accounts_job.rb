@@ -73,7 +73,7 @@ class TrawlMailAccountsJob < ActiveJob::Base
     imap.search(["ALL"]).each do |message_id|
       msg = imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
       mail = Mail.read_from_string(msg)
-      next if mail.html_part.nil? || mail.text_part.nil?
+      next if mail.multipart? && mail.html_part.nil? && mail.text_part.nil?
       parse mail
       imap.copy(message_id, Rails.application.secrets.imap_archive_mailbox)
       imap.store(message_id, "+FLAGS", [:Deleted])
@@ -88,18 +88,20 @@ class TrawlMailAccountsJob < ActiveJob::Base
 
   def parse email
     begin
-      body = email.html_part.body || email.text_part.body
-      #body = body.force_encoding("UTF-8")
+      body = email.multipart? ? (email.html_part.body || email.text_part.body) : email.body
+      body.raw_source.gsub!( /\=0A\=/,'')
+      body.raw_source.gsub!(/http\:\/\/mandrillapp.com\/track\/open.php/, '')
       messenger = from_addressee email.from[0]
-      Message.create(  title: email.subject,
-        msg_from: email.from.join(","),
-        msg_to: email.to.join(","),
-        body: (body.raw_source.gsub( /http\:\/mandrillapp.com\/track\/open.php/, '') rescue ' indholdet kunne ikke læses - kontakt venligst afsender på anden vis!'),
-        messenger_id: messenger[0],
-        messenger_type: messenger[3]
-      )
+      entity = messenger[3].constantize.find(messenger[0]) rescue nil
+      Message.create(  title: email.subject, msg_from: email.from.join(","), msg_to: email.to.join(","), body: body, messenger: entity )
     rescue
-      logger.info 'missed a message %s' % email.subject
+      Message.mail subject: 'missed a message',
+        job: nil,
+        jobber: nil,
+        what: 'a message saying: "%s" from %s was missed' % [ email.subject, email.from.join(',') ]
+        who: 'walther@alco.dk',
+        messenger: User.first
+        
     end
   end
 end
