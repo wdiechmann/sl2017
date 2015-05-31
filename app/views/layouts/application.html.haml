@@ -9,6 +9,17 @@
 		= csrf_meta_tags
 		:css
 			.form-control-wrapper .floating-label { opacity: 1.0 !important;}
+	    @media only screen and (max-width : 599px) {
+	      .brand-logo img {
+	        height: 56px;
+	      }
+	    }
+	    @media only screen and (min-width : 600px) {
+	      .brand-logo img {
+	        height: 1.75em;
+	      }
+	    }
+
 	%body
 		%header{ style: "padding-top: 0px;"}
 			= render 'layouts/navigation'

@@ -14,14 +14,22 @@
 //= require jquery_ujs
 //= require handlebars
 //= require turbolinks
-//= require bootstrap-sprockets
-//= require arrive
-//= require bootstrap-material-design
 //= require sweetalert
 //= require typeahead
+//= require materialize
 //= require masonry/jquery.masonry
 //= require masonry/jquery.event-drag
 //= require masonry/jquery.imagesloaded.min
 //= require masonry/jquery.infinitescroll.min
 //= require masonry/modernizr-transitions
 //= require_tree .
+
+(function($){
+  $(function(){
+
+    $('.button-collapse').sideNav();
+    $('.parallax').parallax();
+    $('.modal-trigger').leanModal();
+
+  }); // end of document ready
+})(jQuery); // end of jQuery name space

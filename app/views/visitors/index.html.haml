@@ -77,192 +77,270 @@
 				padding: 10px;
 			}
 
-
 	%body
 		= render partial: 'layouts/navbar', locals: {current: current}
-
 		= render 'layouts/messages'
 
-		%section.header-10-sub.v-center{ style: "height: 1090px; background-position: 50% 0px;"}
-			.background{ style: "background-position: 50% 0px; width: 112%"}
-			%div
+		#index-banner.parallax-container
+			.section.no-pad-bot
 				.container
-					.hero-unit
-						%h1= t('visitor.lending_a_hand')
-						%p= t('visitor.hero_p1')
-			%span.scroll-btn
-				%a{href:"#"}
-					%span.mouse
-						%span
-
-		/ jobber intro
-		%section#jobber.content-7.v-center.ani-processed{ style: "opacity: 1;"}
-			%a{ name: "jobform"}
-			%div
-				.container
-					%h3= t('visitor.jobintro_h3_html')
-
-					.row.v-center
-						.col-sm-3
-							%h6= t('visitor.jobintro_target_h6')
-							%p= t('visitor.jobintro_p1')
-
-							%h6= t('visitor.jobintro_task_h6')
-							%p= t('visitor.jobintro_p2')
-
-							%h6= t('visitor.jobintro_demands_h6')
-							%p= t('visitor.jobintro_p3')
-
-						.col-sm-6
-							%img{src: asset_url("jobbere.jpg")}
-							= simple_form_for(@jobber, remote: false) do |f|
-								= f.error_notification
-
-
-
-								.form-inputs
-									.form-group.jobber_job_group{ style: 'display: none'}
-										= f.label :job_name
-										= f.hidden_field :job_id
-										= f.text_field :job_name, :autofocus => true, class: 'form-control '
-
-									.form-group
-										= f.label :name
-										= f.text_field :name, :autofocus => true, class: 'form-control ', placeholder: "Søren Spejdersen"
-										= f.error :name
-
-									.form-group
-										= f.label :street
-										= f.text_field :street, :autofocus => true, class: 'form-control ', placeholder: "Pladsen 2"
-										= f.error :street
-
-									.form-group
-										= f.label :zip_city
-										= f.text_field :zip_city, :autofocus => true, class: 'form-control ', placeholder: "6000 Sønderborg"
-										= f.error :zip_city
-
-									.form-group
-										= f.label :phone_number
-										= f.text_field :phone_number, :autofocus => true, class: 'form-control ', placeholder: "+45 12345678"
-										= f.error :phone_number
-
-									.form-group
-										= f.label :email
-										= f.text_field :email, :autofocus => true, class: 'form-control ', placeholder: "soren@spejder.liv"
-										= f.error :email
-
-									.form-group
-										= f.input :delivery_team_id, collection: DeliveryTeam.ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }, label: 'Jeg vil gerne arbejde i udvalget:'
-										= f.error :delivery_team_id
-
-
-								.form-actions
-									%button.jobber-registration.form-control.btn.btn-success{ type: 'submit' }= t('visitor.submit_jobber_form')
-
-							%p= t('visitor.submit_jobber_form_subtext_html')
-
-						.col-sm-3
-							.span3.offset1
-								%h6= t('visitor.jobform_info_h6')
-								%p= t('visitor.jobform_info_p1')
-
-
-								%h5= t('visitor.jobform_info_h5_name')
-								%p= t('visitor.jobform_info_p2')
-								%p
-
-								%h5= t('visitor.jobform_info_h5_adr')
-								%p= t('visitor.jobform_info_p3')
-
-								%h5= t('visitor.jobform_info_h5_cell')
-								%p= t('visitor.jobform_info_p4')
-
-								%h5= t('visitor.jobform_info_h5_email')
-								%p= t('visitor.jobform_info_p5')
-
-		/ vacancies
-		%section#jobs.content-7.v-center.ani-processed{ style: "opacity: 1;"}
-			- jobcount = Job.all.vacancies(Date.today).count
-
-			%div
-				.container
-					.col12
-						%h3= t('visitor.vacancies_h3_html')
-					.col12
-						- if jobcount < 1
-							%h4= t('visitor.nojob_list_h4')
-						- else
-							%h4= t('visitor.joblist_h4', jobcount: (jobcount==1 ? t('visitor.one_job') : (jobcount>20 ? t('visitor.some_jobs', jobcount: jobcount) : t('visitor.all_jobs', jobcount: jobcount))))
-
-					.col12
-
-						/ .job-listings{ style: "clear: both"}
-						#masonry-container.job-listings.transitions-enabled.infinite-scroll.clearfix
-
-							.job-wrapper
-								.job-section.col3.box.stamp
-									.job-title
-										%b= t('visitor.what_job')
-									.job-description= t('visitor.jobbing_now')
-
-
-							.job-wrapper
-								.job-section.col3.box.stamp
-									.job-title
-										%b= t('visitor.job_what_to_do')
-									.job-description
-										%p= t('visitor.job_detail_p1')
-										%p
-											%a.btn.btn-success{:href => "#jobform", :"data-section" => "jobber", style: "color: white" }= t('visitor.goto_jobber_form')
-
-							- if jobcount < 1
-								.job-wrapper
-									.job-section.col5.box.stamp.green-box= t('visitor.no_jobs_msg_html')
-							- else
-								- Job.all.vacancies(Date.today).limit(20).each do |job|
-									.job-wrapper
-										.job-section.col3.box
-											.job-title
-												%b= job.name
-											.job-description
-												= job.description
-											.job-location
-												%b hvor
-												= job.location
-											.job-schedule
-												%b hvornår
-												= job.schedule
-											%p
-												%a.btn.job-btn.btn-success{:href => "#jobform", :"data-job-name" => "#{job.name}", :"data-job-id" => "#{job.id}", :"data-section" => "jobber", style: "color: white" }= get_random_label
-
-
-
-
-
-		/ footer-3
-		%footer.footer-3
-			.container
-				.row.v-center
-					.col-sm-8
-						%a.brand{ href: "#"} Spejdernes Lejr 2017
+					%br/
+					%br/
+					%h1.header.center.white-text.brown-lighten-2 Job sporet
+					.row.center
+						%h5.header.col.s12.light Her slår du dit job op - og her får du et andet!
+					.row.center
+						%a#download-button.btn-large.waves-effect.waves-light.brown.darken-2{href:  "http://materializecss.com/getting-started.html"} Se hvilke ledige jobs vi har lige nu
+					%br/
+					%br/
+			.parallax
+				%img{alt:  "Unsplashed background img 2", src:  "background1.jpg"}/
+		.container
+			.section
+				/ Icon Section
 				.row
-					.col-sm-8.user_sign_in{ style: "height: 40px;"}
-					.col-sm-4{style: "bottom: 0px"}
-						%p.small
-							made by
-							%a{ href: "http://twitter.com/wdiechmann", target: "_blank"} wdiechmann
-							%br
-							powered by
-							%a{ href: "http://alco.dk", target: "_blank"} ALCO Company
+					.col.s12.m4
+						.icon-block
+							%h2.center.brown-text
+								%i.mdi-image-flash-on
+							%h5.center Til dig der står og mangler en hånd:
+							%p.light Job kærren er bare et kælenavn til en database, som du kan bruge uanset om du sidder i letbanen mellem Odder og Århus, ligger på terrassen udenfor dit sommerhus eller holder udvalgsmøde på lejrpladsen i Sønderborg.
+							%p.light Når du trykker på knappen 'nyt jobopslag' her nedenfor, får du vist en formular, hvor du kan fortælle os om, hvad jobbet går ud på, hvor og hvornår det skal gennemføres, af hvem og hvormange.
+							%p.light Gemmer du jobopslaget, får du en email med en bekræftelse og snarest efter løber en af HR's udvalgsjobkonsulenter opslaget igennem, og hvis ikke der er nogen spørgsmål til opslaget, bliver det slået op fra den dato, du har bedt om - ellers tager konsulenten fat i dig!
+							/ Modal Trigger
+							.center
+								%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobopslag"} Nyt jobopslag
+					.col.s12.m4
+						.icon-block
+							%h2.center.brown-text
+								%i.mdi-action-settings
+							%h5.center Til dig der gerne vil give en hånd:
+							%p.light Spejdernes Lejr 2017 har brug dig - uanset om du er 16 eller 91! Vi skal bruge alt fra truckførere til sociologer, så hvad siger du? Er du frisk?
+							/ Modal Trigger
+							.center
+								%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobtilmelding"} Jeg gir' en hånd!
+					.col.s12.m4
+						.icon-block
+							%h2.center.brown-text
+								%i.mdi-social-group
+							%h5.center Til dig allerede er blevet hyret ind:
+							%p.light By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.
+		.parallax-container.valign-wrapper
+			.section.no-pad-bot
+				.container
+					.row.center
+						%h5.header.col.s12.light Du kan være med til at lave Spejdernes Lejr 2017
+			.parallax
+				%img{alt:  "Unsplashed background img 2", src:  "background3.jpg"}/
+		.container
+			.section
+				.row
+					.col.s12.center
+						%h3
+							%i.mdi-content-send.brown-text
+						%h4 Har du brug for at komme i kontakt med os?
+						%p.left-align.light Du kan kontakte os her
+		.parallax-container.valign-wrapper
+			.section.no-pad-bot
+				.container
+					.row.center
+						%h5.header.col.s12.light Har du spørgsmål til job kærren eller HR i hele taget?
+			.parallax
+				%img{alt:  "Unsplashed background img 3", src:  "background2.jpg"}/
+		%footer.page-footer.black
+			.container
+				.row
+					.col.l6.s12
+						%h5.white-text Spejdernes Lejr 2017
+						%p.grey-text.text-lighten-4 We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.
+					.col.l3.s12
+						%h5.white-text Settings
+						%ul
+							%li
+								%a.white-text{href:  "#!"} Link 1
+							%li
+								%a.white-text{href:  "#!"} Link 2
+							%li
+								%a.white-text{href:  "#!"} Link 3
+							%li
+								%a.white-text{href:  "#!"} Link 4
+					.col.l3.s12
+						%h5.white-text Connect
+						%ul
+							%li
+								%a.white-text{href:  "#!"} Link 1
+							%li
+								%a.white-text{href:  "#!"} Link 2
+							%li
+								%a.white-text{href:  "#!"} Link 3
+							%li
+								%a.white-text{href:  "#!"} Link 4
+			.footer-copyright
+				.container{style:  "font-size: 0.75em"}
+					Made by
+					%a.brown-text.text-lighten-3{href:  "http://twitter.com/wdiechmann", target:  "_blank"} wdiechmann
 
-		= javascript_include_tag 'application'
+		/ Modal Structure
+		#jobopslag.modal.brown.lighten-1
+			.modal-header
+				%h4.white-text{style:  "margin: 10px 0px 10px 10px" }
+					Nyt job opslag
+			.modal-content.orange.lighten-4
+				%form#new_job.simple_form.new_job{"accept-charset" => "UTF-8", action:  "/jobs", method:  "post", novalidate:  "novalidate", role:  "form"}
+					%input{name:  "utf8", type:  "hidden", value:  "✓"}/
+					%input{name:  "authenticity_token", type:  "hidden", value:  "cvnAG+ffybdBOetabsIHr03/+6r0x0SUZ2PBGV/rl6Q494YqAPRHu1+wc7jrkEgFg0GH9nOMjdx73e9GDH2dlA=="}/
+					.form-group
+						/ <a class="help" href="#" tabindex="0" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">?</a>
+						.form-control-wrapper
+							%input#job_name.form-control.empty.bs-material.text-white{autofocus:  "autofocus", name:  "job[name]", placeholder:  "Hvad", type:  "text"}/
+							.floating-label Hvad - beskriv opgaven kort
+							%span.material-input sdfghj
+					.form-group
+						.form-control-wrapper
+							%input#job_location.form-control.empty.bs-material{autofocus:  "autofocus", name:  "job[location]", type:  "text"}/
+							.floating-label Hvor - skal opgaven løses; fx.: iskiosken ved supermarkedet
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_schedule.form-control.empty.bs-material{autofocus:  "autofocus", name:  "job[schedule]", type:  "text"}/
+							.floating-label Hvornår - skriv tidspunkt og evt varighed; fx.: hver morgen 6-7
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_priority.form-control.bs-material{autofocus:  "autofocus", name:  "job[priority]", type:  "number", value:  "1"}/
+							.floating-label Prioritet - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_jobbers_min.form-control.bs-material{autofocus:  "autofocus", name:  "job[jobbers_min]", type:  "number", value:  "1"}/
+							.floating-label Mindste antal jobbere - Angiv antallet af jobbere som mindst skal bruges. 1 almindelig jobber alene kan eksempelvis ikke løfte 1 kummefryser
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_jobbers_wanted.form-control.bs-material{autofocus:  "autofocus", name:  "job[jobbers_wanted]", type:  "number", value:  "1"}/
+							.floating-label Ønsket antal jobbere - Angiv antallet af jobbere som vil gøre det til en nem opgave for alle.
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_jobbers_max.form-control.bs-material{autofocus:  "autofocus", name:  "job[jobbers_max]", type:  "number", value:  "1"}/
+							.floating-label Maksimalt antal jobbere - Angiv antallet af jobbere som maksimalt kan bruges. Der er - eksempelvis - ikke plads til mere end 5 jobbere i en almindelig personvogn
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#job_promote_job_at.form-control.bs-material{autofocus:  "autofocus", name:  "job[promote_job_at]", type:  "date"}/
+							.floating-label Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")
+							%span.material-input
+					.form-group
+						.control-group.select.optional.job_delivery_team_id
+							%label.select.optional.control-label{for:  "job_delivery_team_id"} Delivery team
+							.controls
+								%select#job_delivery_team_id.select.optional{name:  "job[delivery_team_id]"}
+									%option{value:  ""}
+									%option{value:  "8"} AKU - Aktiviteter &amp; Uddannelse
+									%option{value:  "26"} BRA - Budget, Regnskab og Administration
+									%option{value:  "27"} - Sponsorarbejde
+									%option{value:  "13"} DU - Deltager &amp; Underlejr
+									%option{value:  "14"} ES - Event &amp; Spejderånd
+									%option{value:  "9"} HIF - Handel Indkøb &amp; Forplejning
+									%option{value:  "1"} HR - Human Resource
+									%option{value:  "6"} - Administration
+									%option{value:  "4"} - HR IT
+									%option{value:  "2"} - Jobcenter
+									%option{value:  "3"} -- Virtuelt jobcenter
+									%option{value:  "7"} - Sønderborg link
+									%option{value:  "5"} - Trivsel
+									%option{value:  "18"} INT - International
+									%option{value:  "15"} KOM - Kommunikation
+									%option{value:  "20"} LC - lejrcheferne
+									%option{value:  "12"} PI - Politik &amp; Identitet
+									%option{value:  "19"} RB - Regnskab og budget
+									%option{value:  "10"} TB - Teknik &amp; Beredskab
+									%option{value:  "21"} - Beredskab (under Teknik &amp; Beredskab)
+									%option{value:  "24"} -- Brand og ambulance
+									%option{value:  "25"} -- Lejrens vagtcentral
+									%option{value:  "22"} -- Lejrhospitalet
+									%option{value:  "23"} -- Lejrvagten
+									%option{value:  "17"} TB - Teknik og Beredskab
+					/ jobbet er oprettet af
+					/ .form-group
+					/ = f.number_field :vacancies, autofocus:  true, class: 'form-control floating-label', placeholder: 'Hvordan'
+					/ = f.error :vacancies
+					/ .form-group
+					/ = f.date_field :delegated_at, autofocus:  true, class: 'form-control floating-label', placeholder: 'Delegeret den'
+					/ = f.error :description
+					/
+					.form-group
+						.form-control-wrapper
+							%textarea#job_description.form-control.empty.bs-material{autofocus:  "autofocus", name:  "job[description]"}
+							.floating-label Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.
+							%span.material-input
+			.modal-footer
+				%a.modal-action.modal-close.waves-effect.waves-green.btn-flat{href:  "#!"} Slå det op
+		/ Modal Structure
+		#jobtilmelding.modal
+			.modal-header
+				%h4.white-text{ style: "margin: 10px 0px 10px 10px "} Ny job tilmelding
+			.modal-content.orange.lighten-4
+				%h4 Job tilmelding
+				%form#new_jobber.simple_form.new_jobber{"accept-charset" => "UTF-8", action:  "/jobbers", method:  "post", novalidate:  "novalidate"}
+					%input{name:  "utf8", type:  "hidden", value:  "✓"}/
+					%input{name:  "authenticity_token", type:  "hidden", value:  "EJYM2pNCTbSKZVTojU9r7nKfUjrzPrLXAu4V9wqEfjtamErrdGnDuJTszAoIHSREvCEuZnR1e58eUDuoWRJ0Cw=="}/
+					.form-group
+						.form-control-wrapper
+							%input#jobber_name.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[name]", type:  "text"}/
+							.floating-label Fulde navn
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_street.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[street]", type:  "text"}/
+							.floating-label Gade og nummer
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_zip_city.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[zip_city]", type:  "text"}/
+							.floating-label Postnr By
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_phone_number.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[phone_number]", type:  "text"}/
+							.floating-label Telefon nummer
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_email.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[email]", type:  "text"}/
+							.floating-label Email adresse
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_jobbers_controlled.form-control.bs-material{autofocus:  "autofocus", name:  "jobber[jobbers_controlled]", type:  "number", value:  "1"}/
+							.floating-label Hvormange jobbere kontrollerer jobberen
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_jobber_assigned.date.form-control.bs-material{autofocus:  "autofocus", name:  "jobber[jobber_assigned]", type:  "date"}/
+							.floating-label Hvornår er jobberen anvist arbejde
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%input#jobber_next_contact_at.date.form-control.bs-material{autofocus:  "autofocus", name:  "jobber[next_contact_at]", type:  "date"}/
+							.floating-label Hvornår skal jobberen kontaktes næste gang
+							%span.material-input
+					.form-group
+						.form-control-wrapper
+							%textarea#jobber_description.form-control.empty.bs-material{autofocus:  "autofocus", name:  "jobber[description]"}
+							.floating-label Kommentarer i forbindelse med jobanvisning/interview af jobberen
+							%span.material-input
+			.modal-footer
+				%a.modal-action.modal-close.waves-effect.waves-green.btn-flat{href:  "#!"} Giv mig et job
+		-#
+		-# / Scripts
+		-# %script{ src: "https://code.jquery.com/jquery-2.1.1.min.js" }
+		-# %script{ src: "js/materialize.js" }
+		-# %script{ src: "js/init.js" }
+
+		-# = javascript_include_tag 'application'
 
 		:coffeescript
-
-			$('.btn.job-btn').on 'click', (event) ->
-				$('#jobber_job_id').val($(this).data('job-id'))
-				$('#jobber_job_name').val($(this).data('job-name'))
-				$('.jobber_job_group').show()
 
 			userSignIn = () ->
 				$('.user_sign_in').on 'click', (event) ->
@@ -366,37 +444,44 @@
 				jobberRegistration()
 				userSignIn()
 				msg = $('#flash_notice').html()
+
+
+				$('.btn.job-btn').on 'click', (event) ->
+					$('#jobber_job_id').val($(this).data('job-id'))
+					$('#jobber_job_name').val($(this).data('job-name'))
+					$('.jobber_job_group').show()
+
 				if msg
 					swal 'Super!', msg, 'success'
 
 		:javascript
 
 			function fadedEls(el, shift) {
-			    el.css('opacity', 0);
-			    switch (shift) {
-			        case undefined: shift = 0;
-			        break;
-			        case 'h': shift = el.eq(0).outerHeight();
-			        break;
-			        case 'h/2': shift = el.eq(0).outerHeight() / 2;
-			        break;
-			    }
-			    $(window).resize(function() {
-			        if (!el.hasClass('ani-processed')) {
-			            el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
-			        }
-			    }).scroll(function() {
-			        if (!el.hasClass('ani-processed')) {
-			            if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
-			                el.addClass('ani-processed');
-			                el.each(function(idx) {
-			                    $(this).delay(idx * 200).animate({
-			                        opacity : 1
-			                    }, 1000);
-			                });
-			            }
-			        }
-			    });
+				el.css('opacity', 0);
+				switch (shift) {
+					case undefined: shift = 0;
+					break;
+					case 'h': shift = el.eq(0).outerHeight();
+					break;
+					case 'h/2': shift = el.eq(0).outerHeight() / 2;
+					break;
+				}
+				$(window).resize(function() {
+					if (!el.hasClass('ani-processed')) {
+						el.eq(0).data('scrollPos', el.eq(0).offset().top - $(window).height() + shift);
+					}
+				}).scroll(function() {
+					if (!el.hasClass('ani-processed')) {
+						if ($(window).scrollTop() >= el.eq(0).data('scrollPos')) {
+							el.addClass('ani-processed');
+							el.each(function(idx) {
+								$(this).delay(idx * 200).animate({
+									opacity : 1
+								}, 1000);
+							});
+						}
+					}
+				});
 			};
 
 			function collapseMenu(e){
