@@ -11,71 +11,7 @@
 	/ <![endif]>
 	%head
 		- current = 'ingen'
-		= render 'layouts/head'
-		:css
-			.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}
-			.simple_form { margin-top: 20px;}
-			h3 strong { color: green; }
-			form .form-control { height: 50px;}
-			.navbar-collapse ul.nav li a { border: 0px;}
-			.scroll-btn a { background-color: transparent;}
-			.job-wrapper {
-				width: 45%;
-				margin: 5px;
-				float: left;
-			}
-			.job-section {
-				border-radius: 3px;
-				padding: 3px;
-				background-color: #EDF6EE;
-			}
-			.job-title {
-				font-size: 10px;
-			}
-			.job-description {
-				font-size: 9px;
-			}
-			.job-location { font-size: 8px;}
-			.job-schedule { font-size: 8px;}
-			#masonry-container {
-				background: #FFF;
-				padding: 5px;
-				margin-bottom: 20px;
-				border-radius: 5px;
-				clear: both;
-				-webkit-border-radius: 5px;
-					-moz-border-radius: 5px;
-								border-radius: 5px;
-			}
-
-			.clearfix:before, .clearfix:after { content: ""; display: table; }
-			.clearfix:after { clear: both; }
-			.clearfix { zoom: 1; }
-
-			.col1 { width: 80px; }
-			.col2 { width: 180px; }
-			.col3 { width: 280px; }
-			.col3 { width: 240px; }
-			.col4 { width: 380px; }
-			.col5 { width: 480px; }
-
-			.col1 img { max-width: 80px; }
-			.col2 img { max-width: 180px; }
-			.col3 img { max-width: 280px; }
-			.col4 img { max-width: 380px; }
-			.col5 img { max-width: 480px; }
-
-			.box {
-				text-align: left
-			}
-
-			.green-box {
-				color: white;
-				background-color: green;
-				font-size: 1.2em;
-				text-align: left;
-				padding: 10px;
-			}
+		= render 'layouts/head_v2'
 
 	%body
 		= render partial: 'layouts/navbar', locals: {current: current}
@@ -88,13 +24,13 @@
 					%br/
 					%h1.header.center.white-text.brown-lighten-2 Job sporet
 					.row.center
-						%h5.header.col.s12.light Her slår du dit job op - og her får du et andet!
+						%h5.header.col.s12.light I HR funktionen lægger vi skinner mellem ledige hænder og ubesatte jobs
 					.row.center
-						%a#download-button.btn-large.waves-effect.waves-light.brown.darken-2{href:  "http://materializecss.com/getting-started.html"} Se hvilke ledige jobs vi har lige nu
+						%a#download-button.btn-large.waves-effect.waves-light.brown.darken-2{href:  "/jobs" } Se hvilke ledige jobs vi har lige nu
 					%br/
 					%br/
 			.parallax
-				%img{alt:  "Unsplashed background img 2", src:  "background1.jpg"}/
+				= image_tag "background1.jpg"
 		.container
 			.section
 				/ Icon Section
@@ -104,10 +40,7 @@
 							%h2.center.brown-text
 								%i.mdi-image-flash-on
 							%h5.center Til dig der står og mangler en hånd:
-							%p.light Job kærren er bare et kælenavn til en database, som du kan bruge uanset om du sidder i letbanen mellem Odder og Århus, ligger på terrassen udenfor dit sommerhus eller holder udvalgsmøde på lejrpladsen i Sønderborg.
-							%p.light Når du trykker på knappen 'nyt jobopslag' her nedenfor, får du vist en formular, hvor du kan fortælle os om, hvad jobbet går ud på, hvor og hvornår det skal gennemføres, af hvem og hvormange.
-							%p.light Gemmer du jobopslaget, får du en email med en bekræftelse og snarest efter løber en af HR's udvalgsjobkonsulenter opslaget igennem, og hvis ikke der er nogen spørgsmål til opslaget, bliver det slået op fra den dato, du har bedt om - ellers tager konsulenten fat i dig!
-							/ Modal Trigger
+							%p.light Læs nedenfor hvordan HR kan hjælpe dig med at finde de ledige hænder, du står og mangler! Eller spring lige ud i det og slå et job op:
 							.center
 								%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobopslag"} Nyt jobopslag
 					.col.s12.m4
@@ -115,66 +48,189 @@
 							%h2.center.brown-text
 								%i.mdi-action-settings
 							%h5.center Til dig der gerne vil give en hånd:
-							%p.light Spejdernes Lejr 2017 har brug dig - uanset om du er 16 eller 91! Vi skal bruge alt fra truckførere til sociologer, så hvad siger du? Er du frisk?
+							%p.light
+								Spejdernes Lejr 2017 har brug dig - læs nedenfor om de mange hænder, der skal bruges for at få en lejren som SL2017 stablet på benene - og afviklet så alle har haft en super oplevelse. Du kan også
+								%i gå direkte til start
+								og oprette dig som jobber!
 							/ Modal Trigger
 							.center
 								%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobtilmelding"} Jeg gir' en hånd!
+
 					.col.s12.m4
 						.icon-block
 							%h2.center.brown-text
 								%i.mdi-social-group
-							%h5.center Til dig allerede er blevet hyret ind:
-							%p.light By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.
+							%h5.center Til dig der allerede er blevet hyret ind:
+							%p.light
+								HR er mindst lige så meget for dig. Læs nedenfor hvad HR kan hjælpe dig med! Ved du allerede at vi ikke kender det job, du udfører - så opret dig og få del i vores
+								%i trivselspakke
+							.center
+								%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobstikker"} Psst her er jeg og mit job!
+
 		.parallax-container.valign-wrapper
 			.section.no-pad-bot
 				.container
 					.row.center
 						%h5.header.col.s12.light Du kan være med til at lave Spejdernes Lejr 2017
 			.parallax
-				%img{alt:  "Unsplashed background img 2", src:  "background3.jpg"}/
+				= image_tag "jobbere.jpg"
+
 		.container
 			.section
 				.row
-					.col.s12.center
-						%h3
-							%i.mdi-content-send.brown-text
-						%h4 Har du brug for at komme i kontakt med os?
-						%p.left-align.light Du kan kontakte os her
+					.col.s12
+						%h4 Har du lyst til at hjælpe med at planlægge SL2017?
+						%p.light
+							Spejdernes Lejr 2017 - SL2017 - bliver en kæmpe oplevelse for alle deltagere! Både dem, der først kommer når lejren åbner i juli 2017, og for alle os der allerede er i gang med at planlægge den!
+						%p.light
+							Du har en unik mulighed for at møde nye mennesker fra hele landet - og fra alle 5 korps - hvis du siger ja til at deltage i planlægningen
+						%p.light Der stadig mange 'stillinger' som skal besættes - i aktivitetsudvalget, kommunikation, handel indkøb og forplejning, teknik og beredskab, og de mange andre udvalg
+						%p.light
+							Måske er du sygeplejerske, murer, ingeniør, pædagog, sosu-assistent - det er stort set underordnet. Der er helt sikkert også brug for dine kvalifikationer.
+						%p.light
+							%b Men jeg kan ingenting - og har ingen uddannelse :(
+							Det er ingen undskyldning! :) Vi skal bruge masser af praktiske hænder i alle udvalg. Og det giver dig jo også muligheden for at lære noget nyt!
+
+
 		.parallax-container.valign-wrapper
 			.section.no-pad-bot
 				.container
 					.row.center
-						%h5.header.col.s12.light Har du spørgsmål til job kærren eller HR i hele taget?
+						%h5.header.col.s12.light Står du og mangler ledige hænder - fortæl os om det!
 			.parallax
-				%img{alt:  "Unsplashed background img 3", src:  "background2.jpg"}/
+				= image_tag "telte2.jpg"
+
+
+		.container
+			.section
+				.row
+					.col.s12
+						%h3
+							Læg dit job i
+							%b job sporet -
+							og hjælp os med at hjælpe dig!
+						%p.light
+							Job sporet er bare et kælenavn til en database, som du kan bruge uanset om du sidder i letbanen mellem Odder og Århus, ligger på terrassen udenfor dit sommerhus eller holder udvalgsmøde på lejrpladsen i Sønderborg.
+							%b Det er dit markedsførings værktøj
+							til at få 'ansat' netop de planlæggere, du mangler for at dit udvalg løser sin opgave optimalt!
+						%p.light
+							Vi har ikke en 'rodekasse' hvor du kan bestille 20 stk uspecificeret - desværre. HR funktionen er rettet mod at tilbyde job til dem, der gerne vil give en hånd med og passe på dem, der allerede har et job - det gælder også dig!
+							Det betyder
+
+							%ol
+								%li at vi gerne vil have at vide, hvilke stillinger, du ikke har fået besat - så kan vi hjælpe dig med at få fundet den helt rigtige til jobbet
+								%li at det vil gøre os rigtigt glade, hvis du fortæller os om de planlæggere, du selv finder - en emailadresse og/eller et tlfnr er fint i første omgang
+								%li
+						%p.light
+							Når du trykker på knappen 'nyt jobopslag' her nedenfor, får du vist en formular, hvor du kan fortælle os om et nyt job, som du står og mangler hænder til; hvad jobbet går ud på, hvor og hvornår det skal gennemføres, af hvem og hvormange.
+						%p.light
+							Gemmer du jobopslaget, får du en email med en bekræftelse og snarest efter løber en af HR's udvalgsjobkonsulenter opslaget igennem, og hvis ikke der er nogen spørgsmål til opslaget, bliver det slået op fra den dato, du har bedt om - ellers tager konsulenten fat i dig!
+						/ Modal Trigger
+						.center
+							%a.waves-effect.waves-light.btn.modal-trigger.orange{href:  "#jobopslag"} Nyt jobopslag
+
+		.parallax-container.valign-wrapper
+			.section.no-pad-bot
+				.container
+					.row.center
+						%h5.header.col.s12.light Hvordan er HR sporet lagt?
+			.parallax
+				= image_tag "background2.jpg"
+
+		.container
+			.section
+				/ Icon Section
+				.row
+					.col.s12
+						%h3 HR: for arbejdstagere og arbejdsgivere!
+						%h5 I HR funktionen har vi 3 arbejdsgrupper: udvalgsjobkonsulenterne, jobcenteret og trivs'lerne
+				.row
+					.col.s12.m6
+						.icon-block
+							%h2.center.brown-text
+								%i.mdi-image-flash-on
+							%h5.center Arbejdstager
+							%p.light I hele perioden op til lejren starter, arbejder vi ihærdigt på at finde spændende opgaver til dig, der har lyst til at være med til at planlægge og forberede SL2017
+							%p.light
+								%ol
+									%li Vi forventer at du registrerer dig som jobber - så vi ved at du er interesseret i et job i planlægningsfasen
+									%li
+										I
+										%i det virtuelle jobcenter
+										sidder vi og finder, i en dialog med dig, det rigtige job til dig
+
+							%p.light
+								Når lejren
+								%i blæses igang
+								ændrer HR's opgave sig lidt. Det virtuelle jobcenter bliver nu ikke længere virtuelt, men helt virkeligt! Nu er vores primære opgave at sikre at de timer, du kan undvære fra lejrlivet, bliver brugt på nødvendige småjobs - og ja: der skal blandt andet gøres rent på toiletter, 'big surprise' :)
+
+
+					.col.s12.m6
+						.icon-block
+							%h2.center.brown-text
+								%i.mdi-action-settings
+							%h5.center Arbejdsgiver
+							%p.light
+								HR's udvalgskonsulenter vil (som de siger i Fakta) så gerne at du bliver lidt længere! I planlægningsperioden er deres opgave, i samarbejde med dig og dit udvalg, at finde
+								netop de planlæggere og jobbere, I står og mangler. Står I lidt tøvende overfor den opgave - hvormange jobbere skal vi bruge til at bemande infirmeriet? 'Kassedamer' i supermarkedet og 'kogekoner' i restauranterne!?! Så kontakt jeres udvalgsjobkonsulent og arbejd sammen med hende! Giv ham
+								alle jeres spørgsmål. Kan de ikke svare, vil de i hvertfald gøre deres yderste for at prøve at finde nogen, der kan!
+
+							%p.light
+								Når først lejren er 'i drift' er det udvalgsjobkonsulenterne I vil finde rundt om i underlejrene. Her vil de hjælpe jobcenteret med at
+								fordele de jobs, der ikke er blevet besat, eller som opstår akut!
+
+				.row
+					.col.s12
+						%p.light
+							Uanset om du er lejrchef eller napper et enkelt
+							%i toiletvognseftersyn,
+							håber vi i HR, at du får lejlighed til at møde
+							%b trivs'lerne
+							eller i det mindste, at du får mulighed for at 'smage' frugten af deres arbejde!
+
+						%p.light
+							Trivs'lerne sigter efter at gøre det lidt rarere, sjovere, nemmere og enklere at være med til at planlægge og drive Spejdernes Lejr 2017
+
+
 		%footer.page-footer.black
 			.container
 				.row
 					.col.l6.s12
 						%h5.white-text Spejdernes Lejr 2017
-						%p.grey-text.text-lighten-4 We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.
+						%p.grey-text.text-lighten-4 SL2017 er en teltlejr for alle unge spejdere i de 5 danske spejderkorps - lidt mere snak her..
+						%p.grey-text.text-lighten-4
+							HR funktionen er det hovedudvalg som af lejrledelsen er blevet oprettet for at
+							%ul
+								%li lette arbejdet med at skaffe ledige hænder i de øvrige hovedudvalg
+								%li tilbyde interesserede små og større praktiske opgaver på lejren
+								%li sikre at alle der giver en hånd med, bliver set og deres indsats værdsat
+
 					.col.l3.s12
 						%h5.white-text Settings
 						%ul
 							%li
-								%a.white-text{href:  "#!"} Link 1
+								%a.white-text{href:  "#!"} HR ledelsen
 							%li
-								%a.white-text{href:  "#!"} Link 2
+								%a.white-text{href:  "#!"} Jobcenteret
 							%li
-								%a.white-text{href:  "#!"} Link 3
+								%a.white-text{href:  "#!"} Udvalgsjobkonsulenterne
 							%li
-								%a.white-text{href:  "#!"} Link 4
+								%a.white-text{href:  "#!"} Trivs'lerne
 					.col.l3.s12
 						%h5.white-text Connect
 						%ul
 							%li
-								%a.white-text{href:  "#!"} Link 1
+								%a.white-text{href:  "#!"} Pia og Johannes
 							%li
-								%a.white-text{href:  "#!"} Link 2
+								%a.white-text{href:  "#!"} Marianne
 							%li
-								%a.white-text{href:  "#!"} Link 3
+								%a.white-text{href:  "#!"} Karsten
 							%li
-								%a.white-text{href:  "#!"} Link 4
+								%a.white-text{href:  "#!"} Rene
+
+				.row
+					= image_tag "mint_100.png", class: "right"
+
 			.footer-copyright
 				.container{style:  "font-size: 0.75em"}
 					Made by

@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, except: :create
+  before_filter :authenticate_user!, except: [:create, :index]
   before_filter :collection_for_parent_select, :except => [:index, :show]
   after_action :verify_authorized
 

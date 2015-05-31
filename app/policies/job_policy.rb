@@ -6,6 +6,10 @@ class JobPolicy < ApplicationPolicy
     @record = record
   end
 
+  def index?
+    true
+  end
+
   # def create?
   #   true
   # end

@@ -1,15 +1,17 @@
+:css
+  .sl2017-logo { margin-top: 7px }
 %nav.black{:role => "navigation"}
   .nav-wrapper.container
-    %a#logo-container.brand-logo{:href => "#"}
-      %img{:alt => "Tracks", :src => "sl2017.png"}/
+    %a#logo-container.brand-logo{:href => "/"}
+      = image_tag "mint_100.png", class: "sl2017-logo"
     %ul.right.hide-on-med-and-down
       %li
-        %a.modal-trigger.orange-text{:href => "#jobopslag"} Jeg mangler hænder
+        %a.modal-trigger.sl2017color-text.light{:href => "#jobopslag"} Jeg mangler hænder
       %li
-        %a.modal-trigger.orange-text{:href => "#jobtilmelding"} Jeg har en hånd
+        %a.modal-trigger.sl2017color-text.light{:href => "#jobtilmelding"} Jeg har en hånd
       %li
         %a{:href => "#"} L
-    %ul#nav-mobile.side-nav.orange.lighten-4
+    %ul#nav-mobile.side-nav.sl2017color.light
       %li
         %a{:href => "#"} Jeg mangler hænder
       %li
@@ -17,4 +19,4 @@
       %li
         %a{:href => "#"} L
     %a.button-collapse{"data-activates" => "nav-mobile", :href => "#"}
-      %i.mdi-navigation-menu.orange-text
+      %i.mdi-navigation-menu.sl2017color-text

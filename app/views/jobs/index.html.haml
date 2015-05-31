@@ -1,43 +1,123 @@
-.container-fluid
-	.row
-		.col-md-12
-			%h1 Oversigt over jobs
+- if user_signed_in?
+	.container-fluid
+		.row
+			.col-md-12
+				%h1 Oversigt over jobs
 
-	.row
-		.col-md-12.col-sm-12.col-lg-12
-			%form.form-inline{ action: "/jobs", method: "get"}
-				.form-group.col-md-10.col-sm-10.col-lg-10
-					%label{ for: "q" }
-					%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
-				.col-md-2.col-sm-2.col-lg-2
-					%button.btn.btn-primary{ type: "submit"} Søg
+		.row
+			.col-md-12.col-sm-12.col-lg-12
+				%form.form-inline{ action: "/jobs", method: "get"}
+					.form-group.col-md-10.col-sm-10.col-lg-10
+						%label{ for: "q" }
+						%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
+					.col-md-2.col-sm-2.col-lg-2
+						%button.btn.btn-primary{ type: "submit"} Søg
 
-					= link_to 'Nyt job', new_job_path, class: 'btn btn-success'
+						= link_to 'Nyt job', new_job_path, class: 'btn btn-success'
 
-	.row
-		.col-md-12
-			&nbsp;
-	.row
-		.col-md-12
-			%table.table.table-striped
-				%tr
-					%th Hvad
-					%th Hvor
-					%th Hvornår
-					%th Udvalg
-					%th Jobbere
-					%th
+		.row
+			.col-md-12
+				&nbsp;
+		.row
+			.col-md-12
+				%table.table.table-striped
+					%tr
+						%th Hvad
+						%th Hvor
+						%th Hvornår
+						%th Udvalg
+						%th Jobbere
+						%th
 
-				- @jobs.each do |job|
-					%tr{ class: "#{aged_class job}", id: "job_#{job.id}"}
-						%td= link_to job.name, job
-						%td= job.location
-						%td= job.schedule
-						%td= job.delivery_team.title rescue ''
-						/ %td= display_job_jobbers(job).join(",").html_safe
-						%td= badge(job)
-						%td
-							= link_to job, class: 'delete_link btn btn-danger pull-right', data: { url: '/jobs', name: "#{job.name}", id: "#{job.id}", remove: "#job_#{job.id}" } do
-								%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+					- @jobs.each do |job|
+						%tr{ class: "#{aged_class job}", id: "job_#{job.id}"}
+							%td= link_to job.name, job
+							%td= job.location
+							%td= job.schedule
+							%td= job.delivery_team.title rescue ''
+							/ %td= display_job_jobbers(job).join(",").html_safe
+							%td= badge(job)
+							%td
+								= link_to job, class: 'delete_link btn btn-danger pull-right', data: { url: '/jobs', name: "#{job.name}", id: "#{job.id}", remove: "#job_#{job.id}" } do
+									%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
 
-			%br
+				%br
+
+- else
+	/ vacancies
+	-# %section#jobs.content-7.v-center.ani-processed{ style: "opacity: 1;"}
+	- jobcount = @jobs.count #Job.all.vacancies(Date.today).count
+	-#
+	.row{ style: "margin-top: 50px"}
+	.container
+		.row
+			.col12
+				%h3= t('visitor.vacancies_h3_html')
+		.row
+			.col.s12
+				%form.form-inline{ action: "/jobs", method: "get"}
+					.form-group
+						%label{ for: "q" }
+						%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
+					.form-action
+						%button.btn.sl2017color{ type: "submit"} Søg
+
+			.col.s12
+				- if jobcount < 1
+					%h5= t('visitor.nojob_list_h4')
+				- else
+					%h5= t('visitor.joblist_h4', jobcount: (jobcount==1 ? t('visitor.one_job') : (jobcount>20 ? t('visitor.some_jobs', jobcount: jobcount) : t('visitor.all_jobs', jobcount: jobcount))))
+
+			.col.s12
+
+				/ .job-listings{ style: "clear: both"}
+				#masonry-container.job-listings.transitions-enabled.infinite-scroll.clearfix
+
+					.job-wrapper
+						.job-section.col3.box.stamp
+							.job-title
+								%b= t('visitor.what_job')
+							.job-description= t('visitor.jobbing_now')
+
+					.job-wrapper
+						.job-section.col3.box.stamp
+							.job-title
+								%b= t('visitor.job_what_to_do')
+							.job-description
+								%p= t('visitor.job_detail_p1')
+								%p
+									%a.btn.sl2017color{:href => "#jobform", :"data-section" => "jobber", style: "color: white" }= t('visitor.goto_jobber_form')
+
+					- if jobcount < 1
+						.job-wrapper
+							.job-section.col5.box.stamp.green-box= t('visitor.no_jobs_msg_html')
+					- else
+						- @jobs.vacancies(Date.today).limit(20).each do |job|
+							.job-wrapper
+								.job-section.col3.box.sl2017color.light
+									.job-title
+										%b= job.name
+									.job-description
+										= job.description
+									.job-location
+										%b hvor
+										= job.location
+									.job-schedule
+										%b hvornår
+										= job.schedule
+									%p
+										%a.btn.job-btn.sl2017color{:href => "#jobform", :"data-job-name" => "#{job.name}", :"data-job-id" => "#{job.id}", :"data-section" => "jobber", style: "color: white" }= get_random_label
+
+:javascript
+
+	// Masonry
+	$('#masonry-container').masonry({
+		itemSelector: '.box',
+		// set columnWidth a fraction of the container width
+		// columnWidth: function( containerWidth ) {
+		//      return containerWidth / 2;
+		// },
+		// columnWidth: 100,
+		isAnimated: true,
+		gutterWidth: 5
+	});

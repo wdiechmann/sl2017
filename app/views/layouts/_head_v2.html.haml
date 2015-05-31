@@ -1,0 +1,89 @@
+%meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+
+%meta{ charset: "utf-8" }
+%meta{ name: "viewport", content:"width=device-width, initial-scale=1.0"}
+
+%title= content_for?(:title) ? yield(:title) : 'Sl2017'
+
+%meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Sl2017'}"}
+
+= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+= javascript_include_tag 'application', 'data-turbolinks-track' => true
+= csrf_meta_tags
+
+:css
+	.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}
+	.simple_form { margin-top: 20px;}
+	h3 strong { color: #00acc1; }
+	form .form-control { height: 50px;}
+	.navbar-collapse ul.nav li a { border: 0px;}
+	.scroll-btn a { background-color: transparent;}
+	.job-wrapper {
+		width: 45%;
+		margin: 5px;
+		float: left;
+	}
+	.job-section {
+		border-radius: 3px;
+		padding: 3px;
+		background-color: #EDF6EE;
+	}
+	.job-title {
+		font-size: 10px;
+	}
+	.job-description {
+		font-size: 9px;
+	}
+	.job-location { font-size: 8px;}
+	.job-schedule { font-size: 8px;}
+	#masonry-container {
+		background: #FFF;
+		padding: 5px;
+		margin-bottom: 20px;
+		border-radius: 5px;
+		clear: both;
+		-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+						border-radius: 5px;
+	}
+
+	.clearfix:before, .clearfix:after { content: ""; display: table; }
+	.clearfix:after { clear: both; }
+	.clearfix { zoom: 1; }
+
+	.col1 { width: 80px; }
+	.col2 { width: 180px; }
+	.col3 { width: 280px; }
+	.col3 { width: 240px; }
+	.col4 { width: 380px; }
+	.col5 { width: 480px; }
+
+	.col1 img { max-width: 80px; }
+	.col2 img { max-width: 180px; }
+	.col3 img { max-width: 280px; }
+	.col4 img { max-width: 380px; }
+	.col5 img { max-width: 480px; }
+
+	.box {
+		text-align: left
+	}
+
+	.green-box {
+		color: white;
+		background-color: #00acc1;
+		font-size: 1.2em;
+		text-align: left;
+		padding: 10px;
+	}
+	.sl2017color {
+		background-color: #00acc1;
+	}
+	.sl2017color-text {
+		color: #00acc1;
+	}
+	.sl2017color.light {
+		background-color: #b2ebf2;
+	}
+	.sl2017color-text.light {
+		color: #b2ebf2;
+	}

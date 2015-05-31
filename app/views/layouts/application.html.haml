@@ -1,86 +1,107 @@
+-# !!!
+-# %html
+-# 	%head
+-# 		%meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+-# 		%title= content_for?(:title) ? yield(:title) : 'SL2017'
+-# 		%meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'SL2017'}"}
+-# 		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+-# 		= javascript_include_tag 'application', 'data-turbolinks-track' => true
+-# 		= csrf_meta_tags
+-#
+-# 		:css
+-# 			.form-control-wrapper .floating-label { opacity: 1.0 !important;}
+-# 			@media only screen and (max-width : 599px) {
+-# 				.brand-logo img {
+-# 					height: 56px;
+-# 				}
+-# 			}
+-# 			@media only screen and (min-width : 600px) {
+-# 				.brand-logo img {
+-# 					height: 1.75em;
+-# 				}
+-# 			}
+-#
+-# 	%body
 !!!
-%html
+/
+/ if template should build with Open Graph Protocol (opg.me)
+/
+/[if lt IE 7] <html.no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 7] <html.no-js lt-ie10 lt-ie9 lt-ie8" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 8] <html.no-js lt-ie10 lt-ie9 " lang="dk" prefix="og: http://ogp.me/ns#">
+/[if IE 9] <html.no-js lt-ie10" lang="dk" prefix="og: http://ogp.me/ns#">
+/[if gt IE 9]><!
+%html.no-js{lang: 'dk'}
+	/ <![endif]>
 	%head
-		%meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
-		%title= content_for?(:title) ? yield(:title) : 'SL2017'
-		%meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'SL2017'}"}
-		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-		= javascript_include_tag 'application', 'data-turbolinks-track' => true
-		= csrf_meta_tags
-		:css
-			.form-control-wrapper .floating-label { opacity: 1.0 !important;}
-	    @media only screen and (max-width : 599px) {
-	      .brand-logo img {
-	        height: 56px;
-	      }
-	    }
-	    @media only screen and (min-width : 600px) {
-	      .brand-logo img {
-	        height: 1.75em;
-	      }
-	    }
+		- current = 'ingen'
+		= render 'layouts/head_v2'
 
 	%body
-		%header{ style: "padding-top: 0px;"}
-			= render 'layouts/navigation'
-		%main{:role => "main"}
-			.message_container
-				= render 'layouts/messages'
-			= yield
-
-			:coffeescript
-
-				pageOnLoad = () ->
-
-					initializeSweetAlert()
-					unless $('.sweet-alert')
-						alert "fejl"
-
-				  #
-				  # Initialize the 'hamburger'
-					# TODO - once Materialize implemented!!
-				  #
-				  # $(".button-collapse").sideNav();
-
-				  #
-				  # Initialize collapsible (uncomment the line below if you use the dropdown variation)
-					# TODO - once Materialize implemented!!
-				  #
-				  # $('.collapsible').collapsible
-				  #   accordion : true                  # A setting that changes the collapsible behavior to expandable instead of the default accordion style
-
-				  #
-				  # Initialize SELECT's
-					# TODO - once Materialize implemented!!
-				  #
-				  # $('select').material_select();
-
-				  #
-				  # Initialize INPUT TYPE='DATE'
-				  #
-				  #   %input.datepicker{ type:"date" }
-				  #
-					# TODO - once Materialize implemented!!
-				  # $('.datepicker').pickadate
-				  #   selectMonths: true, # Creates a dropdown to control month
-				  #   selectYears: 15     # Creates a dropdown of 15 years to control year
-
-				  #
-				  # Prepare delete_link's for acting on clicks to delete posts
-				  #
-					initializeDeleteLinks()
-
-				  #
-				  # Prepare close-notice's for acting on clicks to remove div
-				  #
-					$('.message_container').delegate 'a.close-notice', 'click', () ->
-						$(this).closest('.alert').remove()
-
-				  # here to test whether pageOnLoad runs - -
-					# swal( 'Super!', 'Du er en knaldperle', 'success')
-
-				$(document).on 'ready page:load', ->
-					pageOnLoad()
-
-					#msg = $('#flash_notice').html()
-					#if msg
+		= render partial: 'layouts/navbar', locals: {current: current}
+		= render 'layouts/messages'
+		-#
+		-#
+		-# %header{ style: "padding-top: 0px;"}
+		-# 	= render 'layouts/navigation'
+		-# %main{:role => "main"}
+		-# 	.message_container
+		-# 		= render 'layouts/messages'
+		= yield
+		-#
+		-# :coffeescript
+		-#
+		-# 	pageOnLoad = () ->
+		-#
+		-# 		initializeSweetAlert()
+		-# 		unless $('.sweet-alert')
+		-# 			alert "fejl"
+		-#
+		-# 		#
+		-# 		# Initialize the 'hamburger'
+		-# 		# TODO - once Materialize implemented!!
+		-# 		#
+		-# 		# $(".button-collapse").sideNav();
+		-#
+		-# 		#
+		-# 		# Initialize collapsible (uncomment the line below if you use the dropdown variation)
+		-# 		# TODO - once Materialize implemented!!
+		-# 		#
+		-# 		# $('.collapsible').collapsible
+		-# 		#   accordion : true                  # A setting that changes the collapsible behavior to expandable instead of the default accordion style
+		-#
+		-# 		#
+		-# 		# Initialize SELECT's
+		-# 		# TODO - once Materialize implemented!!
+		-# 		#
+		-# 		# $('select').material_select();
+		-#
+		-# 		#
+		-# 		# Initialize INPUT TYPE='DATE'
+		-# 		#
+		-# 		#   %input.datepicker{ type:"date" }
+		-# 		#
+		-# 		# TODO - once Materialize implemented!!
+		-# 		# $('.datepicker').pickadate
+		-# 		#   selectMonths: true, # Creates a dropdown to control month
+		-# 		#   selectYears: 15     # Creates a dropdown of 15 years to control year
+		-#
+		-# 		#
+		-# 		# Prepare delete_link's for acting on clicks to delete posts
+		-# 		#
+		-# 		initializeDeleteLinks()
+		-#
+		-# 		#
+		-# 		# Prepare close-notice's for acting on clicks to remove div
+		-# 		#
+		-# 		$('.message_container').delegate 'a.close-notice', 'click', () ->
+		-# 			$(this).closest('.alert').remove()
+		-#
+		-# 		# here to test whether pageOnLoad runs - -
+		-# 		# swal( 'Super!', 'Du er en knaldperle', 'success')
+		-#
+		-# 		$(document).on 'ready page:load', ->
+		-# 		pageOnLoad()
+		-#
+		-# 		#msg = $('#flash_notice').html()
+		-# 		#if msg
