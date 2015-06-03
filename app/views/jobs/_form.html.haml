@@ -3,78 +3,82 @@
 	#job_description { min-height: 100px; }
 	input.date.empty~.floating-label { padding-left: 125px;}
 
-
-%h3
-	- if @job.new_record?
-		= t('jobs.navigation.adding_a_job')
-	- else
-		= t('jobs.navigation.editing_a_job')
+	label.range { font-size: .75em; line-height: 1.5em; margin-top: 10px; margin-left: 10px }
+	label.picker { font-size: .75em; line-height: 1.5em; margin-top: -5px; color: #9e9e9e }
 
 
-= simple_form_for(@job, html: { role: 'form'} ) do |f|
+
+- @job ||= Job.new
+- if current_user
+	%h3
+		- if @job.new_record?
+			= t('jobs.navigation.adding_a_job')
+		- else
+			= t('jobs.navigation.editing_a_job')
+
+
+= simple_form_for(@job, wrapper: :materialize, class: 'col s12 m6', role: 'form' ) do |f|
 	= f.error_notification
 
-	.form-group
-		/ <a class="help" href="#" tabindex="0" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">?</a>
-		= f.text_field :name, autofocus: true, class: 'form-control floating-label', placeholder: 'Hvad - beskriv opgaven kort'
-		= f.error :name
+	- unless current_user
 
-	.form-group
-		= f.text_field :location, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvor - skal opgaven løses; fx.: iskiosken ved supermarkedet'
-		= f.error :location
+		= f.input :email, id: "job_email", name: "job[email]", placeholder: 'uden din email adresse - intet jobopslag', required: true, autofocus: true
 
-	.form-group
-		= f.text_field :schedule, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvornår - skriv tidspunkt og evt varighed; fx.: hver morgen 6-7'
-		= f.error :schedule
 
-	.form-group
-		= f.number_field :priority, :autofocus => true, class: 'form-control floating-label', placeholder: 'Prioritet - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid'
-		= f.error :priority
+	.input-field.row
+		%select{ id: 'job_delivery_team_id', name: 'job[delivery_team_id]' }
+			- delivery_team_collection.each do |v,k|
+				%option{ value: k }
+					= v
+		%label Udvalg
 
-	.form-group
-		= f.number_field :jobbers_min, :autofocus => true, class: 'form-control floating-label', placeholder: 'Mindste antal jobbere - Angiv antallet af jobbere som mindst skal bruges. 1 almindelig jobber alene kan eksempelvis ikke løfte 1 kummefryser'
-		= f.error :jobbers_min
+	= f.input :name, placeholder: 'Beskriv opgaven kort', required: true
+	= f.input :location, placeholder: 'Hvor - skal opgaven løses; fx.: iskiosken ved supermarkedet'
+	= f.input :schedule, placeholder: 'Hvornår - skriv tidspunkt og evt varighed; fx.: hver morgen 6-7'
 
-	.form-group
-		= f.number_field :jobbers_wanted, :autofocus => true, class: 'form-control floating-label', placeholder: 'Ønsket antal jobbere - Angiv antallet af jobbere som vil gøre det til en nem opgave for alle.'
-		= f.error :jobbers_wanted
+	.row
+		.col.s12
+			%label Antal frivillige
+		.input-field.col.s4.m4
+			%p.range-field
+				%input{ type: 'range', id: 'job_jobbers_min', name: 'job[jobbers_min]', min: 1, max: 100, value: f.object.jobbers_min}
+				%label.range{ style: 'margin-top: 5px'} minimum
 
-	.form-group
-		= f.number_field :jobbers_max, :autofocus => true, class: 'form-control floating-label', placeholder: 'Maksimalt antal jobbere - Angiv antallet af jobbere som maksimalt kan bruges. Der er - eksempelvis - ikke plads til mere end 5 jobbere i en almindelig personvogn'
-		= f.error :jobbers_max
+		.input-field.col.s4.m4
+			%p.range-field
+				%input{ type: 'range', id: 'job_jobbers_wanted', name: 'job[jobbers_wanted]', min: 1, max: 100, value: f.object.jobbers_wanted}
+				%label.range{ style: 'margin-top: 5px'}  helst
 
-	.form-group
-		= f.date_field :promote_job_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
-		= f.error :promote_job_at
+		.input-field.col.s4.m4
+			%p.range-field
+				%input{ type: 'range', id: 'job_jobbers_max', name: 'job[jobbers_max]', min: 1, max: 100, value: f.object.jobbers_max}
+				%label.range{ style: 'margin-top: 5px'}  ikke flere end
 
-	.form-group
-		= f.input :delivery_team_id, as: :select, collection: @delivery_teams
+	.row
+		.col.s6.m6.input-field
+			// - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid'
+			%p.range-field
+				%input{ type: 'range', id: 'job_priority', name: 'job[priority]', min: 1, max: 5, value: f.object.priority }
+				%label.range Prioritet (1 er vigtigst)
 
-	/ jobbet er oprettet af				
+		.col.s6.m6
+			// Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
+			%input{ type: 'date', class: 'validate datepicker', id: 'job_promote_job_at', name: 'job[promote_job_at]'}
+			%label.picker Slå jobbet op fra den
+	/ jobbet er oprettet af
 
-	/ .form-group
+	/ .input-field
 	/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
 	/ 	= f.error :vacancies
-	/ .form-group
+	/ .input-field
 	/ 	= f.date_field :delegated_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Delegeret den'
 	/ 	= f.error :description
 	/
-
-	.form-group
-		= f.text_area :description, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.'
+	%hr{ style: 'margin-top: 40px'}
+	.input-field.row
+		%label Beskrivelse - (SOP)
+		= f.text_area :description, :autofocus => true, class: 'materialize-textarea', placeholder: 'Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.'
 		= f.error :description
 
 	.form-actions
 		= f.button :submit
-
-	:coffeescript
-		$ ->
-			# done = false
-			# $('input').on 'focus', () ->
-			# 	return if done
-			# 	$('.floating-label').each (index,elem) ->
-			# 		h = $(elem).closest('.form-group').find('a.help')[0]
-			# 		$(h).insertBefore(elem)
-			# 	done=true
-			#
-			# $('[data-toggle="popover"]').popover()

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326120759) do
+ActiveRecord::Schema.define(version: 20150602091822) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -98,19 +98,19 @@ ActiveRecord::Schema.define(version: 20150326120759) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.string   "title",          limit: 255
-    t.string   "name",           limit: 255
-    t.string   "street",         limit: 255
-    t.string   "zip_city",       limit: 255
-    t.string   "email",          limit: 255
-    t.string   "msg_from",       limit: 255
-    t.string   "msg_to",         limit: 255
+    t.string   "title",          limit: 191
+    t.string   "name",           limit: 191
+    t.string   "street",         limit: 191
+    t.string   "zip_city",       limit: 191
+    t.string   "email",          limit: 191
+    t.string   "msg_from",       limit: 191
+    t.string   "msg_to",         limit: 191
     t.text     "body",           limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "answered_at"
     t.integer  "messenger_id",   limit: 4
-    t.string   "messenger_type", limit: 255
+    t.string   "messenger_type", limit: 191
   end
 
   create_table "users", force: :cascade do |t|

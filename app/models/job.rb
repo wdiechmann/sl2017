@@ -1,6 +1,8 @@
 class Job < ActiveRecord::Base
 	has_paper_trail
 
+	attr_accessor :email
+
 	has_many :assignments
 	has_many :current_assignments, -> { where withdrawn_at: nil }, class_name: 'Assignment'
 	has_many :jobbers, through: :assignments

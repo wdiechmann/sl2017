@@ -24,7 +24,6 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
-    @delivery_teams = DeliveryTeam.ancestry_options(DeliveryTeam.unscoped.arrange(:order => 'title')) {|i| "#{'-' * i.depth} #{i.title}" }
     @job = Job.new
     authorize @job
   end
@@ -35,26 +34,40 @@ class JobsController < ApplicationController
 
   # POST /jobs
   # POST /jobs.json
+  # "job"=>{"email"=>"", "delivery_team_id"=>"22", "name"=>"walther@diechmann.net", "location"=>"ved toiletterne", "schedule"=>"hver morgen kl 6", "jobbers_min"=>"3", "jobbers_wanted"=>"6", "jobbers_max"=>"7", "priority"=>"2", "promote_job_at"=>"18 June, 2015", "description"=>"Det er vigtigt at møde præcist, have rene negle og vandkæmmet hår"}
   def create
-    params[:job][:user_id] = current_user.id
+    unless current_user
+      binding.pry
+      user = (User.find_by(email: params[:job][:email]) || User.first)
+      params[:job][:user_id] = user.id
+    else
+      params[:job][:user_id] = current_user.id
+      user = current_user
+    end
     @job = Job.new(job_params)
     authorize @job
 
     respond_to do |format|
-      if @job.save
-        Message.mail subject: ('Tak fordi du slog jobbet %s op!' % @job.name),
-          who: current_user.email,
-          what: job_message,
-          jobber: nil,
-          job: @job,
-          confirm_link: (confirmation_job_url(@job, confirmed_token: '1qaz2wsx3edc') rescue '- bekræftelseslink mangler -'),
-          messenger: current_user || User.first
-
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
-        format.json { render :show, status: :created, location: @job }
+      if params[:job][:email].blank?
+        format.html { render :new, notice: 'Husk din email adresse!' }
       else
-        format.html { render :new }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
+        if @job.save
+          Message.mail subject: ('Tak fordi du slog jobbet %s op!' % @job.name),
+            who: user.email,
+            what: job_message,
+            jobber: nil,
+            job: @job,
+            confirm_link: (confirmation_job_url(@job, confirmed_token: '1qaz2wsx3edc') rescue '- bekræftelseslink mangler -'),
+            messenger: user || User.first
+
+          format.html { redirect_to @job, notice: 'Job was successfully created.' }
+          format.js { render :show, status: :created, location: @job }
+          format.json { render :show, status: :created, location: @job }
+        else
+          format.html { render :new }
+          format.js { render :new, status: :unprocessable_entity, location: @job }
+          format.json { render json: @job.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -104,7 +117,7 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at, :delivery_team_id, :user_id)
+      params.require(:job).permit(:name, :location, :schedule, :priority, :delegated_at, :jobbers_min, :jobbers_wanted, :jobbers_max, :vacancies, :description, :promote_job_at, :delivery_team_id, :user_id, :email)
     end
 
 

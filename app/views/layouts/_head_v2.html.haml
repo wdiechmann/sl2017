@@ -8,6 +8,7 @@
 %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Sl2017'}"}
 
 = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+<link href='http://fonts.googleapis.com/css?family=Exo+2:400,100italic,800italic,700' rel='stylesheet' type='text/css'>
 = javascript_include_tag 'application', 'data-turbolinks-track' => true
 = csrf_meta_tags
 
@@ -75,9 +76,6 @@
 		text-align: left;
 		padding: 10px;
 	}
-	.sl2017color {
-		background-color: #00acc1;
-	}
 	.sl2017color-text {
 		color: #00acc1;
 	}
@@ -86,4 +84,25 @@
 	}
 	.sl2017color-text.light {
 		color: #b2ebf2;
+	}
+
+
+	.sl2017color.lighten-5 	{ background-color: #e0f7fa }
+	.sl2017color.lighten-4 	{ background-color: #b2ebf2 }
+	.sl2017color.lighten-3 	{ background-color: #80deea }
+	.sl2017color.lighten-2 	{ background-color: #4dd0e1 }
+	.sl2017color.lighten-1 	{ background-color: #26c6da }
+	.sl2017color 						{ background-color: #00bcd4 }
+	.sl2017color.darken-1 	{ background-color: #00acc1 }
+	.sl2017color.darken-2 	{ background-color: #0097a7 }
+	.sl2017color.darken-3 	{ background-color: #00838f }
+	.sl2017color.darken-4 	{ background-color: #006064 }
+
+
+	html {
+		font-family: 'Exo 2', sans-serif;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-weight: 800
 	}
