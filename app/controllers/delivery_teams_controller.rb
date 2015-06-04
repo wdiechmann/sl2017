@@ -7,7 +7,7 @@ class DeliveryTeamsController < ApplicationController
     unless params[:q].nil?
       dts = DeliveryTeam.arel_table
       query_string = "%#{params[:q]}%"
-      @delivery_teams = DeliveryTeam.all.where(dts[:title].matches(query_string)).order(:title)
+      @delivery_teams = DeliveryTeam.all.where(dts[:title].matches(query_string).or(dts[:description].matches(query_string))).order(:title)
     else
       @delivery_teams = DeliveryTeam.all.order(:title)
     end

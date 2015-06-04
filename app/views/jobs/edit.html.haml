@@ -1,4 +1,5 @@
-= render 'form'
-%hr
-= link_to 'Vis', @job, class: 'btn btn-primary'
-= link_to 'Til oversigten', jobs_path, class: 'btn btn-info'
+.container
+  = render 'form'
+  %br
+  = link_to 'Vis', @job, class: 'btn btn-primary'
+  = link_to 'Til oversigten', jobs_path, class: 'btn btn-info'

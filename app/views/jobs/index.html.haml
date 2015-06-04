@@ -1,26 +1,34 @@
 - if user_signed_in?
-	.container-fluid
+	:css
+		span.badge {
+			border-radius: 3px;
+			position: relative !important;
+			right: auto !important;
+			color: white;
+			padding: 5px;
+		}
+	.container
 		.row
-			.col-md-12
+			.col.s12
 				%h1 Oversigt over jobs
 
 		.row
-			.col-md-12.col-sm-12.col-lg-12
+			.col.s12
 				%form.form-inline{ action: "/jobs", method: "get"}
-					.form-group.col-md-10.col-sm-10.col-lg-10
+					.form-group.col.s12
 						%label{ for: "q" }
 						%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i hv-felterne" }
-					.col-md-2.col-sm-2.col-lg-2
+					.col.s12
 						%button.btn.btn-primary{ type: "submit"} Søg
 
 						= link_to 'Nyt job', new_job_path, class: 'btn btn-success'
 
 		.row
-			.col-md-12
+			.col.s12
 				&nbsp;
 		.row
-			.col-md-12
-				%table.table.table-striped
+			.col.s12
+				%table.bordered.responsive-table.striped
 					%tr
 						%th Hvad
 						%th Hvor
@@ -38,8 +46,8 @@
 							/ %td= display_job_jobbers(job).join(",").html_safe
 							%td= badge(job)
 							%td
-								= link_to job, class: 'delete_link btn btn-danger pull-right', data: { url: '/jobs', name: "#{job.name}", id: "#{job.id}", remove: "#job_#{job.id}" } do
-									%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+								= link_to job, class: 'delete_link btn-floating btn waves-effect waves-light red', data: { url: '/jobs', name: "#{job.name}", id: "#{job.id}", remove: "#job_#{job.id}" } do
+									%i.mdi-action-delete{:"aria-hidden"=>"true"}
 
 				%br
 

@@ -17,7 +17,7 @@ class Message < ActiveRecord::Base
 		subject = options.delete(:subject)
 		html_body = RDiscount.new( text_body.split(' ||| ')[0] ).to_html + text_body.split(' ||| ')[1].to_s
 		message=Message.create( title: subject, msg_to: who, msg_from: Rails.application.secrets.imap_reply_email, body: html_body, messenger: options[:messenger])
-		MessageMailer.message_email(message,text_body).deliver#_later
+		MessageMailer.message_email(message,text_body).deliver_later
 		self
 	rescue
 		false

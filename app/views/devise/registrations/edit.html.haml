@@ -1,80 +1,81 @@
-.authform
-			
-	- if devise_mapping.confirmable? && resource.pending_reconfirmation?
-		%div
-			Currently waiting confirmation for: 
-			= resource.unconfirmed_email
-	- else
+.container
+	.authform
 
-		= simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, role: 'form'} do |f|
+		- if devise_mapping.confirmable? && resource.pending_reconfirmation?
+			%div
+				Currently waiting confirmation for:
+				= resource.unconfirmed_email
+		- else
+
+			= simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, role: 'form'} do |f|
+				%h3
+					= t('devise.registrations.edit')
+				= f.error_notification #devise_error_messages!
+				%h3 &nbsp;
+
+				.form-group
+					= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
+					= f.error :name
+
+				.form-group
+					= f.email_field :email, placeholder: t('devise.forms.email'), autofocus: true, class: 'form-control floating-label'
+					= f.error :email
+
+				.fieldset
+					%p
+						= t('devise.registrations.edit_password')
+
+					.form-group
+						= f.password_field :password, placeholder: t('devise.forms.password'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
+						= f.error :password
+
+					.form-group
+						= f.password_field :password_confirmation, placeholder: t('devise.forms.password_confirmation'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
+						= f.error :password_confirmation
+
+				.fieldset
+					%p
+						= t('devise.registrations.edit_password_current')
+
+					.form-group
+						= f.password_field :current_password, placeholder: t('devise.forms.current_password'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
+						= f.error :current_password
+
+				= f.submit t('devise.forms.update'), class: 'btn btn-primary'
+
+	.authform
+		= form_for resource, as: resource_name,html: { role: 'form'} do |f|
 			%h3
-				= t('devise.registrations.edit')
-			= f.error_notification #devise_error_messages!
-			%h3 &nbsp;
-		
+				= t('devise.registrations.cancel')
 			.form-group
-				= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('devise.forms.name')
-				= f.error :name
-
-			.form-group
-				= f.email_field :email, placeholder: t('devise.forms.email'), autofocus: true, class: 'form-control floating-label'
-				= f.error :email
-							
-			.fieldset
 				%p
-					= t('devise.registrations.edit_password')
+					= t('devise.registrations.unhappy')
+				= link_to t('devise.forms.cancel_button'), "#", id: 'cancel_account', class: 'btn btn-warning'
 
-				.form-group
-					= f.password_field :password, placeholder: t('devise.forms.password'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
-					= f.error :password
+		:coffeescript
 
-				.form-group
-					= f.password_field :password_confirmation, placeholder: t('devise.forms.password_confirmation'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
-					= f.error :password_confirmation
+			$('#cancel_account').on 'click', (e) ->
 
-			.fieldset
-				%p
-					= t('devise.registrations.edit_password_current')
-				
-				.form-group
-					= f.password_field :current_password, placeholder: t('devise.forms.current_password'), autocomplete: 'off', autofocus: true, class: 'form-control floating-label'
-					= f.error :current_password
+				e.preventDefault
+				swal
+					title: "Are you sure?",
+					text: "Your will not be able to recover this imaginary file!",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Yes, delete it!",
+					closeOnConfirm: false,
+					closeOnCancel: false,
+					(b) ->
+						swal 'hej', 'hallo'
+				# 	if (b)
+				# 		$.post
+				# 			url: "#{registration_path(resource_name)}",
+				# 			method: 'delete'
+				# 		.done
+				# 			swal "Deleted!", "Your imaginary file has been deleted.", "success"
+				# 			window.location.href="/"
+				# 	else
+				# 		swal "Not Deleted!", "Your imaginary file has not been deleted.", "success"
 
-			= f.submit t('devise.forms.update'), class: 'btn btn-primary'
-
-.authform
-	= form_for resource, as: resource_name,html: { role: 'form'} do |f|
-		%h3
-			= t('devise.registrations.cancel')
-		.form-group
-			%p
-				= t('devise.registrations.unhappy')
-			= link_to t('devise.forms.cancel_button'), "#", id: 'cancel_account', class: 'btn btn-warning'
-
-	:coffeescript
-	
-		$('#cancel_account').on 'click', (e) ->
-
-			e.preventDefault
-			swal
-				title: "Are you sure?",   
-				text: "Your will not be able to recover this imaginary file!",   
-				type: "warning",   
-				showCancelButton: true,   
-				confirmButtonColor: "#DD6B55",   
-				confirmButtonText: "Yes, delete it!",   
-				closeOnConfirm: false,
-				closeOnCancel: false,
-				(b) ->
-					swal 'hej', 'hallo'
-			# 	if (b)
-			# 		$.post
-			# 			url: "#{registration_path(resource_name)}",
-			# 			method: 'delete'
-			# 		.done
-			# 			swal "Deleted!", "Your imaginary file has been deleted.", "success"
-			# 			window.location.href="/"
-			# 	else
-			# 		swal "Not Deleted!", "Your imaginary file has not been deleted.", "success"
-					
-			return false
+				return false

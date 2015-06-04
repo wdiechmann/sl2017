@@ -62,10 +62,14 @@ class TrawlMailAccountsJob < ActiveJob::Base
 
   def perform(*args)
 
-    # imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server)
-    # imap.authenticate('LOGIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
-    imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server, "imaps", usessl=true)  # Exchange requires this
-    imap.authenticate('PLAIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
+    if Rails.application.secrets.imap_mail_server=='pbox.dk'
+      imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server)
+      imap.authenticate('LOGIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
+    else
+      imap = Net::IMAP.new(Rails.application.secrets.imap_mail_server, "imaps", usessl=true)  # Exchange requires this
+      imap.authenticate('PLAIN', Rails.application.secrets.imap_user_name, Rails.application.secrets.imap_user_password)
+    end
+
     imap.select(Rails.application.secrets.imap_source_mailbox)
 
     cached_addresses
@@ -89,7 +93,7 @@ class TrawlMailAccountsJob < ActiveJob::Base
   def parse email
     begin
       body = email.multipart? ? (email.html_part.body || email.text_part.body) : email.body
-      body.raw_source.gsub!( /\=0A\=/,'')
+      # body.raw_source.gsub!( /\=0A\=/,'')
       body.raw_source.gsub!(/http\:\/\/mandrillapp.com\/track\/open.php/, '')
       messenger = from_addressee email.from[0]
       entity = messenger[3].constantize.find(messenger[0]) rescue nil
@@ -98,10 +102,10 @@ class TrawlMailAccountsJob < ActiveJob::Base
       Message.mail subject: 'missed a message',
         job: nil,
         jobber: nil,
-        what: 'a message saying: "%s" from %s was missed' % [ email.subject, email.from.join(',') ]
+        what: 'a message saying: "%s" from %s was missed' % [ email.subject, email.from.join(',') ],
         who: 'walther@alco.dk',
         messenger: User.first
-        
+
     end
   end
 end

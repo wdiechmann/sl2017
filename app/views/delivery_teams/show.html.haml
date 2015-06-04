@@ -1,14 +1,14 @@
-%p#notice= notice
+.container
 
-%p
-  %b Navn:
-  = @delivery_team.title
-%p
-  %b Hører under:
-  = @delivery_team.parent.title rescue ''
-%p
-  %b Beskrivelse:
-  = @delivery_team.description
+  %p
+    %b Navn:
+    = @delivery_team.title
+  %p
+    %b Hører under:
+    = @delivery_team.parent.title rescue ''
+  %p
+    %b Beskrivelse:
+    = @delivery_team.description
 
-= link_to 'Ret', edit_delivery_team_path(@delivery_team), class: 'btn btn-primary'
-= link_to 'Oversigt', delivery_teams_path, class: 'btn btn-default'
+  = link_to 'Ret', edit_delivery_team_path(@delivery_team), class: 'btn btn-primary'
+  = link_to 'Oversigt', delivery_teams_path, class: 'btn btn-default'

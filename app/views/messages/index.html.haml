@@ -43,23 +43,30 @@
 
   .message-body { height: 200px; max-height: 200px; overflow: scroll; margin-top: 10px }
 
-.container-fluid
+  a.message-link { cursor: pointer }
+
+  .truncate { font-size: 0.7em}
+  .message_colofon { font-size: 0.8em }
+
+  .card .card-action a { color: white }
+
+.container
   .row
-    .col-sm-12.col-xs-12.col-md-12.col-lg-12
+    .col.s12
       %h1 Oversigt over dialoger
 
   .row
-    .col-sm-12.col-xs-12.col-md-12.col-lg-12
+    .col.s12
       %form.form-inline{ action: "/messages", method: "get"}
-        .form-group.col-sm-9.col-xs-9.col-md-9.col-lg-9
+        .form-group.col.s7
           %label{ for: "q" }
           %input.form-control.searchbox{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i emne, afsender (email), modtager (email) og indhold" }
-        .col-sm-3.col-xs-3.col-md-3.col-lg-3
-          %button.btn.btn-primary{ type: "submit"} Søg
-      %button.new_message.btn.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "0" } Ny dialog
+        .col.s5
+          %button.btn.sl2017color{ type: "submit"} Søg
+          %button.new_message.modal-trigger.btn.cyan.darken-2{ href: "#newMessage", :"data-message-id" => "0" } Ny dialog
 
   .row
-    .col-sm-12.col-xs-12.col-md-12.col-lg-12
+    .col.s12
       - unless params[:all]=='true'
         %h3 Åbne dialoger
         = link_to 'Besvarede', messages_path(all: true), class: 'btn btn-primary'
@@ -70,30 +77,57 @@
   .row
     - count = 0; message_stacks=[[],[]]; @messages.each{ |j| message_stacks[ (count += 1) % 2 ] << j  }
     - message_stacks.each do |message_stack|
-      .col-sm-12.col-xs-12.col-md-6.col-lg-6
-        %ul.list-group
-          - message_stack.each do |message|
-            %li{ id: "message_item_#{message.id}", class: "#{aged_class message} list-group-item"}
-              .row-picture
-                %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
-                  %img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{message.created_at.strftime "%d/%m/%Y"}"}
+      .col.s6
+        - message_stack.each do |message|
+          .card{ id: "message_item_#{message.id}", class: "#{aged_class message}" }
+            .card-content
+              %a.message-link.modal-trigger.right{ href:"#newMessage", :"data-message-id"=>"#{message.id}" }
+                %img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{message.created_at.strftime "%d/%m/%Y"}"}
+              %h6= message.title
+              .truncate.flow-text
+                = show_message_body message
+            .card-action.cyan.lighten-4
+              .row
+                .col.s2
+                  = link_to message, class: 'delete_link btn btn-floating waves red', data: { url: '/messages', name: "#{message.title}", id: "#{message.id}", remove: "#message_item_#{message.id}" } do
+                    %i.mdi-action-delete{:"aria-hidden"=>"true"}
+                .col.s10.message_colofon
+                  = message.created_at.strftime "modtaget: %d/%m/%Y %H:%M"
+                  %br
+                  = message.messenger.name rescue ''
+                  %br
+                  %a.message-link.modal-trigger{ href:"#newMessage", :"data-message-id"=>"#{message.id}" }
+                    %i.mdi-content-reply
+                    =message.msg_from.downcase.gsub /@/, ' at ' rescue ''
 
-              .row-content
-                = link_to message, class: 'delete_link btn btn-danger pull-right', data: { url: '/messages', name: "#{message.title}", id: "#{message.id}", remove: "#message_item_#{message.id}" } do
-                  %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
-                %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
-                  .list-group-item-heading= message.title
-                  .list-group-item-messenger
-                    %b fra:
-                    = message.messenger.name rescue ''
-                %p.list-group-item-text
-                  = message.created_at.strftime "%d/%m/%Y"
 
-                  %a.ellipsis.email-link{ title: "#{message.msg_from}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "#{message.id}" }
-                    %span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
-                    %span.email
-                      =message.msg_from.downcase.gsub /@/, ' at ' rescue ''
 
-              .list-group-separator
+
+
+
+        -# %ul.list-group
+        -#   - message_stack.each do |message|
+        -#     %li{ id: "message_item_#{message.id}", class: "#{aged_class message} list-group-item"}
+        -#       .row-picture
+        -#         %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
+        -#           %img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{message.created_at.strftime "%d/%m/%Y"}"}
+        -#
+        -#       .row-content
+        -#         = link_to message, class: 'delete_link btn btn-danger pull-right', data: { url: '/messages', name: "#{message.title}", id: "#{message.id}", remove: "#message_item_#{message.id}" } do
+        -#           %span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+        -#         %a.message-link{ :"data-toggle"=> "modal", :"data-target"=> "#messageCard", :"data-message-id"=>"#{message.id}" }
+        -#           .list-group-item-heading= message.title
+        -#           .list-group-item-messenger
+        -#             %b fra:
+        -#             = message.messenger.name rescue ''
+        -#         %p.list-group-item-text
+        -#           = message.created_at.strftime "%d/%m/%Y"
+        -#
+        -#           %a.ellipsis.email-link{ title: "#{message.msg_from}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-message-id" => "#{message.id}" }
+        -#             %span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+        -#             %span.email
+        -#               =message.msg_from.downcase.gsub /@/, ' at ' rescue ''
+        -#
+        -#       .list-group-separator
 
   = render 'layouts/modal_message'

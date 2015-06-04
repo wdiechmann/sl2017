@@ -1,11 +1,12 @@
-= simple_form_for(@delivery_team) do |f|
+= simple_form_for(@delivery_team, wrapper: :materialize, class: 'col s12 m6', role: 'form') do |f|
   = f.error_notification
 
   .form-inputs
     = f.input :title
     / = f.input :ancestry
     = f.hidden_field :parent_id
-    = f.input :description
+    = f.text_area :description, :autofocus => true, class: 'materialize-textarea', placeholder: 'Kommenter på udvalget - tips og FAQ mm'
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary'
+    = f.button :submit, 'Gem', class: 'btn btn-primary'
+  %br

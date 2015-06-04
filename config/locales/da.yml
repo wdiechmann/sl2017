@@ -20,6 +20,72 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 da:
+  jobspor:
+    header: 'I jobcenteret lægger vi skinner mellem ledige hænder og ubesatte jobs'
+    job-link: 'Se hvilke ledige jobs vi har lige nu'
+    employer:
+      header: 'Til dig der står og mangler en hånd:'
+      bread: 'Læs nedenfor hvordan HR kan hjælpe dig med at finde de ledige hænder, du står og mangler! Eller spring lige ud i det og slå et job op:'
+      new-job: 'Nyt jobopslag'
+    applicant:
+      header: 'Til dig der gerne vil give en hånd:'
+      bread_html: "Spejdernes Lejr 2017 har brug dig - læs nedenfor om de mange hænder, der skal bruges for at få en lejren som SL2017 stablet på benene - og afviklet så alle har haft en super oplevelse. Du kan også <i>gå direkte til start</i> og oprette dig som jobber!"
+      new-application: " Jeg gir' en hånd!"
+    employee:
+      header: "Til dig der allerede er blevet hyret ind:"
+      bread_html: "HR er mindst lige så meget for dig. Læs nedenfor hvad HR kan hjælpe dig med! Ved du allerede at vi ikke kender det job, du udfører - så opret dig og få del i vores <i>trivselspakke</i>"
+
+
+  teaser:
+    header: "Du kan være med til at lave Spejdernes Lejr 2017"
+    title: " Har du lyst til at hjælpe med at planlægge SL2017?"
+    p1: "Spejdernes Lejr 2017 - SL2017 - bliver en kæmpe oplevelse for alle deltagere! Både dem, der først kommer når lejren åbner i juli 2017, og for alle os der allerede er i gang med at planlægge den!"
+    p2: "Du har en unik mulighed for at møde nye mennesker fra hele landet - og fra alle 5 korps - hvis du siger ja til at deltage i planlægningen"
+    p3: " Der stadig mange 'stillinger' som skal besættes - i aktivitetsudvalget, kommunikation, handel indkøb og forplejning, teknik og beredskab, og de mange andre udvalg"
+    p4: "Måske er du sygeplejerske, murer, ingeniør, pædagog, sosu-assistent - det er stort set underordnet. Der er helt sikkert også brug for dine kvalifikationer."
+    p5_html: "<i> Men jeg kan ingenting - og har ingen uddannelse :( </i></br />    Det er ingen undskyldning! :) Vi skal bruge masser af praktiske hænder i alle udvalg. Og det giver dig jo også muligheden for at lære noget nyt!"
+
+  employer:
+    header: " Står du og mangler ledige hænder - fortæl os om det!"
+    title_html: "Læg dit job i <b> job sporet - </b> og hjælp os med at hjælpe dig!"
+    p1_html: "Job sporet er bare et kælenavn til en database, som du kan bruge uanset om du sidder i letbanen mellem Odder og Århus, ligger på terrassen udenfor dit sommerhus eller holder udvalgsmøde på lejrpladsen i Sønderborg. <b> Det er dit markedsførings værktøj</b> til at få 'ansat' netop de planlæggere, du mangler for at dit udvalg løser sin opgave optimalt!"
+    p2_html: "Vi har ikke en 'rodekasse' hvor du kan bestille 20 stk uspecificeret - desværre. HR funktionen er rettet mod at tilbyde job til dem, der gerne vil give en hånd med og passe på dem, der allerede har et job - det gælder også dig!<br />Det betyder:"
+    list_html: "<ol><li> at vi gerne vil have at vide, hvilke stillinger, du ikke har fået besat - så kan vi hjælpe dig med at få fundet den helt rigtige til jobbet</li><li> at det vil gøre os rigtigt glade, hvis du fortæller os om de planlæggere, du selv finder - en emailadresse og/eller et tlfnr er fint i første omgang</li></ol>"
+    p3: "Når du trykker på knappen 'nyt jobopslag' her nedenfor, får du vist en formular, hvor du kan fortælle os om et nyt job, som du står og mangler hænder til; hvad jobbet går ud på, hvor og hvornår det skal gennemføres, af hvem og hvormange."
+    p4: "Gemmer du jobopslaget, får du en email med en bekræftelse og snarest efter løber en af HR's udvalgsjobkonsulenter opslaget igennem, og hvis ikke der er nogen spørgsmål til opslaget, bliver det slået op fra den dato, du har bedt om - ellers tager konsulenten fat i dig!"
+
+  hr:
+    header: " Hvordan er HR sporet lagt?"
+    title: " HR: for arbejdstagere og arbejdsgivere!"
+    subtitle: " I HR funktionen har vi 3 arbejdsgrupper: udvalgsjobkonsulenterne, jobcenteret og trivs'lerne"
+    employee:
+      header: "Arbejdstager"
+      p1_html: " I hele perioden op til lejren starter, arbejder vi ihærdigt på at finde spændende opgaver til dig, der har lyst til at være med til at planlægge og forberede SL2017"
+      p2_html: "<ol><li> Vi forventer at du registrerer dig som jobber - så vi ved at du er interesseret i et job i planlægningsfasen</li><li>I<i>det virtuelle jobcenter</i>sidder vi og finder, i en dialog med dig, det rigtige job til dig</ol>"
+      p3_html: "Når lejren<i> blæses igang</i> ændrer HR's opgave sig lidt. Det virtuelle jobcenter bliver nu ikke længere virtuelt, men helt virkeligt! Nu er vores primære opgave at sikre at de timer, du kan undvære fra lejrlivet, bliver brugt på nødvendige småjobs - og ja: der skal blandt andet gøres rent på toiletter, 'big surprise' :)"
+
+    employer:
+      header: "Arbejdsgiver"
+      p1_html: "HR's udvalgskonsulenter vil (som de siger i Fakta) så gerne at du bliver lidt længere! I planlægningsperioden er deres opgave, i samarbejde med dig og dit udvalg, at finde netop de planlæggere og jobbere, I står og mangler. Står I lidt tøvende overfor den opgave - hvormange jobbere skal vi bruge til at bemande infirmeriet? 'Kassedamer' i supermarkedet og 'kogekoner' i restauranterne!?! Så kontakt jeres udvalgsjobkonsulent og arbejd sammen med hende! Giv ham alle jeres spørgsmål. Kan de ikke svare, vil de i hvertfald gøre deres yderste for at prøve at finde nogen, der kan!"
+      p2_html: "Når først lejren er 'i drift' er det udvalgsjobkonsulenterne I vil finde rundt om i underlejrene. Her vil de hjælpe jobcenteret med at fordele de jobs, der ikke er blevet besat, eller som opstår akut!"
+
+    thrive:
+      p1_html: "Uanset om du er lejrchef eller napper et enkelt <i> toiletvognseftersyn,</i> håber vi i HR, at du får lejlighed til at møde <b> trivs'lerne</b>	eller i det mindste, at du får mulighed for at 'smage' frugten af deres arbejde!"
+      p2_html: "Trivs'lerne sigter efter at gøre det lidt rarere, sjovere, nemmere og enklere at være med til at planlægge og drive Spejdernes Lejr 2017"
+
+  colofon:
+    scout: " SL2017 er en teltlejr for alle unge spejdere i de 5 danske spejderkorps - lidt mere snak her.."
+    hr_html: "HR funktionen er det hovedudvalg som af lejrledelsen er blevet oprettet for at<ol class='grey-text text-lighten-4'><li>lette arbejdet med at skaffe ledige hænder i de øvrige hovedudvalg</li><li>tilbyde interesserede små og større praktiske opgaver på lejren</li><li>sikre at alle der giver en hånd med, bliver set og deres indsats værdsat</li></ol>"
+
+
+
+
+
+
+
+
+
+
   visitor:
     be_a_jobber: 'Sæt dit eget frivillige spor'
     current_jobs: 'Aktuelle jobs'
@@ -129,7 +195,7 @@ da:
     navigation:
       edit_account: "Ret profil"
       sign_out: "Log ud"
-      sign_in: "Log ind"
+      sign_in: ".––.."
       sign_up: "Registrér"
       users: "Brugere"
       forgot: "Nulstil adgangskoden"

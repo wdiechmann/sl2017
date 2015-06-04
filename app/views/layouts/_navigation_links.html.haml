@@ -7,8 +7,14 @@
 	%li= link_to t('devise.navigation.sign_out'), destroy_user_session_path, :method=>'delete'
 
 - else
-	%li= link_to t('devise.navigation.sign_in'), new_user_session_path
-	%li= link_to t('devise.navigation.sign_up'), new_user_registration_path
+	- if request.path == "/"
+		%li
+			%a.modal-trigger.sl2017color-text.light{:href => "#jobopslag"} Jeg mangler hænder
+		%li
+			%a.modal-trigger.sl2017color-text.light{:href => "#jobtilmelding"} Jeg har en hånd
+
+	%li= link_to t('devise.navigation.sign_in'), new_user_session_path, class: 'cyan-text text-accent-4'
+	/ %li= link_to t('devise.navigation.sign_up'), new_user_registration_path
 
 - if user_signed_in?
 	- if current_user.admin?

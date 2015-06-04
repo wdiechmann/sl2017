@@ -37,7 +37,6 @@ class JobsController < ApplicationController
   # "job"=>{"email"=>"", "delivery_team_id"=>"22", "name"=>"walther@diechmann.net", "location"=>"ved toiletterne", "schedule"=>"hver morgen kl 6", "jobbers_min"=>"3", "jobbers_wanted"=>"6", "jobbers_max"=>"7", "priority"=>"2", "promote_job_at"=>"18 June, 2015", "description"=>"Det er vigtigt at møde præcist, have rene negle og vandkæmmet hår"}
   def create
     unless current_user
-      binding.pry
       user = (User.find_by(email: params[:job][:email]) || User.first)
       params[:job][:user_id] = user.id
     else

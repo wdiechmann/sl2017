@@ -13,6 +13,10 @@
 		- current = 'ingen'
 		= render 'layouts/head_v2'
 
+		:css
+			label.picker { font-size: .75em; line-height: 1.5em; margin-top: -5px; color: #9e9e9e }
+
+
 	%body
 		= render partial: 'layouts/navbar', locals: {current: current}
 		= render 'layouts/messages'

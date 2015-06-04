@@ -1,7 +1,7 @@
-%h1 Editing delivery_team
+.container
+  %h1 Ret udvalg
 
-= render 'form'
+  = render 'form'
 
-= link_to 'Show', @delivery_team
-\|
-= link_to 'Back', delivery_teams_path
+  = link_to 'Vis', @delivery_team, class: 'btn cyan'
+  = link_to 'Oversigt', delivery_teams_path, class: 'btn cyan'

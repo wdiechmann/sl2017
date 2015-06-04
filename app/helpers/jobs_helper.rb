@@ -7,8 +7,9 @@ module JobsHelper
     jobbers
   end
 
+  # <span class="badge">14</span>
   def badge job
-    txt = "<span class='badge'>%i / %i</span>" % [ job.current_jobbers.count, job.jobbers_wanted]
+    txt = "<span class='badge sl2017color darken-2'>%i / %i</span>" % [ job.current_jobbers.count, job.jobbers_wanted]
     link_to txt.html_safe, job_jobbers_url(job)
   end
 

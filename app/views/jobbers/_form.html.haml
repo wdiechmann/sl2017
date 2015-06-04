@@ -20,7 +20,7 @@
 
 			%h3
 
-				= simple_form_for(@jobber) do |f|
+				= simple_form_for(@jobber, wrapper: :materialize, class: 'col s12 m6', role: 'form') do |f|
 					= f.error_notification
 					.form-group
 						= f.text_field :name, :autofocus => true, class: 'form-control floating-label', placeholder: t('jobbers.form.name')

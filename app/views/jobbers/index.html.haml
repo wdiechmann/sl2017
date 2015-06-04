@@ -50,23 +50,24 @@
 
 	.message-body { height: 200px; max-height: 200px; overflow: scroll; margin-top: 10px }
 
-.container-fluid
+.container
 	.row
-		.col-sm-12.col-xs-12.col-md-12.col-lg-12
-			%h1 Oversigt over jobber
-
+		.col.s12
+			%h1 Jobberliste
+			- if parent?
+				%h5= 'knyttet til jobbet: ' + parent.name
 	.row
-		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+		.col.s12
 			%form.form-inline{ action: "/jobbers", method: "get"}
-				.form-group.col-sm-9.col-xs-9.col-md-9.col-lg-9
+				.form-group.col.s7
 					%label{ for: "q" }
 					%input.form-control{ style: "width: 100%", type: "text", id: "q", name: "q", placeholder: "Søg i navn, gade, by, tlf og email" }
-				.col-sm-3.col-xs-3.col-md-3.col-lg-3
+				.col.s5
 					%button.btn.btn-primary{ type: "submit"} Søg
 					= link_to 'Ny jobber', new_jobber_path, class: 'btn btn-success'
 
 	.row
-		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+		.col.s12
 			&nbsp;
 
 			.row-action-primary.checkbox
@@ -78,7 +79,7 @@
 				&nbsp;
 
 	.row
-		.col-sm-12.col-xs-12.col-md-12.col-lg-12
+		.col.s12
 			&nbsp;
 
 	.row
@@ -92,7 +93,7 @@
 								- unless jobber.confirmed_at.nil?
 									.row-picture
 										%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
-											%img.circle{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{jobber.confirmed_at.strftime "%d/%m/%Y"}"}
+											%img.circle.responsive-img{ src: "http://lorempixel.com/56/56/people/1", alt:"icon", title: "#{jobber.confirmed_at.strftime "%d/%m/%Y"}"}
 								- else
 									.row-action-primary.checkbox.confirmation{ id: "jobber_col1_#{jobber.id}"}
 										%label
@@ -101,10 +102,10 @@
 								.row-content
 									.w100
 										.w30
-											%a.park_jobber.btn.btn-small.btn-success{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", :"data-jobber-id"=>"#{jobber.id}"}
-												%span.glyphicon.glyphicon-time
-											= link_to jobber, class: 'kill_jobber delete_link btn btn-danger pull-right', data: { url: '/jobbers', name: "#{jobber.name}", id: "#{jobber.id}", remove: "#jobber_item_#{jobber.id}" } do
-												%span.glyphicon.glyphicon-trash{:"aria-hidden"=>"true"}
+											%a.park_jobber.btn.btn-small.btn-floating.waves-effect.waves-light{ :"data-toggle"=> "modal", :"data-target"=> "#parkModal", :"data-jobber-id"=>"#{jobber.id}"}
+												%i.mdi-device-access-alarm
+											= link_to jobber, class: 'kill_jobber delete_link btn-floating btn waves-effect waves-light red ', data: { url: '/jobbers', name: "#{jobber.name}", id: "#{jobber.id}", remove: "#jobber_item_#{jobber.id}" } do
+												%i.mdi-action-delete{:"aria-hidden"=>"true"}
 										.w70
 											%h4.list-group-item-heading
 												%a.jobber-link{ :"data-toggle"=> "modal", :"data-target"=> "#jobberCard", :"data-jobber-id"=>"#{jobber.id}" }
@@ -114,12 +115,12 @@
 									.w100
 										%p.list-group-item-text
 											%a.phone-link{ title: "#{jobber.phone_number}", :"data-toggle"=> "modal", :"data-target"=> "#newCall", :"data-recipient"=>"#{jobber.phone_number}" }
-												%span.glyphicon.glyphicon-phone-alt{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
+												%i.mdi-communication-phone{ :"aria-hidden"=>"true", title: "#{jobber.phone_number}"}
 												%span.phone
 													= jobber.phone_number
 
 											%a.ellipsis.email-link{ title: "#{jobber.email}", :"data-toggle"=> "modal", :"data-target"=> "#newMessage", :"data-recipient"=>"#{jobber.email}" }
-												%span.glyphicon.glyphicon-envelope{ :"aria-hidden"=>"true"}
+												%i.mdi-communication-email{ :"aria-hidden"=>"true"}
 												%span.email
 													=jobber.email.downcase.gsub(/@/,' at ')
 
