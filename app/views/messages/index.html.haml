@@ -50,6 +50,8 @@
 
   .card .card-action a { color: white }
 
+  .card-action .row { margin-bottom: 0px }
+
 .container
   .row
     .col.s12
@@ -93,12 +95,13 @@
                     %i.mdi-action-delete{:"aria-hidden"=>"true"}
                 .col.s10.message_colofon
                   = message.created_at.strftime "modtaget: %d/%m/%Y %H:%M"
-                  %br
-                  = message.messenger.name rescue ''
+                  /%br
+                  /= message.messenger.name rescue ''
                   %br
                   %a.message-link.modal-trigger{ href:"#newMessage", :"data-message-id"=>"#{message.id}" }
                     %i.mdi-content-reply
-                    =message.msg_from.downcase.gsub /@/, ' at ' rescue ''
+                    = message.messenger.name rescue ''
+                    / = message.msg_from.downcase.gsub /@/, ' at ' rescue ''
 
 
 

@@ -16,6 +16,9 @@
 //= require turbolinks
 //= require sweetalert
 //= require typeahead
+//= require microplugin
+//= require sifter
+//= require selectize
 //= require materialize
 //= require masonry/jquery.masonry
 //= require masonry/jquery.event-drag

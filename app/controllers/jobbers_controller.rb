@@ -10,7 +10,11 @@ class JobbersController < ApplicationController
     unless params[:q].nil?
       jobbers = Jobber.arel_table
       query_string = "%#{params[:q]}%"
-      @jobbers = Jobber.vacant.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).order(created_at: :desc)
+      if params[:l]=='true'
+        @jobbers = Jobber.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).select([:id,:name,:email]).order(created_at: :desc)
+      else
+        @jobbers = Jobber.vacant.where(jobbers[:name].matches(query_string).or(jobbers[:street].matches(query_string)).or(jobbers[:zip_city].matches(query_string)).or(jobbers[:email].matches(query_string)).or(jobbers[:phone_number].matches(query_string))).order(created_at: :desc)
+      end
     else
       @jobbers = params[:job_id].blank? ? Jobber.vacant.order(created_at: :desc) : Job.find(params[:job_id]).jobbers.order(created_at: :desc)
     end

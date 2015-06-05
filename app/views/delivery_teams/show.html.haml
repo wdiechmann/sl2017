@@ -7,6 +7,12 @@
     %b Hører under:
     = @delivery_team.parent.title rescue ''
   %p
+    %b Kontakt personer:
+    %ul.collection
+      - @delivery_team.jobbers.each do |jobber|
+        %li.collection-item
+          = link_to jobber.name, jobber
+  %p
     %b Beskrivelse:
     = @delivery_team.description
 

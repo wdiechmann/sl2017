@@ -29,6 +29,7 @@ gem 'rdiscount'
 
 gem 'rails-assets-typeahead.js'
 gem 'rails-assets-handlebars'
+gem "rails-assets-selectize"
 
 gem 'daemons'
 

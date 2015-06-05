@@ -61,6 +61,6 @@ class DeliveryTeamsController < ApplicationController
     end
 
     def delivery_team_params
-      params.require(:delivery_team).permit(:title, :ancestry, :description, :parent_id)
+      params.require(:delivery_team).permit(:title, :ancestry, :description, :parent_id, :responsible_jobbers)
     end
 end
