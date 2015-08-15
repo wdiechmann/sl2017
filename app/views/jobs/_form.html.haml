@@ -36,49 +36,50 @@
 	= f.input :location, placeholder: 'Hvor - skal opgaven løses; fx.: iskiosken ved supermarkedet'
 	= f.input :schedule, placeholder: 'Hvornår - skriv tidspunkt og evt varighed; fx.: hver morgen 6-7'
 
-	.row
-		.col.s12
-			%label Antal frivillige
-		.input-field.col.s4.m4
-			%p.range-field
-				%input{ type: 'range', id: 'job_jobbers_min', name: 'job[jobbers_min]', min: 1, max: 100, value: f.object.jobbers_min}
-				%label.range{ style: 'margin-top: 5px'} minimum
+	- if current_user
+		.row
+			.col.s12
+				%label Antal frivillige
+			.input-field.col.s4.m4
+				%p.range-field
+					%input{ type: 'range', id: 'job_jobbers_min', name: 'job[jobbers_min]', min: 1, max: 100, value: f.object.jobbers_min}
+					%label.range{ style: 'margin-top: 5px'} minimum
 
-		.input-field.col.s4.m4
-			%p.range-field
-				%input{ type: 'range', id: 'job_jobbers_wanted', name: 'job[jobbers_wanted]', min: 1, max: 100, value: f.object.jobbers_wanted}
-				%label.range{ style: 'margin-top: 5px'}  helst
+			.input-field.col.s4.m4
+				%p.range-field
+					%input{ type: 'range', id: 'job_jobbers_wanted', name: 'job[jobbers_wanted]', min: 1, max: 100, value: f.object.jobbers_wanted}
+					%label.range{ style: 'margin-top: 5px'}  helst
 
-		.input-field.col.s4.m4
-			%p.range-field
-				%input{ type: 'range', id: 'job_jobbers_max', name: 'job[jobbers_max]', min: 1, max: 100, value: f.object.jobbers_max}
-				%label.range{ style: 'margin-top: 5px'}  ikke flere end
+			.input-field.col.s4.m4
+				%p.range-field
+					%input{ type: 'range', id: 'job_jobbers_max', name: 'job[jobbers_max]', min: 1, max: 100, value: f.object.jobbers_max}
+					%label.range{ style: 'margin-top: 5px'}  ikke flere end
 
-	.row
-		.col.s6.m6.input-field
-			// - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid'
-			%p.range-field
-				%input{ type: 'range', id: 'job_priority', name: 'job[priority]', min: 1, max: 5, value: f.object.priority }
-				%label.range Prioritet (1 er vigtigst)
+		.row
+			.col.s6.m6.input-field
+				// - angiv en prioritet 1-5 hvor 1 betyder at lejren ikke kan afvikles ud - og 5 er jobs som kan gøres, hvis der er tid'
+				%p.range-field
+					%input{ type: 'range', id: 'job_priority', name: 'job[priority]', min: 1, max: 5, value: f.object.priority }
+					%label.range Prioritet (1 er vigtigst)
 
-		.col.s6.m6{ style: 'position: relative'}
-			// Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
-			%input{ type: 'date', class: 'validate datepicker', id: 'job_promote_job_at', name: 'job[promote_job_at]'}
-			%label.picker Slå jobbet op fra den
-	/ jobbet er oprettet af
+			.col.s6.m6{ style: 'position: relative'}
+				// Fra hvilken dato må jobbet blive vist på job portalen? (angiv ingen dato, hvis jobbet er "internt")'
+				%input{ type: 'date', class: 'validate datepicker', id: 'job_promote_job_at', name: 'job[promote_job_at]'}
+				%label.picker Slå jobbet op fra den
+		/ jobbet er oprettet af
 
-	/ .input-field
-	/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
-	/ 	= f.error :vacancies
-	/ .input-field
-	/ 	= f.date_field :delegated_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Delegeret den'
-	/ 	= f.error :description
-	/
-	%hr{ style: 'margin-top: 40px'}
-	.input-field.row
-		%label Beskrivelse - (SOP)
-		= f.text_area :description, :autofocus => true, class: 'materialize-textarea', placeholder: 'Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.'
-		= f.error :description
+		/ .input-field
+		/ 	= f.number_field :vacancies, :autofocus => true, class: 'form-control floating-label', placeholder: 'Hvordan'
+		/ 	= f.error :vacancies
+		/ .input-field
+		/ 	= f.date_field :delegated_at, :autofocus => true, class: 'form-control floating-label', placeholder: 'Delegeret den'
+		/ 	= f.error :description
+		/
+		%hr{ style: 'margin-top: 40px'}
+		.input-field.row
+			%label Beskrivelse - (SOP)
+			= f.text_area :description, :autofocus => true, class: 'materialize-textarea', placeholder: 'Hvordan - En arbejdsbeskrivelse + alle de små detaljer som skal være på plads. At jobberen skal huske kørekort, el. lign., osv.'
+			= f.error :description
 
 	.form-actions
 		= f.button :submit
