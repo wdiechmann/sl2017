@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/capistrano/maintenance.git
-  revision: ab52adf89de1cda02118754e9a2952d19d8f214e
+  remote: https://github.com/capistrano/maintenance.git
+  revision: b2fdb7a24d79d86a4d49f3d897a3a90b87610d1e
   specs:
-    capistrano-maintenance (0.0.1)
+    capistrano-maintenance (1.2.1)
       capistrano (>= 3.0)
 
 GEM
@@ -178,7 +178,7 @@ GEM
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    loofah (2.5.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
